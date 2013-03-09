@@ -23,7 +23,7 @@ public class EditWeekCommand extends BaseAdminCommand {
 		if (args.length < 1 || !Util.isInteger(args[0]))
 			week = WeekUtil.getCurrentWeek() + 1;
 		else
-			week = WeekUtil.getCurrentWeek();
+			week = Integer.parseInt(args[0]);
 		
 //		if (week <= WeekUtil.getCurrentWeek())
 //		{
