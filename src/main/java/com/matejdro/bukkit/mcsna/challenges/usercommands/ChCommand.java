@@ -44,9 +44,11 @@ public class ChCommand extends BaseUserCommand {
 		Util.Message(header, sender);
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level, Description, Points FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ?) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level, Description, Points FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ?) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
 			statement.setString(1, ((Player)sender).getName());
 			statement.setInt(2, curWeek);
+			statement.setInt(3, curWeek);
+
 			ResultSet set = statement.executeQuery();
 			if (set.next())
 			{
