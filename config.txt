@@ -1,0 +1,17 @@
+PERMISSIONS
+
+flatcoreweekly.command.ch
+flatcoreweekly.command.challenges
+
+CONFIG EXPLANATIONS
+
+SwitchTimeOffset
+Offset of when week switch will happen in seconds. Without that offset, switch happens every monday at 00:00.
+For example if you want to make switch happen on sunday 7pm, you need to add 6 days and 19 hours, converted to seconds (so 60 * 60 * 24 * 6 + 60 * 60 * 19).
+
+DB INFO
+
+weekly_completed.state:
+0 = Waiting for MOD Approval
+1 = Approved, Points awarded and region locked (if WGRegion is filled).
+2 = Denied. Entry will be deleted as soon as message is delivered to the player.

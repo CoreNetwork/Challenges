@@ -1,0 +1,23 @@
+name: MCSNAChallenges
+main: com.matejdro.bukkit.mcsna.challenges.MCSNAChallenges
+version: 1.0.1
+author: matejdro
+depend: [WorldEdit, WorldGuard]
+commands:
+    cha:
+        description: Weekly challenges.
+    chm:
+        description: Weekly challenges.
+    ch:
+        description: Weekly challenges.
+    points:
+        description: Check your current amount of points.
+permissions:
+    flatcoreweekly.command.ch:
+        default: true
+    flatcoreweekly.command.cha:
+        default: op
+    flatcoreweekly.command.chm:
+        default: op
+    flatcoreweekly.notify:
+        default: op

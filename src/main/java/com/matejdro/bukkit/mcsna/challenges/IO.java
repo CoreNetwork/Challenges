@@ -1,0 +1,182 @@
+package com.matejdro.bukkit.mcsna.challenges;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+public class IO {
+    private static Connection connection;
+    public static YamlConfiguration config;
+        
+    public static synchronized Connection getConnection() {
+    	if (connection == null) connection = createConnection();
+    	return connection;
+    }
+    
+    public static ArrayList<PlayerRank> ranks = new ArrayList<PlayerRank>();
+
+    private static Connection createConnection() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  new File(MCSNAChallenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
+            ret.setAutoCommit(false);
+            return ret;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+   public static synchronized void freeConnection() {
+		Connection conn = getConnection();
+        if(conn != null) {
+            try {
+            	conn.close();
+            	conn = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void LoadSettings()
+	{
+    	try {
+    		config = new YamlConfiguration();
+
+    		if (!new File(MCSNAChallenges.instance.getDataFolder(),"config.yml").exists()) config.save(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
+
+    		config.load(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
+	    	for (Setting s : Setting.values())
+	    	{
+	    		if (config.get(s.getString()) == null && s.getDefault() != null) config.set(s.getString(), s.getDefault());
+	    	}
+	    	
+	    	if (config.get(Setting.PLAYER_CLASSES.getString()) == null)
+	    		setDefaultClasses();
+	    	
+	    	loadRanks();
+	    	
+	    	config.save(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    
+    public static void loadRanks()
+    {
+    	for (Entry<String, Object> e : config.getConfigurationSection(Setting.PLAYER_CLASSES.getString()).getValues(false).entrySet())
+    	{
+    		PlayerRank rank = new PlayerRank();
+    		rank.rank = e.getKey();
+    		
+    		ConfigurationSection section = (ConfigurationSection) e.getValue();
+    		rank.neededPoints = section.getInt("PointsNeeded");
+    		rank.group = section.getString("PEXGroup");
+    		rank.suffix = section.getString("Suffix");
+    		
+    		ranks.add(rank);
+    	}
+    }
+    
+    private static void setDefaultClasses()
+	{
+    	String cPrefix = Setting.PLAYER_CLASSES.getString() + ".";
+		int[] classesPoints = new int[]{0,1,3,7,12,18,25,33,42,52,63,75,88,102,117,133,150,168,187,207,228,250,273,297,322,348,375,403,432,462};
+		String[] classes = new String[]{"Novice", "Flatcorian", "Nomad", "Raider", "Mercenary", "Merchant", "Scribe", "Savant", "Special"};
+		String[] prefixes = new String[]{"", "Adept ", "Veteran ", "Master "};
+		String[] suffixes = new String[]{"", "+", "++", "+++"};
+		int counter = 0;
+		for (String pClass : classes)
+		{
+			for (int pId = 0; pId < prefixes.length; pId++)
+			{
+				String prefix = prefixes[pId];
+				
+				if ((pClass.equals("Novice") || pClass.equals("Special")) && !prefix.equals(""))
+					continue;
+				
+				int points = classesPoints[counter];
+				
+				config.set(cPrefix + prefix + pClass + ".PointsNeeded", points);
+				config.set(cPrefix + prefix + pClass + ".PEXGroup", pClass);
+				config.set(cPrefix + prefix + pClass + ".Suffix", suffixes[pId]);
+				counter++;
+			}
+		}
+	}
+    
+    public static void PrepareDB()
+    {
+    	Connection conn;
+        Statement st = null;
+        try {
+            conn = IO.getConnection();//            {
+        	st = conn.createStatement();
+        	st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_levels (ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER NOT NULL, Level Integer, Description STRING, Points INTEGER)");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_completed(ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER, Level INTEGER, Player STRING, State INTEGER, X INTEGER, Y INTEGER, Z INTEGER, World STRING, WGRegion STRING, ModResponse STRING, ClaimedBy STRING)");
+        	st.executeUpdate("CREATE TABLE IF NOT EXISTS player_points (PLAYER STRING, POINTS INTEGER)");
+        	st.executeUpdate("CREATE TABLE IF NOT EXISTS point_changes (ID INTEGER PRIMARY KEY, Player String, Amount Integer, Reason String)");
+        	conn.commit();
+            st.close();
+        } catch (SQLException e) {
+            MCSNAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while creating tables! - " + e.getMessage());
+            e.printStackTrace();
+    }
+        UpdateDB();
+    }
+    
+    public static void UpdateDB()
+    {
+    }
+        
+    public void Update(String check, String sql)
+    {
+    	try
+    	{
+    		Statement statement = getConnection().createStatement();
+			statement.executeQuery(check);
+			statement.close();
+    	}
+    	catch(SQLException ex)
+    	{
+    		MCSNAChallenges.log.log(Level.INFO, "[Jail] Updating database");
+    		try {
+    			String[] query;
+    			query = sql.split(";");
+            	Connection conn = getConnection();
+    			Statement st = conn.createStatement();
+    			for (String q : query)	
+    				st.executeUpdate(q);
+    			conn.commit();
+    			st.close();
+    		} catch (SQLException e) {
+    			MCSNAChallenges.log.log(Level.SEVERE, "[Jail] Error while updating tables to the new version - " + e.getMessage());
+                e.printStackTrace();
+    	}
+        
+	}
+    	
+    }
+}
