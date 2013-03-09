@@ -10,6 +10,7 @@ public enum Setting {
 	PLAYER_CLASSES("PlayerClasses", null),
 	PROTECTED_GROUPS("ProtectedGroups", Arrays.asList(new String[] { "Guardian" })),
 	ITEMS_PER_PAGE("ItemsPerPage", 10),
+	DEBUG_MODE("DebugMode", false),
 	
 	MESSAGE_NO_PERMISSION("Messages.NoPermssion", "You are not allowed to do that!"),
 	

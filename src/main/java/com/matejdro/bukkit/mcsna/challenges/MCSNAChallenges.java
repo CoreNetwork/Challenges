@@ -21,9 +21,11 @@ import com.matejdro.bukkit.mcsna.challenges.admincommands.DeleteLevelCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.EditLevelCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.EditWeekCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ExitCommand;
+import com.matejdro.bukkit.mcsna.challenges.admincommands.GetWeekCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ImportCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ListCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ReloadCommand;
+import com.matejdro.bukkit.mcsna.challenges.admincommands.SetTimeCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.BaseModCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.CompleteCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.CompletedListCommand;
@@ -103,8 +105,11 @@ public class MCSNAChallenges extends JavaPlugin {
 
 		//DEBUG COMMANDS
 		
-		//adminCommands.put("settime", new SetTimeCommand());
-		//adminCommands.put("getweek", new GetWeekCommand());
+		if (Settings.getBoolean(Setting.DEBUG_MODE))
+		{
+			adminCommands.put("settime", new SetTimeCommand());
+			adminCommands.put("getweek", new GetWeekCommand());
+		}
 
 		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
 		
