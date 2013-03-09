@@ -42,6 +42,8 @@ public enum Setting {
 	MESSAGE_LEVEL_SAVED("Messages.LevelSaved", "Level saved. Use &e/cha createlevel&f to add another level, &e/cha editlevel [number]&f to edit existing one or &e/cha save&f to exit editing mode."),
 	MESSAGE_EDITING_MODE_EXIT("Messages.EditingModeExit", "You are now leaving editing mode."),
 	MESSAGE_LEVEL_DELETED("Messages.LevelDeleted", "Level deleted."),
+	MESSAGE_STOPPED_ADMIN("Messages.StoppedAdmin", "Plugin stopped. Use &a/cha resume (id)&f to resume it."),
+	MESSAGE_RESUMED_ADMIN("Messages.ResumedAdmin", "Plugin resumed at level <Level>."),
 	
 	MESSAGE_CH_HEADER("Messages.ChHeader", "Challenge #&a<ID>&f &7(<From> to <To> - <Left> left) [NEWLINE] ---------------------------------------"),
 	MESSAGE_CH_ENTRY("Messages.ChEntry", "&eLevel <Level>: &6<Desc> &b[<Status>] [NEWLINE] &7---------------------------------------"),
@@ -92,7 +94,11 @@ public enum Setting {
 	MESSAGE_REASON_COMPLETE("Messages.ReasonComplete", "completing challenge #<Week> level <Level>!"),
 	MESSAGE_FLATPOINTS("Messages.FlatPoints", "&aYou currently have &6<Points>&a points and your rank is &6<Rank>&a!"),
 	MESSAGE_FLATPOINTS_NEXT_RANK("Messages.FlatPointsNextRank", "&aYou currently have &6<Points>&a points and your rank is &6<Rank>&a! To achieve new rank &6<NewRank>&a, you need to earn another &6<PointsLeft>&a points!"),
-	MESSAGE_USING_PREVIOUS_ID("Message.UsingPreviousId", "&6No ID Specified. Using ID from last teleport - &a<ID>&6.");
+	MESSAGE_USING_PREVIOUS_ID("Messages.UsingPreviousId", "&6No ID Specified. Using ID from last teleport - &a<ID>&6."),
+	
+	
+	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
+	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());
 	
 	
 	private String name;

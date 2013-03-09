@@ -24,7 +24,7 @@ public class AllCommand extends BaseUserCommand {
 	}
 
 
-	public Boolean run(CommandSender sender, String[] args) {
+	public Boolean run(CommandSender sender, String[] args) {		
 		int curWeek = WeekUtil.getCurrentWeek();
 		String header = Settings.getString(Setting.MESSAGE_CH_HEADER);
 		header = header.replace("<ID>", Integer.toString(curWeek));

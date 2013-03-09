@@ -25,7 +25,9 @@ import com.matejdro.bukkit.mcsna.challenges.admincommands.GetWeekCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ImportCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ListCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.ReloadCommand;
+import com.matejdro.bukkit.mcsna.challenges.admincommands.ResumeCommand;
 import com.matejdro.bukkit.mcsna.challenges.admincommands.SetTimeCommand;
+import com.matejdro.bukkit.mcsna.challenges.admincommands.StopCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.BaseModCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.CompleteCommand;
 import com.matejdro.bukkit.mcsna.challenges.modcommands.CompletedListCommand;
@@ -93,6 +95,8 @@ public class MCSNAChallenges extends JavaPlugin {
 		adminCommands.put("save", new ExitCommand());
 		adminCommands.put("import", new ImportCommand());
 		adminCommands.put("reload", new ReloadCommand());
+		adminCommands.put("stop", new StopCommand());
+		adminCommands.put("resume", new ResumeCommand());
 
 		//Mod Commands
 		modCommands.put("help", new ModHelpCommand());

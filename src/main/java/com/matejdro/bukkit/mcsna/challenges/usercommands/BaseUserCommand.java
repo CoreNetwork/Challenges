@@ -15,6 +15,12 @@ public abstract class BaseUserCommand {
 	
 	public Boolean execute(CommandSender sender, String[] args)
 	{
+		if (Settings.getBoolean(Setting.STOPPED))
+		{
+			Util.Message(Settings.getString(Setting.MESSAGE_STOPPED), sender);
+			return true;
+		}
+		
 		if (args.length > 0 && !Util.isInteger(args[0]))
 		{
 			String[] newargs = new String[args.length - 1];
