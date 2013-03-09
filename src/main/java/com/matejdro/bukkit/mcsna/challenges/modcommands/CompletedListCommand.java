@@ -36,7 +36,7 @@ public class CompletedListCommand extends BaseModCommand {
 			e.printStackTrace();
 		}
 		
-		int maxPage = (int) Math.ceil(count / (double) Settings.getInt(Setting.ITEMS_PER_PAGE));
+		int maxPage = (int) Math.ceil(count / Settings.getInt(Setting.ITEMS_PER_PAGE));
 		int page = 1;
 		
 		if (args.length > 0 && Util.isInteger(args[0]))

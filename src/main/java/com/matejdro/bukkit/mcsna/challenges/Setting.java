@@ -12,6 +12,10 @@ public enum Setting {
 	ITEMS_PER_PAGE("ItemsPerPage", 10),
 	DEBUG_MODE("DebugMode", false),
 	
+	CURRENT_WEEK("CurrentWeek", 1),
+	CURRENT_WEEK_START("CurrentWeekStart", null),
+	STOPPED("Stopped", false),
+	
 	MESSAGE_NO_PERMISSION("Messages.NoPermssion", "You are not allowed to do that!"),
 	
 	MESSAGE_LIST_WEEKS_HEADER("Messages.ListWeeksHeader", "&6ID &2START DATE &7STATUS [NEWLINE] &7---------------------------------------"),

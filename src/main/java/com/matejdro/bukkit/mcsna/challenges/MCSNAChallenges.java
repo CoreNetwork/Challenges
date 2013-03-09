@@ -110,10 +110,9 @@ public class MCSNAChallenges extends JavaPlugin {
 			adminCommands.put("settime", new SetTimeCommand());
 			adminCommands.put("getweek", new GetWeekCommand());
 		}
-
+		
 		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
 		
-		oldWeek = WeekUtil.getCurrentWeek();
 		scheduleTimer();
 		
 		try
@@ -183,22 +182,24 @@ public class MCSNAChallenges extends JavaPlugin {
 		}
 	}
 	
-	private static int oldWeek;
 	private static class WeekAnnouncer implements Runnable
 	{
 
 		@Override
 		public void run() {
-			if (WeekUtil.getCurrentWeek() > oldWeek)
+			int curWeek = WeekUtil.getCurrentWeek();
+			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
 			{
-				oldWeek = WeekUtil.getCurrentWeek();
-
+				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek + 1);
+				IO.config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
+				IO.saveConfig();
+				
 				for (Player p : Bukkit.getServer().getOnlinePlayers())
 					Util.Message(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), p);
 						
 				try {
 					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT World, WGRegion FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
-					statement.setInt(1, oldWeek);
+					statement.setInt(1, curWeek);
 					ResultSet set = statement.executeQuery();
 					while (set.next())
 					{
@@ -214,7 +215,7 @@ public class MCSNAChallenges extends JavaPlugin {
 					statement.close();
 					
 					statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = NULL WHERE WeekID < ?");
-					statement.setInt(1, oldWeek);
+					statement.setInt(1, curWeek);
 					statement.executeUpdate();
 					
 					statement.close();
@@ -233,7 +234,7 @@ public class MCSNAChallenges extends JavaPlugin {
 		
 		private static long getNextTime()
 		{
-			long timeLeft = WeekUtil.getWeekStart(oldWeek + 1) - WeekUtil.getCurrentTime();
+			long timeLeft = WeekUtil.SECONDS_PER_WEEK - (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(WeekUtil.getCurrentWeek()));
 			if (timeLeft < 5)
 				return 0;
 			else if (timeLeft < 120)

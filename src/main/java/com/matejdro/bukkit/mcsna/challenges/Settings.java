@@ -24,9 +24,14 @@ public class Settings {
 		return 	(Boolean) getProperty(setting);
 	}
 	
+	public static Long getLong(Setting setting)
+	{
+		return 	((Number) getProperty(setting)).longValue();
+	}
+	
 	public static Integer getInt(Setting setting)
 	{
-		return 	(Integer) getProperty(setting);
+		return 	((Number) getProperty(setting)).intValue();
 	}
 
 	public static String getString(Setting setting)
@@ -42,12 +47,7 @@ public class Settings {
 		if (descO == null)
 		{
 			IO.config.set(path, "&a/" + type + " " + cmd + " &8-&f " + "<INSERT DESCRIPTION HERE>");
-			try {
-				IO.config.save(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			IO.saveConfig();
 			descO = IO.config.get(path);
 		}
 		

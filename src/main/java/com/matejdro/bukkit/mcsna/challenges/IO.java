@@ -68,10 +68,13 @@ public class IO {
 	    	if (config.get(Setting.PLAYER_CLASSES.getString()) == null)
 	    		setDefaultClasses();
 	    	
+	    	if (config.get(Setting.CURRENT_WEEK_START.getString()) == null)
+	    		config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getCurrentWeekCalculatedStart());
+	    	
 	    	loadRanks();
 	    	
-	    	config.save(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
-
+	    	saveConfig();
+	    	
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,6 +86,16 @@ public class IO {
 			e.printStackTrace();
 		}
 	}
+    
+    public static void saveConfig()
+    {
+    	try {
+			config.save(new File(MCSNAChallenges.instance.getDataFolder(),"config.yml"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     public static void loadRanks()
     {
