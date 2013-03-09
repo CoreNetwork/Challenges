@@ -102,10 +102,11 @@ public class MCSNAChallenges extends JavaPlugin {
 		modCommands.put("points", new ModPointsCommand());
 
 		//DEBUG COMMANDS
+		
 		//adminCommands.put("settime", new SetTimeCommand());
 		//adminCommands.put("getweek", new GetWeekCommand());
 
-		log.info("[FlatcoreWeekly] " + getDescription().getFullName() + " loaded!");
+		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
 		
 		oldWeek = WeekUtil.getCurrentWeek();
 		scheduleTimer();
