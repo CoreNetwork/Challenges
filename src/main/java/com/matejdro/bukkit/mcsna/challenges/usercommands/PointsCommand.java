@@ -13,7 +13,7 @@ public class PointsCommand extends BaseUserCommand {
 	
 	public PointsCommand()
 	{
-		desc = "Manage player points";
+		desc = "See your points";
 		needPlayer = true;
 	}
 
