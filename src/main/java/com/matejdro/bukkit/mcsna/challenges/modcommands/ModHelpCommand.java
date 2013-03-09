@@ -28,7 +28,7 @@ public class ModHelpCommand extends BaseModCommand {
 
 		for (Entry<String, BaseModCommand> e : MCSNAChallenges.modCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "chm"));
+			komandes.add(Settings.getCommandDescription(e.getKey(), "chm", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);

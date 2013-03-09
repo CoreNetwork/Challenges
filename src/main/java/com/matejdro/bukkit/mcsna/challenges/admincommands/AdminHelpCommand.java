@@ -16,6 +16,7 @@ public class AdminHelpCommand extends BaseAdminCommand {
 	
 	public AdminHelpCommand()
 	{
+		desc = "List all possible commands";
 		needPlayer = false;
 	}
 
@@ -27,7 +28,7 @@ public class AdminHelpCommand extends BaseAdminCommand {
 
 		for (Entry<String, BaseAdminCommand> e : MCSNAChallenges.adminCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "cha"));
+			komandes.add(Settings.getCommandDescription(e.getKey(), "cha", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);

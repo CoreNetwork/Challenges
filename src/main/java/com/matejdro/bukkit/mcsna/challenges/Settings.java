@@ -39,14 +39,14 @@ public class Settings {
 		return 	(String) getProperty(setting);
 	}
 	
-	public static String getCommandDescription(String cmd, String type)
+	public static String getCommandDescription(String cmd, String type, String def)
 	{
 		String path = "CommandDescriptions." + type + "." + cmd;
 		
 		Object descO = IO.config.get(path);
 		if (descO == null)
 		{
-			IO.config.set(path, "&a/" + type + " " + cmd + " &8-&f " + "<INSERT DESCRIPTION HERE>");
+			IO.config.set(path, "&a/" + type + " " + cmd + " &8-&f " + def);
 			IO.saveConfig();
 			descO = IO.config.get(path);
 		}

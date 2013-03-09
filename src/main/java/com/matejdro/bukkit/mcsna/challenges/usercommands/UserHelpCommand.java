@@ -26,11 +26,11 @@ public class UserHelpCommand extends BaseUserCommand {
 		int page = 1;
 		if (args.length > 0 && Util.isInteger(args[0])) page = Integer.parseInt(args[0]);
 		List<String> komandes = new ArrayList<String>();
-		komandes.add(Settings.getCommandDescription("ch", "ch"));
+		komandes.add(Settings.getCommandDescription("ch", "ch", new ChCommand().desc));
 
 		for (Entry<String, BaseUserCommand> e : MCSNAChallenges.userCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "ch"));
+			komandes.add(Settings.getCommandDescription(e.getKey(), "ch", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);
