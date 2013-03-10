@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ChallengesListener implements Listener {
-	@EventHandler()
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(final AsyncPlayerChatEvent event)
 	{
 		if (EditWizard.players.containsKey(event.getPlayer().getName()))
