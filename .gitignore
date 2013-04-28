@@ -1,7 +1,6 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
@@ -10,3 +9,4 @@ doc/*
 bin/
 .classpath
 .project
+/target
