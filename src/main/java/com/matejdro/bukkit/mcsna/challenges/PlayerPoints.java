@@ -168,10 +168,11 @@ public class PlayerPoints {
 				}
 			}
 			
+			user.removeGroup(oldRank.group);
+			user.addGroup(newRank.group);
+			
 			if (!dontChange)
 			{
-				user.removeGroup(oldRank.group);
-				user.addGroup(newRank.group);
 				user.setSuffix(newRank.suffix, null);
 			}
 			
