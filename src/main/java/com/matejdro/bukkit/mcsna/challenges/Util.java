@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public class Util {
 	public static void Message(String message, CommandSender sender)
 	{
-		message = message.replaceAll("\\&([0-9abcdef])", "ง$1");
+		message = message.replaceAll("\\&([0-9abcdef])", "ยง$1");
 		
 		String color = "f";
 		final int maxLength = 59; //Max length of chat text message
@@ -18,15 +18,15 @@ public class Util {
         String[] words = message.split(" ");
         int lineNumber = 0;
         for (int i = 0; i < words.length; i++) {
-                if (chat.get(lineNumber).replaceAll("\\ง([0-9abcdef])", "").length() + words[i].replaceAll("\\ง([0-9abcdef])", "").length() < maxLength && !words[i].equals(newLine)) {
-                        chat.set(lineNumber, chat.get(lineNumber) + (chat.get(lineNumber).length() > 0 ? " " : "ง" + color ) + words[i]);
+                if (chat.get(lineNumber).replaceAll("\\ยง([0-9abcdef])", "").length() + words[i].replaceAll("\\ยง([0-9abcdef])", "").length() < maxLength && !words[i].equals(newLine)) {
+                        chat.set(lineNumber, chat.get(lineNumber) + (chat.get(lineNumber).length() > 0 ? " " : "ยง" + color ) + words[i]);
 
-                        if (words[i].contains("ง")) color = Character.toString(words[i].charAt(words[i].lastIndexOf("ง") + 1));
+                        if (words[i].contains("ยง")) color = Character.toString(words[i].charAt(words[i].lastIndexOf("ยง") + 1));
                 }
                 else {
                         lineNumber++;
                         if (!words[i].equals(newLine)) {
-                                chat.add(lineNumber,  "ง" + color + words[i]);
+                                chat.add(lineNumber,  "ยง" + color + words[i]);
                         }
                         else
                                 chat.add(lineNumber, "");
