@@ -28,7 +28,7 @@ public class ChallengesListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event)
 	{			
-		if (event.getPlayer().hasPermission("flatcoreweekly.notify"))
+		if (event.getPlayer().hasPermission("mcnsachallenges.notify"))
 		{
 			try {
 				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT ID FROM weekly_completed WHERE State = 0");
@@ -101,7 +101,7 @@ public class ChallengesListener implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event)
 	{
-		if (event.getPlayer().hasPermission("flatcoreweekly.command.chm"))
+		if (event.getPlayer().hasPermission("mcnsachallenges.command.chm"))
 		{
 			try
 			{

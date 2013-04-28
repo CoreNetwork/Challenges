@@ -13,11 +13,11 @@ commands:
     points:
         description: Check your current amount of points.
 permissions:
-    flatcoreweekly.command.ch:
+    mcnsachallenges.command.ch:
         default: true
-    flatcoreweekly.command.cha:
+    mcnsachallenges.command.cha:
         default: op
-    flatcoreweekly.command.chm:
+    mcnsachallenges.command.chm:
         default: op
-    flatcoreweekly.notify:
+    mcnsachallenges.notify:
         default: op

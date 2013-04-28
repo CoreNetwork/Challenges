@@ -36,7 +36,7 @@ public abstract class BaseUserCommand {
 			Util.Message("Sorry, but you need to execute this command as player.", sender);
 			return false;
 		}
-		if (sender instanceof Player && !((Player)sender).hasPermission("flatcoreweekly.command.ch")) 
+		if (sender instanceof Player && !((Player)sender).hasPermission("mcnsachallenges.command.ch")) 
 		{
 			Util.Message(Settings.getString(Setting.MESSAGE_NO_PERMISSION), sender);
 			return false;

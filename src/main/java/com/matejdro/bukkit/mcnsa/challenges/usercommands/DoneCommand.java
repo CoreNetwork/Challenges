@@ -139,7 +139,7 @@ public class DoneCommand extends BaseUserCommand {
 		message = message.replace("<Player>", player.getName());
 		message = message.replace("<Level>", Integer.toString(level));
 		message = message.replace("<ID>", Integer.toString(id));
-		Util.MessagePermissions(message, "flatcoreweekly.notify");
+		Util.MessagePermissions(message, "mcnsachallenges.notify");
 		
 		
 		
