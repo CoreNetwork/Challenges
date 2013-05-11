@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Util {
+	public static final String colorCharacter = "\u00A7";
+	
 	public static void Message(String message, CommandSender sender)
 	{
 		message = message.replaceAll("\\&([0-9abcdef])", "§$1");

@@ -39,7 +39,7 @@ public class ModHelpCommand extends BaseModCommand {
 			page = maxpage;
 		
 		Util.Message("List of all commands:", sender);
-		Util.Message("�8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
+		Util.Message(Util.colorCharacter + "8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
 
 		for (int i = (page - 1) * 15; i < page * 15; i++)
 		{

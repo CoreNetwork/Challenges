@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -28,6 +29,12 @@ public class WorldGuardManager {
 		region.setFlag(DefaultFlag.PISTONS, StateFlag.State.DENY);
 		
 		manager.addRegion(region);
+		try {
+			manager.save();
+		} catch (ProtectionDatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void deleteRegion(World world, String name)
@@ -35,6 +42,12 @@ public class WorldGuardManager {
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager manager = wg.getRegionManager(world);
 		manager.removeRegion(name);
+		try {
+			manager.save();
+		} catch (ProtectionDatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
