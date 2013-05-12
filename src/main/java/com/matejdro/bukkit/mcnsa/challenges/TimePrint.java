@@ -13,7 +13,7 @@ public class TimePrint {
 		if (cas % 60 == 1) enota = "second";
 
 		if (cas > 60)
-			return String.valueOf(formatDan(Math.round(cas / 60.0)) + ", " + cas % 60 + " " + enota); 
+			return String.valueOf(formatMinute(Math.round(cas / 60.0)) + ", " + cas % 60 + " " + enota); 
 		return String.valueOf(cas + " " + enota);
 	}
 	
@@ -25,7 +25,7 @@ public class TimePrint {
 		if (cas % 60 == 1) enota = "minute";
 		
 		if (cas > 60)
-			return String.valueOf(formatDan(Math.round(cas / 60.0)) + ", " + cas % 60 + " " + enota); 
+			return String.valueOf(formatUre(Math.round(cas / 60.0)) + ", " + cas % 60 + " " + enota); 
 		return String.valueOf(cas + " " + enota);
 	}
 	
