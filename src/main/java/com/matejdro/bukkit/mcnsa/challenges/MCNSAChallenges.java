@@ -194,7 +194,8 @@ public class MCNSAChallenges extends JavaPlugin {
 			int curWeek = WeekUtil.getCurrentWeek();
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
 			{
-				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek + 1);
+				curWeek++;
+				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek);
 				IO.config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
 				IO.saveConfig();
 				
