@@ -29,7 +29,7 @@ public class DoneCommand extends BaseUserCommand {
 		if (args.length < 1 || !Util.isInteger(args[0]))
 		{
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0)FROM weekly_completed WHERE Player = ? AND WeekID = ?) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ?) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
 				statement.setString(1, player.getName());
 				statement.setInt(2, WeekUtil.getCurrentWeek());
 				statement.setInt(3, WeekUtil.getCurrentWeek());
