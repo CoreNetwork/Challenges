@@ -15,6 +15,7 @@ public class PointsCommand extends BaseUserCommand {
 	{
 		desc = "See your points";
 		needPlayer = true;
+		permission = "points";
 	}
 
 

@@ -11,6 +11,7 @@ public class SetTimeCommand extends BaseAdminCommand {
 	{
 		desc = "[DEBUG] Set current time";
 		needPlayer = false;
+		permission = "settime";
 	}
 
 

@@ -18,6 +18,7 @@ public class EditLevelCommand extends BaseAdminCommand {
 	{
 		desc = "Edit/Create level";
 		needPlayer = true;
+		permission = "edit";
 	}
 
 

@@ -21,7 +21,6 @@ import com.matejdro.bukkit.mcnsa.challenges.admincommands.DeleteLevelCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.EditLevelCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.EditWeekCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.ExitCommand;
-import com.matejdro.bukkit.mcnsa.challenges.admincommands.GetWeekCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.ImportCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.ListCommand;
 import com.matejdro.bukkit.mcnsa.challenges.admincommands.ReloadCommand;
@@ -112,7 +111,6 @@ public class MCNSAChallenges extends JavaPlugin {
 		if (Settings.getBoolean(Setting.DEBUG_MODE))
 		{
 			adminCommands.put("settime", new SetTimeCommand());
-			adminCommands.put("getweek", new GetWeekCommand());
 		}
 		
 		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");

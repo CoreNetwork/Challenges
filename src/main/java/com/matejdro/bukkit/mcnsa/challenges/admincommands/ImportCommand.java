@@ -20,6 +20,7 @@ public class ImportCommand extends BaseAdminCommand {
 	{
 		desc = "Import data from old persistance DB";
 		needPlayer = false;
+		permission = "import";
 	}
 
 

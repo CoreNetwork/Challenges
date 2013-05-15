@@ -21,6 +21,7 @@ public class AllCommand extends BaseUserCommand {
 	{
 		desc = "Show all this week's challenges";
 		needPlayer = true;
+		permission = "all";
 	}
 
 

@@ -19,6 +19,7 @@ public class UserHelpCommand extends BaseUserCommand {
 	{
 		desc = "List all possible commands";
 		needPlayer = false;
+		permission = "help";
 	}
 
 
@@ -26,11 +27,15 @@ public class UserHelpCommand extends BaseUserCommand {
 		int page = 1;
 		if (args.length > 0 && Util.isInteger(args[0])) page = Integer.parseInt(args[0]);
 		List<String> komandes = new ArrayList<String>();
-		komandes.add(Settings.getCommandDescription("ch", "ch", new ChCommand().desc));
+		
+		ChCommand chCmd = new ChCommand();
+		if (chCmd.hasPermission(sender))
+			komandes.add(Settings.getCommandDescription("ch", "ch", chCmd.desc));
 
 		for (Entry<String, BaseUserCommand> e : MCNSAChallenges.userCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "ch", e.getValue().desc));
+			if (e.getValue().hasPermission(sender))
+				komandes.add(Settings.getCommandDescription(e.getKey(), "ch", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);
@@ -41,7 +46,7 @@ public class UserHelpCommand extends BaseUserCommand {
 			page = maxpage;
 		
 	Util.Message("List of all commands:", sender);
-	Util.Message("�8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
+	Util.Message(Util.colorCharacter + "8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
 
 		for (int i = (page - 1) * 15; i < page * 15; i++)
 		{

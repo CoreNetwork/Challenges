@@ -10,6 +10,7 @@ import com.matejdro.bukkit.mcnsa.challenges.Util;
 public abstract class BaseAdminCommand {
 	public Boolean needPlayer;
 	public String desc;
+	public String permission;
 
 	public abstract Boolean run(CommandSender sender, String[] args);
 	
@@ -30,13 +31,18 @@ public abstract class BaseAdminCommand {
 		Util.Message("Sorry, but you need to execute this command as player.", sender);
 			return false;
 		}
-		if (sender instanceof Player && !((Player)sender).hasPermission("mcnsachallenges.command.cha")) 
+		if (!hasPermission(sender)) 
 		{
 			Util.Message(Settings.getString(Setting.MESSAGE_NO_PERMISSION), sender);
 			return false;
 		}
 		
 		return run(sender, args);
+	}
+	
+	public boolean hasPermission(CommandSender sender)
+	{
+		 return sender.hasPermission("mcnsachallenges.admin.".concat(permission));
 	}
 
 }

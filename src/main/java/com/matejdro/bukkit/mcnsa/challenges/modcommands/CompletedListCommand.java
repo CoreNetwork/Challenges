@@ -19,6 +19,7 @@ public class CompletedListCommand extends BaseModCommand {
 	{
 		desc = "List all completed levels needing inspection";
 		needPlayer = false;
+		permission = "list";
 	}
 
 

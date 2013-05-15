@@ -23,6 +23,7 @@ public class LockCommand extends BaseModCommand {
 	{
 		desc = "Lock region to prevent editing";
 		needPlayer = true;
+		permission = "lock";
 	}
 
 

@@ -15,6 +15,7 @@ public class EditWeekCommand extends BaseAdminCommand {
 	{
 		desc = "Edit/Create challenge";
 		needPlayer = true;
+		permission = "editweek";
 	}
 
 

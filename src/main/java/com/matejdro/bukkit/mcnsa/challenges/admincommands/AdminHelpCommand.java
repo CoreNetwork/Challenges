@@ -18,6 +18,7 @@ public class AdminHelpCommand extends BaseAdminCommand {
 	{
 		desc = "List all possible commands";
 		needPlayer = false;
+		permission = "help";
 	}
 
 
@@ -28,7 +29,8 @@ public class AdminHelpCommand extends BaseAdminCommand {
 
 		for (Entry<String, BaseAdminCommand> e : MCNSAChallenges.adminCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "cha", e.getValue().desc));
+			if (e.getValue().hasPermission(sender))
+				komandes.add(Settings.getCommandDescription(e.getKey(), "cha", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);
@@ -39,7 +41,7 @@ public class AdminHelpCommand extends BaseAdminCommand {
 			page = maxpage;
 		
 		Util.Message("List of all commands:", sender);
-		Util.Message("�8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
+		Util.Message(Util.colorCharacter + "8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
 
 		for (int i = (page - 1) * 15; i < page * 15; i++)
 		{

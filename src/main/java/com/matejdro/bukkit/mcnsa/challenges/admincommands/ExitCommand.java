@@ -13,6 +13,7 @@ public class ExitCommand extends BaseAdminCommand {
 	{
 		desc = "Exit editing mode";
 		needPlayer = true;
+		permission = "exit";
 	}
 
 

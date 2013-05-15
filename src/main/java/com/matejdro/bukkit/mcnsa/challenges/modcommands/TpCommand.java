@@ -24,6 +24,7 @@ public class TpCommand extends BaseModCommand {
 	{
 		desc = "Teleport to completed level";
 		needPlayer = true;
+		permission = "tp";
 	}
 
 

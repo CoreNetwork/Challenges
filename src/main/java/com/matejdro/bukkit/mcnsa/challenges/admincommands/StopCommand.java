@@ -13,6 +13,7 @@ public class StopCommand extends BaseAdminCommand {
 	{
 		desc = "Stop challenge submissions";
 		needPlayer = false;
+		permission = "stop";
 	}
 
 

@@ -20,6 +20,7 @@ public class CompleteCommand extends BaseModCommand {
 	{
 		desc = "Mark level as completed and award points";
 		needPlayer = true;
+		permission = "complete";
 	}
 
 

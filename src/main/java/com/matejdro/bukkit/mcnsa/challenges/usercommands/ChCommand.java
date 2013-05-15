@@ -21,6 +21,7 @@ public class ChCommand extends BaseUserCommand {
 	{
 		desc = "Show your next challenge";
 		needPlayer = true;
+		permission = "ch";
 	}
 
 

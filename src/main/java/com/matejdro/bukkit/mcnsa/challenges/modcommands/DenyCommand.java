@@ -20,6 +20,7 @@ public class DenyCommand extends BaseModCommand {
 	{
 		desc = "Delete and reject challenge submission";
 		needPlayer = false;
+		permission = "deny";
 	}
 
 

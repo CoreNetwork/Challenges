@@ -13,6 +13,7 @@ public class ModPointsCommand extends BaseModCommand {
 	{
 		desc = "Manage player points";
 		needPlayer = false;
+		permission = "points";
 	}
 
 

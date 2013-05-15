@@ -18,6 +18,7 @@ public class DoneCommand extends BaseUserCommand {
 	{
 		desc = "Submit your completed challenge";
 		needPlayer = true;
+		permission = "done";
 	}
 
 

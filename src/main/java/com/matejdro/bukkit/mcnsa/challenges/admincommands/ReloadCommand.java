@@ -9,6 +9,7 @@ public class ReloadCommand extends BaseAdminCommand {
 	public ReloadCommand()
 	{
 		needPlayer = false;
+		permission = "reload";
 	}
 
 

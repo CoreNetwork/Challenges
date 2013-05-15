@@ -14,6 +14,7 @@ public class ResumeCommand extends BaseAdminCommand {
 	{
 		desc = "Stop challenge submissions";
 		needPlayer = false;
+		permission = "resume";
 	}
 
 

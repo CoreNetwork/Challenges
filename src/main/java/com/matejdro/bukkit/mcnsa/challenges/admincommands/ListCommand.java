@@ -20,6 +20,7 @@ public class ListCommand extends BaseAdminCommand {
 	{
 		desc = "List all challenges or list all levels in a challenge";
 		needPlayer = false;
+		permission = "list";
 	}
 
 

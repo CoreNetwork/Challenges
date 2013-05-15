@@ -18,6 +18,7 @@ public class ModHelpCommand extends BaseModCommand {
 	{
 		desc = "List all possible commands";
 		needPlayer = false;
+		permission = "help";
 	}
 
 
@@ -28,7 +29,8 @@ public class ModHelpCommand extends BaseModCommand {
 
 		for (Entry<String, BaseModCommand> e : MCNSAChallenges.modCommands.entrySet())
 		{
-			komandes.add(Settings.getCommandDescription(e.getKey(), "chm", e.getValue().desc));
+			if (e.getValue().hasPermission(sender))
+				komandes.add(Settings.getCommandDescription(e.getKey(), "chm", e.getValue().desc));
 		}  		
 		String[] komande = komandes.toArray(new String[0]);
 		Arrays.sort(komande);

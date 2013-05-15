@@ -17,6 +17,7 @@ public class DeleteLevelCommand extends BaseAdminCommand {
 	{
 		desc = "Delete level";
 		needPlayer = true;
+		permission = "delete";
 	}
 
 
