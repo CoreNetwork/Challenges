@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -169,7 +170,17 @@ public class PlayerPoints {
 			}
 			
 			user.removeGroup(oldRank.group);
+			
+			PermissionGroup[] groups = user.getGroups().clone();
+			
+			for (PermissionGroup g : groups)
+				user.removeGroup(g);
+				
 			user.addGroup(newRank.group);
+			
+			for (PermissionGroup g : groups)
+				user.addGroup(g);
+
 			
 			if (!dontChange)
 			{

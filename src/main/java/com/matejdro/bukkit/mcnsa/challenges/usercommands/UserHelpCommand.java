@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -46,7 +47,7 @@ public class UserHelpCommand extends BaseUserCommand {
 			page = maxpage;
 		
 	Util.Message("List of all commands:", sender);
-	Util.Message(Util.colorCharacter + "8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
+	Util.Message(ChatColor.COLOR_CHAR + "8Page " + String.valueOf(page) + " of " + String.valueOf(maxpage), sender);
 
 		for (int i = (page - 1) * 15; i < page * 15; i++)
 		{
