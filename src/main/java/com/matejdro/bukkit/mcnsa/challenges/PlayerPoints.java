@@ -171,6 +171,7 @@ public class PlayerPoints {
 			
 			user.removeGroup(oldRank.group);
 			
+			PermissionGroup defaultGroup = PermissionsEx.getPermissionManager().getDefaultGroup();
 			PermissionGroup[] groups = user.getGroups().clone();
 			
 			for (PermissionGroup g : groups)
@@ -179,7 +180,7 @@ public class PlayerPoints {
 			user.addGroup(newRank.group);
 			
 			for (PermissionGroup g : groups)
-				user.addGroup(g);
+				if (g != defaultGroup) user.addGroup(g);
 
 			
 			if (!dontChange)
