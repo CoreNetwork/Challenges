@@ -41,7 +41,7 @@
     </repository>
     <repository>
       <id>tehkode-repo</id>
-      <url>http://repo.tehkode.ru/repository/bukkit-plugins/</url>
+      <url>http://webbukkit.org/jenkins/public/</url>
     </repository>
   </repositories>
 
@@ -55,7 +55,7 @@
     </dependency>
 
     <dependency>
-      <groupId>ru.tehkode</groupId>
+      <groupId>org.webbukkit</groupId>
       <artifactId>PermissionsEx</artifactId>
       <version>1.19.4</version>
       <scope>compile</scope>
