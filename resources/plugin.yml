@@ -2,7 +2,7 @@ name: MCNSAChallenges
 main: com.matejdro.bukkit.mcnsa.challenges.MCNSAChallenges
 version: 1.0.1
 author: matejdro
-depend: [WorldEdit, WorldGuard]
+depend: [WorldEdit, WorldGuard, PermissionsEx]
 commands:
     cha:
         description: Weekly challenges.
