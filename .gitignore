@@ -1,9 +1,5 @@
 *.class
 
-# Package Files #
-*.war
-*.ear
-
 .settings/
 doc/*
 bin/
