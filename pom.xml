@@ -39,10 +39,6 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
-    <repository>
-      <id>webbukkit-repo</id>
-      <url>http://webbukkit.org/jenkins/public/</url>
-    </repository>
   </repositories>
 
   <dependencies>
@@ -51,13 +47,6 @@
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
       <version>1.5-R0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.webbukkit</groupId>
-      <artifactId>PermissionsEx</artifactId>
-      <version>1.19.4</version>
       <scope>compile</scope>
     </dependency>
 
@@ -73,6 +62,14 @@
       <artifactId>worldguard</artifactId>
       <version>5.7.1</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ru.tehkode</groupId>
+      <artifactId>PermissionsEx</artifactId>
+      <version>1.19.4</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/PermissionsEx.jar</systemPath>
     </dependency>
 
   </dependencies>
