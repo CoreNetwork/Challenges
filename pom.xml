@@ -35,33 +35,29 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.4.7-R1.0</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/bukkit-1.4.7-R1.0.jar</systemPath>
+      <version>1.5-R0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>ru.tehkode</groupId>
       <artifactId>PermissionsEx</artifactId>
       <version>1.19.4</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/PermissionsEx.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldedit</artifactId>
       <version>5.5.3</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/WorldEdit.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
       <version>5.7.1</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/WorldGuard.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
