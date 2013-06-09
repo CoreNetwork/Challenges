@@ -34,7 +34,7 @@
     <repository>
       <id>sk89q-repo</id>
       <url>http://maven.sk89q.com/repo/</url>
-      </repository>
+    </repository>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
@@ -60,7 +60,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>5.7.1</version>
+      <version>5.7.3</version>
       <scope>compile</scope>
     </dependency>
 
