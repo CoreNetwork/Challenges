@@ -40,7 +40,7 @@
       <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
     <repository>
-      <id>tehkode-repo</id>
+      <id>webbukkit-repo</id>
       <url>http://webbukkit.org/jenkins/public/</url>
     </repository>
   </repositories>
