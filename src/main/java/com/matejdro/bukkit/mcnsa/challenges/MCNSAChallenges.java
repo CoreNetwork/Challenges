@@ -242,18 +242,8 @@ public class MCNSAChallenges extends JavaPlugin {
 				return 0;
 			else if (timeLeft < 120)
 				return 200;
-			else if (timeLeft < 600)
-				return 1200;
-			else if (timeLeft < 3600)
-				return 12000;
-			else if (timeLeft < 7200)
-				return 36000;
-			else if (timeLeft < 18000)
-				return 72000;
-			else if (timeLeft < 36000)
-				return 216000;
-			else
-				return 360000;
+			else 
+				return 600;
 		}
 		
 	}
