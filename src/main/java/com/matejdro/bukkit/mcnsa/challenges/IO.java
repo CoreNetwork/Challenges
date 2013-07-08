@@ -154,7 +154,7 @@ public class IO {
         	conn.commit();
             st.close();
         } catch (SQLException e) {
-            MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while creating tables! - " + e.getMessage());
+            MCNSAChallenges.log.log(Level.SEVERE, "[MCNSAChallenges]: Error while creating tables! - " + e.getMessage());
             e.printStackTrace();
     }
         UpdateDB();
@@ -162,9 +162,10 @@ public class IO {
     
     public static void UpdateDB()
     {
+    	update("SELECT lastUpdate FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD lastUpdate INTEGER");
     }
         
-    public void Update(String check, String sql)
+    public static void update(String check, String sql)
     {
     	try
     	{
@@ -174,7 +175,7 @@ public class IO {
     	}
     	catch(SQLException ex)
     	{
-    		MCNSAChallenges.log.log(Level.INFO, "[Jail] Updating database");
+    		MCNSAChallenges.log.log(Level.INFO, "[MCNSAChallenges] Updating database");
     		try {
     			String[] query;
     			query = sql.split(";");

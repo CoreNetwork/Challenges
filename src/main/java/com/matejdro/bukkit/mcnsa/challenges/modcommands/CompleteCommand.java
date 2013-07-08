@@ -105,10 +105,11 @@ public class CompleteCommand extends BaseModCommand {
 		PlayerPoints.addPoints(player, points, reason);
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = 1 WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
-			statement.setString(1, player);
-			statement.setInt(2, level);
-			statement.setInt(3, week);
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = 1, lastUpdate = ? WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
+			statement.setInt(1, (int) (System.currentTimeMillis() / 1000));
+			statement.setString(2, player);
+			statement.setInt(3, level);
+			statement.setInt(4, week);
 			
 			statement.executeUpdate();
 						

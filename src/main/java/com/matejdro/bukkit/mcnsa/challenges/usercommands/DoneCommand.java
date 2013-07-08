@@ -116,7 +116,7 @@ public class DoneCommand extends BaseUserCommand {
 		
 		int id = 0;
 		try {
-			statement = IO.getConnection().prepareStatement("INSERT INTO weekly_completed (WeekID, Level, Player, State, X, Y, Z, World) VALUES (?,?,?,0,?,?,?,?)");
+			statement = IO.getConnection().prepareStatement("INSERT INTO weekly_completed (WeekID, Level, Player, State, X, Y, Z, World, lastUpdate) VALUES (?,?,?,0,?,?,?,?,?)");
 			statement.setInt(1, WeekUtil.getCurrentWeek());
 			statement.setInt(2, level);
 			statement.setString(3, player.getName());
@@ -124,6 +124,7 @@ public class DoneCommand extends BaseUserCommand {
 			statement.setInt(5, player.getLocation().getBlockY());
 			statement.setInt(6, player.getLocation().getBlockZ());
 			statement.setString(7, player.getLocation().getWorld().getName());
+			statement.setInt(8, (int) (System.currentTimeMillis() / 1000));
 
 			statement.executeUpdate();
 			
