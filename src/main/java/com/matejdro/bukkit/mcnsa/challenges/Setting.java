@@ -97,7 +97,15 @@ public enum Setting {
 	MESSAGE_FLATPOINTS_NEXT_RANK("Messages.FlatPointsNextRank", "&aYou currently have &6<Points>&a points and your rank is &6<Rank>&a! To achieve new rank &6<NewRank>&a, you need to earn another &6<PointsLeft>&a points!"),
 	MESSAGE_USING_PREVIOUS_ID("Messages.UsingPreviousId", "&6No ID Specified. Using ID from last teleport - &a<ID>&6."),
 	
-	
+	MESSAGE_STATUS_HEADER("Messages.StatusHeader", "Challenge #&a<ID>&f &7(<From> to <To> - <Left> left) [NEWLINE] ---------------------------------------"),
+	MESSAGE_STATUS_ENTRY("Messages.StatusEntry", "Level <Level>: <Status>"),
+
+	MESSAGE_STATUS_WAITING_REVIEW("Messages.StatusWaitingReview", "Submitted, awaiting review"),
+	MESSAGE_STATUS_APPROVED("Messages.StatusApproved", "Approved <Time> ago! +<Points>!"),
+	MESSAGE_STATUS_REJECTED("Messages.StatusRejected", "Rejected <Time> ago."),
+	MESSAGE_STATUS_REJECTED_COMMENT("Messages.StatusRejectedComment", "Rejected <Time> ago. Comment: <Comment>"),
+	MESSAGE_STATUS_NOT_SUBMITTED("Messages.StatusNotSubmitted", "Not submitted yet."),
+
 	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
 	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());
 	

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TimePrint {
+public class TimePrint {	
 	public static String formatSekunde(long cas)
 	{
 		if (cas > 90) return formatMinute(Math.round(cas / 60.0));
@@ -73,5 +73,13 @@ public class TimePrint {
 	        case 3:  return "rd";
 	        default: return "th";
 	    }
+	}
+	
+	public static String formatPoints(int number)
+	{
+		if (number == 1)
+			return "1 Point";
+		else
+			return Integer.toString(number).concat(" Points");
 	}
 }

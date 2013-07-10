@@ -40,6 +40,7 @@ import com.matejdro.bukkit.mcnsa.challenges.usercommands.BaseUserCommand;
 import com.matejdro.bukkit.mcnsa.challenges.usercommands.ChCommand;
 import com.matejdro.bukkit.mcnsa.challenges.usercommands.DoneCommand;
 import com.matejdro.bukkit.mcnsa.challenges.usercommands.PointsCommand;
+import com.matejdro.bukkit.mcnsa.challenges.usercommands.StatusCommand;
 import com.matejdro.bukkit.mcnsa.challenges.usercommands.UserHelpCommand;
 
 public class MCNSAChallenges extends JavaPlugin {
@@ -81,7 +82,8 @@ public class MCNSAChallenges extends JavaPlugin {
 		userCommands.put("all", new AllCommand());
 		userCommands.put("done", new DoneCommand());
 		userCommands.put("points", new PointsCommand());
-		
+		userCommands.put("status", new StatusCommand());
+
 		//Admin commands
 		adminCommands.put("help", new AdminHelpCommand());
 		adminCommands.put("list", new ListCommand());

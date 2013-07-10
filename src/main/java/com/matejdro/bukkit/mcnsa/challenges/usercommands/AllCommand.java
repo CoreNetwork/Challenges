@@ -46,7 +46,6 @@ public class AllCommand extends BaseUserCommand {
 			{
 				String line = Settings.getString(Setting.MESSAGE_CH_ENTRY);
 				
-				
 				line = line.replace("<Level>", Integer.toString(set.getInt("Level")));
 				line = line.replace("<Desc>", set.getString("Description"));
 				
