@@ -5,12 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.anjocaido.groupmanager.GroupManager;
+import org.anjocaido.groupmanager.data.User;
+import org.anjocaido.groupmanager.data.UserVariables;
+import org.anjocaido.groupmanager.dataholder.OverloadedWorldHolder;
+import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
-
-import ru.tehkode.permissions.PermissionGroup;
-import ru.tehkode.permissions.PermissionUser;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PlayerPoints {
 	public static int getPoints(String name)
@@ -157,37 +159,40 @@ public class PlayerPoints {
 		
 		if (oldRank != newRank)
 		{
-			PermissionUser user = PermissionsEx.getUser(player);
+			World firstWorld = Bukkit.getServer().getWorlds().get(0);
+			
+			GroupManager groupManager = (GroupManager) Bukkit.getServer().getPluginManager().getPlugin("GroupManager");
+			AnjoPermissionsHandler handler = groupManager.getWorldsHolder().getWorldPermissions(firstWorld.getName());
+			OverloadedWorldHolder holder = groupManager.getWorldsHolder().getWorldData(firstWorld.getName());
+
 			
 			boolean dontChange = false;
 			for (String group : (List<String>) Settings.getList(Setting.PROTECTED_GROUPS))
 			{
-				if (user.inGroup(group))
-				{
-					dontChange = true;
-					break;
-				}
-			}
-			
-			user.removeGroup(oldRank.group);
-			
-			PermissionGroup defaultGroup = PermissionsEx.getPermissionManager().getDefaultGroup();
-			PermissionGroup[] groups = user.getGroups().clone();
-			
-			for (PermissionGroup g : groups)
-				user.removeGroup(g);
-				
-			user.addGroup(newRank.group);
-			
-			for (PermissionGroup g : groups)
-				if (g != defaultGroup) user.addGroup(g);
+					if (handler.inGroup(player.getName(), group))
+					{
+						dontChange = true;
+						break;
 
-			
-			if (!dontChange)
-			{
-				user.setSuffix(newRank.suffix, null);
+					}
 			}
 			
+			User user = holder.getUser(player.getName());
+			
+			if (dontChange)
+			{
+				user.removeSubGroup(holder.getGroup(oldRank.group));
+				user.addSubGroup(holder.getGroup(newRank.group));
+			}
+			else
+			{
+				user.setGroup(holder.getGroup(newRank.group), true);
+				
+				UserVariables variables = user.getVariables();
+				variables.addVar("suffix", newRank.suffix);
+
+			}
+									
 			String message;
 			if (amount > 0)
 			{
