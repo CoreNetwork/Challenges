@@ -55,6 +55,7 @@ public enum Setting {
 	MESSAGE_POINT("Messages.Point", "+<Points> point"),
 	MESSAGE_COMPLETED("Messages.Completed", "Completed"),
 	MESSAGE_WAITING_INSPECTION("Messages.WaitingInspection", "Waiting inspection"),
+	MESSAGE_REJECTED("Messages.Rejected", "Rejected. See /ch status."),
 	MESSAGE_ALREADY_COMPLETED("Messages.AlreadyCompleted", "&cYou have already completed that level!"),
 	MESSAGE_DONE_USAGE("Messages.DoneUsage","Usage: &b/ch done level&f where \"level\" is number of level you completed."),
 	MESSAGE_INVALID_LEVEL("Messages.InvalidLevel", "&cThere is no level <Level>."),

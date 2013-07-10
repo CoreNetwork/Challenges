@@ -62,7 +62,7 @@ public class ChallengesListener implements Listener {
 				else
 					Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED_MESSAGE).replace("<Message>", message).replace("<Level>", level), event.getPlayer());
 				
-				PreparedStatement delStatement = IO.getConnection().prepareStatement("DELETE FROM weekly_completed WHERE WeekID = ? AND Player = ? AND State = 2");
+				PreparedStatement delStatement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 3 WHERE WeekID = ? AND Player = ? AND State = 2");
 				delStatement.setInt(1, weekId);
 				delStatement.setString(2, event.getPlayer().getName());
 				delStatement.executeUpdate();

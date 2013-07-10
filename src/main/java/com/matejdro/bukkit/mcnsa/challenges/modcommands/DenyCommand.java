@@ -97,12 +97,14 @@ public class DenyCommand extends BaseModCommand {
 				Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED).replace("<Level>", level), player);
 			else
 				Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED_MESSAGE).replace("<Message>", message).replace("<Level>", level), player);
-			
+
 			try
 			{
-				PreparedStatement statement = IO.getConnection().prepareStatement("DELETE FROM weekly_completed WHERE state <> 1 AND WeekID = ? AND Player = ?");
-				statement.setInt(1, weekId);
-				statement.setString(2, playerName);
+				PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
+				statement.setString(1, message == null ? "" : message);
+				statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
+				statement.setInt(3, weekId);
+				statement.setString(4, playerName);
 				statement.executeUpdate();
 				statement.close();
 				
