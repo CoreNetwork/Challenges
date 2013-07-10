@@ -63,7 +63,7 @@ public enum Setting {
 	MESSAGE_CHALLENGE_SENT("Messages.ChallengeSent", "&aChallenge submission has been sent. Give us some time to review it. Meanwhile, use &f/ch &ato do the next level."),
 	MESSAGE_CHALLENGE_SENT_MAX("Messages.ChallengeSentMax", "&aChallenge submission has been sent. Give us some time to review it."),
 	MESSAGE_MOD_SUBMISSION_NOTICE("Messages.ModSubmissionNotice", "&9Player <Player> has just completed level <Level>! Use &e/chm tp <ID>"),
-	MESSAGE_MOD_LOGIN_NOTICE("Messages.ModLoginNotice", "&9There are completed challenges waiting for inspection! Use &e/chm list"),
+	MESSAGE_MOD_LOGIN_NOTICE("Messages.ModLoginNotice", "&9There are <Amount> completed challenges waiting for inspection! Use &e/chm list"),
 	MESSAGE_COMPLETED_HEADER("Messages.CompletedHeader", "Challenges waiting for inspection: [NEWLINE] &7Page <Current> of <Max> [NEWLINE] &7---------------------------------------"),
 	MESSAGE_COMPLETED_ENTRY("Messages.CompletedEntry", "#&a<ID> &f - &f<Player> &f(Level &a<Level>&f)<HandledBy>"),
 	MESSAGE_HANDLED("Messages.HandledBy", " &cHandled by <Mod>"),
@@ -108,7 +108,6 @@ public enum Setting {
 	MESSAGE_STATUS_NOT_SUBMITTED("Messages.StatusNotSubmitted", "Not submitted yet."),
 	MESSAGE_STATUS_TP_LEVEL("Messages.StatusTpLevel", "Level <Numbers>: <State>"),
 	MESSAGE_STATUS_TP_LEVELS("Messages.StatusTpLevels", "Levels <Numbers>: <State>"),
-
 	
 	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
 	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());

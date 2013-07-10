@@ -31,11 +31,17 @@ public class ChallengesListener implements Listener {
 		if (event.getPlayer().hasPermission("mcnsachallenges.notify"))
 		{
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT ID FROM weekly_completed WHERE State = 0");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) FROM weekly_completed WHERE State = 0");
 				ResultSet set = statement.executeQuery();
-				if (set.next())
+				
+				set.next();
+				int amount = set.getInt(1);
+				
+				if (amount > 0)
 				{
-					Util.Message(Settings.getString(Setting.MESSAGE_MOD_LOGIN_NOTICE), event.getPlayer());
+					String message = Settings.getString(Setting.MESSAGE_MOD_LOGIN_NOTICE);
+					message = message.replace("<Amount>", Integer.toString(amount));
+					Util.Message(message, event.getPlayer());
 				}
 				
 				set.close();
