@@ -55,7 +55,8 @@ public enum Setting {
 	MESSAGE_POINT("Messages.Point", "+<Points> point"),
 	MESSAGE_COMPLETED("Messages.Completed", "Completed"),
 	MESSAGE_WAITING_INSPECTION("Messages.WaitingInspection", "Waiting inspection"),
-	MESSAGE_REJECTED("Messages.Rejected", "Rejected. See /ch status."),
+	MESSAGE_REJECTED("Messages.Rejected", "Rejected."),
+	MESSAGE_NOT_SUBMITTED("Messages.NotSubmitted", "Not Submitted"),
 	MESSAGE_ALREADY_COMPLETED("Messages.AlreadyCompleted", "&cYou have already completed that level!"),
 	MESSAGE_DONE_USAGE("Messages.DoneUsage","Usage: &b/ch done level&f where \"level\" is number of level you completed."),
 	MESSAGE_INVALID_LEVEL("Messages.InvalidLevel", "&cThere is no level <Level>."),
@@ -105,7 +106,10 @@ public enum Setting {
 	MESSAGE_STATUS_REJECTED("Messages.StatusRejected", "Rejected <Time> ago."),
 	MESSAGE_STATUS_REJECTED_COMMENT("Messages.StatusRejectedComment", "Rejected <Time> ago. Comment: <Comment>"),
 	MESSAGE_STATUS_NOT_SUBMITTED("Messages.StatusNotSubmitted", "Not submitted yet."),
+	MESSAGE_STATUS_TP_LEVEL("Messages.StatusTpLevel", "Level <Numbers>: <State>"),
+	MESSAGE_STATUS_TP_LEVELS("Messages.StatusTpLevels", "Levels <Numbers>: <State>"),
 
+	
 	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
 	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());
 	

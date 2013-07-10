@@ -3,6 +3,8 @@ package com.matejdro.bukkit.mcnsa.challenges.modcommands;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -48,7 +50,7 @@ public class TpCommand extends BaseModCommand {
 			id = Integer.parseInt(args[0]);
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy FROM weekly_completed WHERE ID = ? LIMIT 1");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy,Player,WeekId FROM weekly_completed WHERE ID = ? LIMIT 1");
 			statement.setInt(1, id);
 			ResultSet set = statement.executeQuery();
 			if (set.next())
@@ -89,6 +91,10 @@ public class TpCommand extends BaseModCommand {
 					
 					Util.Message(message, sender);
 					
+					String challengeOwner = set.getString("Player");
+					int week = set.getInt("WeekId");
+					Util.Message(getPlayerDataString(challengeOwner, week), sender);
+					
 					try
 					{
 						PreparedStatement statement2 = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy=? WHERE ID = ?");
@@ -119,6 +125,114 @@ public class TpCommand extends BaseModCommand {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	private String getPlayerDataString(String player, int week) throws SQLException
+	{
+		String playerData = "";
+		List<Integer> notSubmittedLevels = new ArrayList<Integer>(5);
+		List<Integer> waitingLevels = new ArrayList<Integer>(5);
+		List<Integer> approvedLevels = new ArrayList<Integer>(5);
+		List<Integer> rejectedLevels = new ArrayList<Integer>(5);
+		
+		int levels;
+		
+		PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) FROM weekly_levels WHERE weekID = ?");
+		statement.setInt(1, week);
+		ResultSet set = statement.executeQuery();
+		levels = set.getInt(1);
+		statement.close();
+		
+		for (int i = 0; i < levels; i++)
+		{
+			statement = IO.getConnection().prepareStatement("SELECT state FROM weekly_completed WHERE WeekID = ? AND Level > ? AND Player = ? ORDER BY Level ASC LIMIT 1");
+			statement.setInt(1, week);
+			statement.setInt(2, i);
+			statement.setString(3, player);
+			
+			set = statement.executeQuery();
+			
+			if (set.next())
+			{
+				int state = set.getInt(1);
+				
+				
+				switch (state)
+				{
+				case 0:
+					waitingLevels.add(i + 1);
+					break;
+				case 1:
+					approvedLevels.add(i + 1);
+					break;
+				default:
+					rejectedLevels.add(i + 1);
+					break;
+				}
+			}
+			else
+			{
+				notSubmittedLevels.add(i + 1);
+			}
+			
+			statement.close();
+		}
+		
+		if (notSubmittedLevels.size() > 0)
+		{
+			String line = notSubmittedLevels.size() == 1 ? Settings.getString(Setting.MESSAGE_STATUS_TP_LEVEL) : Settings.getString(Setting.MESSAGE_STATUS_TP_LEVELS);
+			
+			String numbers = "";
+			for (Integer level : notSubmittedLevels)
+				numbers += level + ", ";
+			numbers = numbers.substring(0, numbers.length() - 2);
+			
+			line = line.replace("<Numbers>", numbers);
+			line = line.replace("<State>", Settings.getString(Setting.MESSAGE_NOT_SUBMITTED));
+			playerData += line + " [NEWLINE] ";
+		}
+		if (waitingLevels.size() > 0)
+		{
+			String line = waitingLevels.size() == 1 ? Settings.getString(Setting.MESSAGE_STATUS_TP_LEVEL) : Settings.getString(Setting.MESSAGE_STATUS_TP_LEVELS);
+			
+			String numbers = "";
+			for (Integer level : waitingLevels)
+				numbers += level + ", ";
+			numbers = numbers.substring(0, numbers.length() - 2);
+			
+			line = line.replace("<Numbers>", numbers);
+			line = line.replace("<State>", Settings.getString(Setting.MESSAGE_WAITING_INSPECTION));
+			playerData += line + " [NEWLINE] ";
+		}
+		if (approvedLevels.size() > 0)
+		{
+			String line = approvedLevels.size() == 1 ? Settings.getString(Setting.MESSAGE_STATUS_TP_LEVEL) : Settings.getString(Setting.MESSAGE_STATUS_TP_LEVELS);
+			
+			String numbers = "";
+			for (Integer level : approvedLevels)
+				numbers += level + ", ";
+			numbers = numbers.substring(0, numbers.length() - 2);
+			
+			line = line.replace("<Numbers>", numbers);
+			line = line.replace("<State>", Settings.getString(Setting.MESSAGE_COMPLETED));
+			playerData += line + " [NEWLINE] ";
+		}
+		if (rejectedLevels.size() > 0)
+		{
+			String line = rejectedLevels.size() == 1 ? Settings.getString(Setting.MESSAGE_STATUS_TP_LEVEL) : Settings.getString(Setting.MESSAGE_STATUS_TP_LEVELS);
+			
+			String numbers = "";
+			for (Integer level : rejectedLevels)
+				numbers += level + ", ";
+			numbers = numbers.substring(0, numbers.length() - 2);
+			
+			line = line.replace("<Numbers>", numbers);
+			line = line.replace("<State>", Settings.getString(Setting.MESSAGE_REJECTED));
+			playerData += line + " [NEWLINE] ";
+		}
+		
+		
+		return playerData.substring(0, playerData.length() - 11);
 	}
 
 }

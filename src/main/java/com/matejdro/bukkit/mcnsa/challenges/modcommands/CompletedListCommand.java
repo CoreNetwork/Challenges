@@ -23,7 +23,7 @@ public class CompletedListCommand extends BaseModCommand {
 	}
 
 
-	public Boolean run(CommandSender sender, String[] args) {
+	public Boolean run(CommandSender sender, String[] args) {		
 		int count = 0;
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(count) as count FROM (SELECT COUNT(*) as count FROM weekly_completed WHERE State = 0 GROUP BY Player)");
