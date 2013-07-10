@@ -121,7 +121,7 @@ public class DoneCommand extends BaseUserCommand {
 		try {
 			
 			//Delete old submission first
-			PreparedStatement delStatement = IO.getConnection().prepareStatement("DELETE FROM weekly_completed WHERE WeekID = ? AND Player = ? AND Level = ? AND State >= 2");
+			PreparedStatement delStatement = IO.getConnection().prepareStatement("DELETE FROM weekly_completed WHERE WeekID = ? AND Player = ? AND Level <= ? AND State >= 2");
 			delStatement.setInt(1, WeekUtil.getCurrentWeek());
 			delStatement.setString(2, player.getName());
 			delStatement.setInt(3, level);
