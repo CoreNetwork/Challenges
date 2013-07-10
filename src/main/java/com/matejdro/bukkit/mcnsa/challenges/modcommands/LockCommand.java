@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,8 +56,9 @@ public class LockCommand extends BaseModCommand {
 		String author = null;
 		int week = 0;
 		int level = 0;
+		String curRegions = null;
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Player,State, WeekID,Level FROM weekly_completed WHERE ID = ? LIMIT 1");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Player,State,WeekID,Level,WGRegion FROM weekly_completed WHERE ID = ? LIMIT 1");
 			statement.setInt(1, id);
 			ResultSet set = statement.executeQuery();
 			if (set.next())
@@ -65,6 +67,7 @@ public class LockCommand extends BaseModCommand {
 				level = set.getInt("Level");
 				int state = set.getInt("State");
 				week = set.getInt("WeekID");
+				curRegions = set.getString("WGRegion");
 				
 				if (state != 1)
 				{
@@ -103,12 +106,30 @@ public class LockCommand extends BaseModCommand {
 		if (points == null)
 			return true;
 		
+		String originalName = "w" + week + "t" + level + "-" + author;
 		String regionName = "w" + week + "t" + level + "-" + author;
-		WorldGuardManager.createRegion(points[0], points[1], regionName);
-		try
+
+		World world = points[0].getWorld();
+		int counter = 2;
+		while (WorldGuardManager.regionExists(world, regionName))
 		{
+			regionName = originalName + "-" + counter;
+			counter++;
+		}
+		
+		WorldGuardManager.createRegion(points[0], points[1], regionName);
+		
+		
+		
+		try
+		{			
+			if (curRegions == null || curRegions.trim().length() == 0)
+				curRegions = regionName;
+			else
+				curRegions += "," + regionName;
+			
 			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = ? WHERE ID = ?");
-			statement.setString(1, regionName);
+			statement.setString(1, curRegions);
 			statement.setInt(2, id);
 			statement.executeUpdate();
 			statement.close();

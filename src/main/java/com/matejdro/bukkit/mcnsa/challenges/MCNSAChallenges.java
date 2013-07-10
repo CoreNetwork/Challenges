@@ -208,12 +208,18 @@ public class MCNSAChallenges extends JavaPlugin {
 					ResultSet set = statement.executeQuery();
 					while (set.next())
 					{
-						String region = set.getString("WGRegion");
-						if (region != null && !region.trim().equals(""))
+						String regionString = set.getString("WGRegion");
+						String[] regions = regionString.split(",");
+						
+						for (String region : regions)
 						{
-							World world = Bukkit.getServer().getWorld(set.getString("World"));
-							WorldGuardManager.deleteRegion(world, region);
+							if (region != null && !region.trim().equals(""))
+							{
+								World world = Bukkit.getServer().getWorld(set.getString("World"));
+								WorldGuardManager.deleteRegion(world, region);
+							}
 						}
+						
 					}
 					
 					set.close();

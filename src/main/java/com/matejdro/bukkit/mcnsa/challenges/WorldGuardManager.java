@@ -37,6 +37,13 @@ public class WorldGuardManager {
 		}
 	}
 	
+	public static boolean regionExists(World world, String name)
+	{
+		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
+		RegionManager manager = wg.getRegionManager(world);
+		return manager.getRegion(name) != null;
+	}
+	
 	public static void deleteRegion(World world, String name)
 	{
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
