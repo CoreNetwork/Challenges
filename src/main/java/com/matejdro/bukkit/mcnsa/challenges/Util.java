@@ -86,7 +86,7 @@ public class Util {
     		if (permission.endsWith("*"))
     			permission = permission.substring(0, permission.length() - 2);
     		
-    		int lastIndex = permission.lastIndexOf(permission);
+    		int lastIndex = permission.lastIndexOf(".");
     		if (lastIndex < 0)
     			return false;
     		
