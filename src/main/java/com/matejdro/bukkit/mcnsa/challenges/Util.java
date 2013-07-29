@@ -80,6 +80,9 @@ public class Util {
     		if (player.hasPermission(permission))
     			return true;
     		
+    		if (permission.length() < 2)
+    			return false;
+    		
     		if (permission.endsWith("*"))
     			permission = permission.substring(0, permission.length() - 2);
     		
@@ -87,8 +90,7 @@ public class Util {
     		if (lastIndex < 0)
     			return false;
     		
-    		permission = permission.substring(0, lastIndex).concat("*");
-    		
+    		permission = permission.substring(0, lastIndex).concat("*");  
     	}
     }
 }
