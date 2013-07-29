@@ -90,7 +90,7 @@ public class Util {
     		if (lastIndex < 0)
     			return false;
     		
-    		permission = permission.substring(0, lastIndex).concat("*");  
+    		permission = permission.substring(0, lastIndex).concat(".*");  
     	}
     }
 }
