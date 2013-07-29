@@ -75,8 +75,6 @@ public class Util {
     {
     	while (true)
     	{
-    		System.out.println("[MCNSAChallenges] checking " + permission);
-
     		if (player.hasPermission(permission))
     			return true;
     		
