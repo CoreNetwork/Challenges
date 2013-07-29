@@ -28,7 +28,7 @@ public class ChallengesListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event)
 	{			
-		if (event.getPlayer().hasPermission("mcnsachallenges.notify"))
+		if (Util.hasPermission(event.getPlayer(), "mcnsachallenges.notify"))
 		{
 			try {
 				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) FROM weekly_completed WHERE State = 0");
@@ -109,7 +109,7 @@ public class ChallengesListener implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event)
 	{
-		if (event.getPlayer().hasPermission("mcnsachallenges.command.chm"))
+		if (Util.hasPermission(event.getPlayer(), "mcnsachallenges.command.chm"))
 		{
 			try
 			{
