@@ -31,6 +31,7 @@ import com.mcnsa.challenges.modcommands.BaseModCommand;
 import com.mcnsa.challenges.modcommands.CompleteCommand;
 import com.mcnsa.challenges.modcommands.CompletedListCommand;
 import com.mcnsa.challenges.modcommands.DenyCommand;
+import com.mcnsa.challenges.modcommands.ExplodeCommand;
 import com.mcnsa.challenges.modcommands.LockCommand;
 import com.mcnsa.challenges.modcommands.ModHelpCommand;
 import com.mcnsa.challenges.modcommands.ModPointsCommand;
@@ -107,6 +108,7 @@ public class MCNSAChallenges extends JavaPlugin {
 		modCommands.put("deny", new DenyCommand());
 		modCommands.put("lock", new LockCommand());
 		modCommands.put("points", new ModPointsCommand());
+		modCommands.put("explode", new ExplodeCommand());
 
 		//DEBUG COMMANDS
 		

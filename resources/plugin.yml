@@ -1,5 +1,5 @@
 name: MCNSAChallenges
-main: com.matejdro.bukkit.mcnsa.challenges.MCNSAChallenges
+main: com.mcnsa.challenges.MCNSAChallenges
 version: 1.0.1
 author: matejdro
 depend: [WorldEdit, WorldGuard, GroupManager]

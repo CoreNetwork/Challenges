@@ -45,7 +45,6 @@ public class ModPointsCommand extends BaseModCommand {
 	
 	private void modifyPoints(CommandSender sender, String[] args)
 	{
-		int curPoints = PlayerPoints.getPoints(args[0]);
 		int change = Integer.parseInt(args[1]);
 		
 		String message = Settings.getString(Setting.MESSAGE_PLAYER_POINTS_ALTERED);
