@@ -49,6 +49,8 @@ public class TpCommand extends BaseModCommand {
 		else
 			id = Integer.parseInt(args[0]);
 		
+		UnclaimCommand.unclaimPlayer(((Player) sender).getName());
+		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy,Player,WeekId FROM weekly_completed WHERE ID = ? LIMIT 1");
 			statement.setInt(1, id);

@@ -11,6 +11,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.mcnsa.challenges.modcommands.UnclaimCommand;
+
 public class ChallengesListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(final AsyncPlayerChatEvent event)
@@ -111,19 +113,7 @@ public class ChallengesListener implements Listener {
 	{
 		if (Util.hasPermission(event.getPlayer(), "mcnsachallenges.command.chm"))
 		{
-			try
-			{
-				PreparedStatement statement2 = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy=NULL WHERE ClaimedBy = ?");
-				statement2.setString(1, event.getPlayer().getName());
-				statement2.executeUpdate();
-				statement2.close();
-				
-				IO.getConnection().commit();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
+			UnclaimCommand.unclaimPlayer(event.getPlayer().getName());
 		}
 		
 	}

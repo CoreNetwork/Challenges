@@ -98,6 +98,7 @@ public enum Setting {
 	MESSAGE_FLATPOINTS_NEXT_RANK("Messages.FlatPointsNextRank", "&aYou currently have &6<Points>&a points and your rank is &6<Rank>&a! To achieve new rank &6<NewRank>&a, you need to earn another &6<PointsLeft>&a points!"),
 	MESSAGE_USING_PREVIOUS_ID("Messages.UsingPreviousId", "&6No ID Specified. Using ID from last teleport - &a<ID>&6."),
 	MESSAGE_EXPLODE_ENTRY("Messages.ExplodeEntry", "Level <Level>: /chm tp <ID>"),
+	MESSAGE_SUBMISSION_UNCLAIMED("Messages.SubmissionUnclaimed", "Submission was successfully released of all claims!"),
 	
 	MESSAGE_STATUS_HEADER("Messages.StatusHeader", "Challenge #&a<ID>&f &7(<From> to <To> - <Left> left) [NEWLINE] ---------------------------------------"),
 	MESSAGE_STATUS_ENTRY("Messages.StatusEntry", "Level <Level>: <Status>"),
