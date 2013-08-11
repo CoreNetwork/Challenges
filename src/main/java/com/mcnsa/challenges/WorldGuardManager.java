@@ -17,6 +17,8 @@ public class WorldGuardManager {
 
 	public static void createRegion(Block firstPoint, Block secondPoint, String name)
 	{
+		name = name.toLowerCase();
+		
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager manager = wg.getRegionManager(firstPoint.getWorld());
 		
@@ -39,6 +41,8 @@ public class WorldGuardManager {
 	
 	public static boolean regionExists(World world, String name)
 	{
+		name = name.toLowerCase();
+
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager manager = wg.getRegionManager(world);
 		return manager.getRegion(name) != null;
@@ -46,6 +50,8 @@ public class WorldGuardManager {
 	
 	public static void deleteRegion(World world, String name)
 	{
+		name = name.toLowerCase();
+
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager manager = wg.getRegionManager(world);
 		manager.removeRegion(name);
