@@ -53,6 +53,8 @@ public class AllCommand extends BaseUserCommand {
 				int state = set.getInt("Status");
 				if (state == 1)
 					status = Settings.getString(Setting.MESSAGE_COMPLETED);
+				else if (state == 0)
+					status = Settings.getString(Setting.MESSAGE_WAITING_INSPECTION);
 				else
 				{
 					int points = set.getInt("Points");
