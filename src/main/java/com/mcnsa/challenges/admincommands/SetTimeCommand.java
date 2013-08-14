@@ -2,7 +2,6 @@ package com.mcnsa.challenges.admincommands;
 
 import org.bukkit.command.CommandSender;
 
-import com.mcnsa.challenges.MCNSAChallenges;
 import com.mcnsa.challenges.WeekUtil;
 
 public class SetTimeCommand extends BaseAdminCommand {
@@ -21,7 +20,6 @@ public class SetTimeCommand extends BaseAdminCommand {
 			WeekUtil.customTimeOffset = 0;
 		else
 			WeekUtil.customTimeOffset = (int) (System.currentTimeMillis() / 1000 - offset);
-		MCNSAChallenges.scheduleTimer();
 		return true;
 	}
 	

@@ -63,7 +63,6 @@ public class ChallengesListener implements Listener {
 			{
 				String level = Integer.toString(set.getInt("Level"));
 				String message = set.getString("ModResponse");
-				int id = set.getInt("ID");
 				int weekId = set.getInt("WeekID");
 				if (message == null || message.trim().equals(""))
 					Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED).replace("<Level>", level), event.getPlayer());

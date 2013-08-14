@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.mcnsa.challenges.admincommands.AdminHelpCommand;
 import com.mcnsa.challenges.admincommands.BaseAdminCommand;
@@ -121,7 +122,7 @@ public class MCNSAChallenges extends JavaPlugin {
 		
 		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
 		
-		scheduleTimer();
+		Bukkit.getServer().getScheduler().runTask(MCNSAChallenges.instance, new WeekAnnouncer());
 		
 		try
 		{
@@ -136,13 +137,7 @@ public class MCNSAChallenges extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void scheduleTimer()
-	{
-		Bukkit.getServer().getScheduler().cancelTasks(MCNSAChallenges.instance);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MCNSAChallenges.instance, new WeekAnnouncer(), WeekAnnouncer.getNextTime());
-	}
-	
+		
 
 	
 	@Override
@@ -190,11 +185,13 @@ public class MCNSAChallenges extends JavaPlugin {
 		}
 	}
 	
-	private static class WeekAnnouncer implements Runnable
+	private static class WeekAnnouncer extends BukkitRunnable
 	{
 
 		@Override
 		public void run() {
+			this.runTaskLater(MCNSAChallenges.instance, getNextTime());
+			
 			int curWeek = WeekUtil.getCurrentWeek();
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
 			{
@@ -243,7 +240,6 @@ public class MCNSAChallenges extends JavaPlugin {
 
 			}
 			
-			scheduleTimer();
 			
 		}
 		
@@ -251,7 +247,9 @@ public class MCNSAChallenges extends JavaPlugin {
 		{
 			long timeLeft = WeekUtil.SECONDS_PER_WEEK - (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(WeekUtil.getCurrentWeek()));
 			if (timeLeft < 5)
-				return 0;
+				return 1;
+			else if (timeLeft < 20)
+				return 40;
 			else if (timeLeft < 120)
 				return 200;
 			else 
