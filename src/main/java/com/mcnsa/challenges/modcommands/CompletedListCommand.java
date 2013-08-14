@@ -54,40 +54,48 @@ public class CompletedListCommand extends BaseModCommand {
 		header = header.replace("<Max>", Integer.toString(maxPage));
 		Util.Message(header, sender);
 		
-		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY ID ASC LIMIT ?,?");
-			statement.setInt(1, start);
-			statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
-			
-			ResultSet set = statement.executeQuery();
-			while (set.next())
-			{
-				String line = Settings.getString(Setting.MESSAGE_COMPLETED_ENTRY);
+		if (count == 0)
+		{
+			Util.Message(Settings.getString(Setting.MESSAGE_COMPLETED_ALL_DONE), sender);
+		}
+		else
+		{
+			try {
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY ID ASC LIMIT ?,?");
+				statement.setInt(1, start);
+				statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
 				
-				line = line.replace("<ID>", Integer.toString(set.getInt("ID")));
-				line = line.replace("<Player>", set.getString("Player"));
-				line = line.replace("<Level>", Integer.toString(set.getInt("Level")));
-				
-				String handledBy = set.getString("ClaimedBy");
-				if (handledBy != null)
+				ResultSet set = statement.executeQuery();
+				while (set.next())
 				{
-					line = line.replace("<HandledBy>", Settings.getString(Setting.MESSAGE_HANDLED).replace("<Mod>", handledBy));
-				}
-				else
-				{
-					line = line.replace("<HandledBy>", "");
-				}
+					String line = Settings.getString(Setting.MESSAGE_COMPLETED_ENTRY);
+					
+					line = line.replace("<ID>", Integer.toString(set.getInt("ID")));
+					line = line.replace("<Player>", set.getString("Player"));
+					line = line.replace("<Level>", Integer.toString(set.getInt("Level")));
+					
+					String handledBy = set.getString("ClaimedBy");
+					if (handledBy != null)
+					{
+						line = line.replace("<HandledBy>", Settings.getString(Setting.MESSAGE_HANDLED).replace("<Mod>", handledBy));
+					}
+					else
+					{
+						line = line.replace("<HandledBy>", "");
+					}
 
-				Util.Message(line, sender);
+					Util.Message(line, sender);
+				}
+				
+				set.close();
+				statement.close();
 			}
-			
-			set.close();
-			statement.close();
+			catch (SQLException e) {
+	            MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
-		catch (SQLException e) {
-            MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
-			e.printStackTrace();
-		}
+		
 		
 		String footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
 		footer = footer.replace("<Current>", Integer.toString(page));

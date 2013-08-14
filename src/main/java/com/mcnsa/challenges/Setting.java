@@ -65,6 +65,7 @@ public enum Setting {
 	MESSAGE_MOD_SUBMISSION_NOTICE("Messages.ModSubmissionNotice", "&9Player <Player> has just completed level <Level>! Use &e/chm tp <ID>"),
 	MESSAGE_MOD_LOGIN_NOTICE("Messages.ModLoginNotice", "&9There are <Amount> completed challenges waiting for inspection! Use &e/chm list"),
 	MESSAGE_COMPLETED_HEADER("Messages.CompletedHeader", "Challenges waiting for inspection: [NEWLINE] &7Page <Current> of <Max> [NEWLINE] &7---------------------------------------"),
+	MESSAGE_COMPLETED_ALL_DONE("Messages.CompletedAllDone", "&bAll entries have been inspected, good job."),
 	MESSAGE_COMPLETED_ENTRY("Messages.CompletedEntry", "#&a<ID> &f - &f<Player> &f(Level &a<Level>&f)<HandledBy>"),
 	MESSAGE_HANDLED("Messages.HandledBy", " &cHandled by <Mod>"),
 	MESSAGE_COMPLETED_FOOTER("Messages.CompletedFooter", "&7--------------------------------------- [NEWLINE] Use command &e/chm tp [ID]"),
