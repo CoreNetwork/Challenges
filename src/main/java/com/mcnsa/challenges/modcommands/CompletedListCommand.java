@@ -88,7 +88,11 @@ public class CompletedListCommand extends BaseModCommand {
             MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
 			e.printStackTrace();
 		}
-		Util.Message(Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER), sender);
+		
+		String footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
+		footer = footer.replace("<Current>", Integer.toString(page));
+		footer = footer.replace("<Max>", Integer.toString(maxPage));
+		Util.Message(footer, sender);
 
 		return true;
 	}
