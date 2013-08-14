@@ -190,7 +190,7 @@ public class MCNSAChallenges extends JavaPlugin {
 
 		@Override
 		public void run() {
-			this.runTaskLater(MCNSAChallenges.instance, getNextTime());
+			Bukkit.getScheduler().runTaskLater(MCNSAChallenges.instance, this, getNextTime());
 			
 			int curWeek = WeekUtil.getCurrentWeek();
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
@@ -239,8 +239,6 @@ public class MCNSAChallenges extends JavaPlugin {
 				}
 
 			}
-			
-			
 		}
 		
 		private static long getNextTime()
