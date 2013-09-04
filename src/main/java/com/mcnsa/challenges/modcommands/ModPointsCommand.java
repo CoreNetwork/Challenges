@@ -1,7 +1,12 @@
 package com.mcnsa.challenges.modcommands;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.bukkit.command.CommandSender;
 
+import com.mcnsa.challenges.IO;
 import com.mcnsa.challenges.PlayerPoints;
 import com.mcnsa.challenges.Setting;
 import com.mcnsa.challenges.Settings;
@@ -35,10 +40,12 @@ public class ModPointsCommand extends BaseModCommand {
 	private void checkPoints(CommandSender sender, String[] args)
 	{
 		int points = PlayerPoints.getPoints(args[0]);
+		int pendingPoints = getPending(args[0]);
 		
 		String message = Settings.getString(Setting.MESSAGE_PLAYER_POINTS);
 		message = message.replace("<Player>", args[0]);
 		message = message.replace("<Points>", Integer.toString(points));
+		message = message.replace("<PendingPoints>", Integer.toString(pendingPoints));
 		
 		Util.Message(message, sender);
 	}
@@ -62,7 +69,31 @@ public class ModPointsCommand extends BaseModCommand {
 			reason = reason.trim();
 		}
 		PlayerPoints.addPoints(args[0], change, reason);
-
 	}
 
+	private int getPending(String player)
+	{
+		int pendingPoints = 0;
+		
+		try
+		{
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(Amount) FROM point_changes WHERE Player = ?");
+			statement.setString(1, player);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if (set.next())
+			{
+				pendingPoints = set.getInt(1);
+			}
+			
+			statement.close();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return pendingPoints;
+	}
 }

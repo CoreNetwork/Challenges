@@ -61,38 +61,6 @@ public class PlayerPoints {
 	
 	public static void addPoints(String name, Integer amount, String reason)
 	{
-		PlayerRank newRank = getNewRank(name, amount);
-		if (reason != null && amount < 0)
-		{
-			if (newRank == null)
-			{
-				String message = Settings.getString(Setting.MESSAGE_GLOBAL_PUNISHED);
-				message = message.replace("<Player>", name);
-				message = message.replace("<Points>", Integer.toString(-amount));
-				message = message.replace("<Reason>", reason);
-				
-				Util.Broadcast(message, name);
-			}
-			else
-			{
-				String message = Settings.getString(Setting.MESSAGE_GLOBAL_DEMOTED);
-				message = message.replace("<Player>", name);
-				message = message.replace("<Reason>", reason);
-				message = message.replace("<Class>", newRank.rank);
-				message = message.replace("<Points>", Integer.toString(-amount));
-
-				Util.Broadcast(message, name);
-			}
-		}
-		else if (newRank != null && amount > 0)
-		{
-			String message = Settings.getString(Setting.MESSAGE_GLOBAL_PROMOTED);
-			message = message.replace("<Player>", name);
-			message = message.replace("<Class>", newRank.rank);
-			
-			Util.Broadcast(message, name);
-		}
-		
 		Player player = Bukkit.getServer().getPlayerExact(name);
 		if (player != null)
 		{
@@ -153,12 +121,14 @@ public class PlayerPoints {
 	
 	public static void addPoints(Player player, Integer amount, String reason, Integer id)
 	{
+		String name = player.getName();
+		
 		int curPoints = getPoints(player.getName());
 		PlayerRank oldRank = getRank(curPoints);
 		PlayerRank newRank = getRank(curPoints + amount);
-		
+				
 		if (oldRank != newRank)
-		{
+		{			
 			World firstWorld = Bukkit.getServer().getWorlds().get(0);
 			
 			GroupManager groupManager = (GroupManager) Bukkit.getServer().getPluginManager().getPlugin("GroupManager");
@@ -205,6 +175,12 @@ public class PlayerPoints {
 					message = Settings.getString(Setting.MESSAGE_PROMOTED_REASON);
 					message = message.replace("<Reason>", reason);
 				}
+				
+				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PROMOTED);
+				globalMessage = message.replace("<Player>", name);
+				globalMessage = message.replace("<Class>", newRank.rank);
+				
+				Util.Broadcast(globalMessage, name);
 			}
 			else
 			{
@@ -216,6 +192,14 @@ public class PlayerPoints {
 				{
 					message = Settings.getString(Setting.MESSAGE_DEMOTED_REASON);
 					message = message.replace("<Reason>", reason);
+					
+					String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_DEMOTED);
+					globalMessage = message.replace("<Player>", name);
+					globalMessage = message.replace("<Reason>", reason);
+					globalMessage = message.replace("<Class>", newRank.rank);
+					globalMessage = message.replace("<Points>", Integer.toString(-amount));
+					Util.Broadcast(globalMessage, name);
+
 				}
 			}
 			
@@ -246,11 +230,18 @@ public class PlayerPoints {
 			if (reason == null)
 			{
 				message = Settings.getString(Setting.MESSAGE_PUNISHED);
+				
 			}
 			else
 			{
 				message = Settings.getString(Setting.MESSAGE_PUNISHED_REASON);
 				message = message.replace("<Reason>", reason);
+				
+				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PUNISHED);
+				globalMessage = message.replace("<Player>", name);
+				globalMessage = message.replace("<Points>", Integer.toString(-amount));
+				globalMessage = message.replace("<Reason>", reason);
+				Util.Broadcast(globalMessage, name);
 			}
 			
 			message = message.replace("<Amount>", Integer.toString(-amount));

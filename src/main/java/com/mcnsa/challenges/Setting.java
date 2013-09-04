@@ -92,7 +92,8 @@ public enum Setting {
 	MESSAGE_PROMOTED_REASON("Messages.MessagePromotedReason", "&aCongratulations! You have been promoted to &6<Class>&a due to &6<Reason>&a!"),
 	MESSAGE_DEMOTED("Messages.MessageDemoted", "&cYou have been demoted to &6<Class>&c!"),
 	MESSAGE_DEMOTED_REASON("Messages.MessageDemotedReason", "&cYou have been demoted to &6<Class>&c due to &6<Reason>&c!"),
-	MESSAGE_PLAYER_POINTS("Messages.PlayerPoints", "&6Player &a<Player>&6 has &a<Points>&6 points."),
+	MESSAGE_PLAYER_POINTS("Messages.PlayerPoints", "&6Player &a<Player>&6 has &a<Points>&6 points total and &a<PendingPoints>&6 points waiting for his logon."),
+	
 	MESSAGE_PLAYER_POINTS_ALTERED("Messages.PlayerPointsAltered", "&6Amount of points for player &a<Player>&6 was changed by &a<Change>&6"),
 	MESSAGE_REASON_COMPLETE("Messages.ReasonComplete", "completing challenge #<Week> level <Level>!"),
 	MESSAGE_FLATPOINTS("Messages.FlatPoints", "&aYou currently have &6<Points>&a points and your rank is &6<Rank>&a!"),
