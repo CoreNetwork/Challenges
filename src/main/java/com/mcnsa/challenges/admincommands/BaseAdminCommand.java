@@ -42,7 +42,7 @@ public abstract class BaseAdminCommand {
 	
 	public boolean hasPermission(CommandSender sender)
 	{
-		 return Util.hasPermission(sender, "mcnsachallenges.admin.".concat(permission));
+		 return Util.hasPermission(sender, "challenges.commands.cha.".concat(permission));
 	}
 
 }

@@ -43,7 +43,7 @@ public abstract class BaseModCommand {
 	
 	public boolean hasPermission(CommandSender sender)
 	{
-		 return Util.hasPermission(sender, "mcnsachallenges.mod.".concat(permission));
+		 return Util.hasPermission(sender, "challenges.commands.chm.".concat(permission));
 	}
 
 }

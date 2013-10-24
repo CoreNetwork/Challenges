@@ -49,7 +49,7 @@ public abstract class BaseUserCommand {
 	
 	public boolean hasPermission(CommandSender sender)
 	{
-		 return Util.hasPermission(sender, "mcnsachallenges.player.".concat(permission));
+		 return Util.hasPermission(sender, "challenges.commands.ch.".concat(permission));
 	}
 
 }
