@@ -1,5 +1,5 @@
-name: MCNSAChallenges
-main: com.mcnsa.challenges.MCNSAChallenges
+name: Challenges
+main: us.corenetwork.challenges.Challenges
 version: 1.0.1
 author: matejdro
 depend: [WorldEdit, WorldGuard, GroupManager]
@@ -12,12 +12,3 @@ commands:
         description: Weekly challenges.
     points:
         description: Check your current amount of points.
-permissions:
-    mcnsachallenges.command.ch:
-        default: true
-    mcnsachallenges.command.cha:
-        default: op
-    mcnsachallenges.command.chm:
-        default: op
-    mcnsachallenges.notify:
-        default: op
