@@ -18,7 +18,7 @@ import com.sk89q.worldedit.regions.CuboidRegionSelector;
 public class WorldEditHandler {
 	 public static Block[] getWorldEditRegion(Player bplayer, boolean autoExpand)
 	    {
-	    	Plugin plugin = MCNSAChallenges.instance.getServer().getPluginManager().getPlugin("WorldEdit");
+	    	Plugin plugin = Challenges.instance.getServer().getPluginManager().getPlugin("WorldEdit");
 			if (plugin != null)
 			{
 				WorldEditPlugin we = (WorldEditPlugin) plugin;
@@ -64,7 +64,7 @@ public class WorldEditHandler {
 						Util.Message("WorldEdit region is not fully selected!", bplayer);
 					else
 					{
-						MCNSAChallenges.log.log(Level.SEVERE, "[Jail] Error while retreiving WorldEdit region! - {0}", e.getMessage());
+						Challenges.log.log(Level.SEVERE, "[Jail] Error while retreiving WorldEdit region! - {0}", e.getMessage());
 						e.printStackTrace();
 					}
 					return null;

@@ -28,7 +28,7 @@ public class IO {
     private static Connection createConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
-            Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  new File(MCNSAChallenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
+            Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  new File(Challenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
             ret.setAutoCommit(false);
             return ret;
         } catch (ClassNotFoundException e) {
@@ -57,9 +57,9 @@ public class IO {
     	try {
     		config = new YamlConfiguration();
 
-    		if (!new File(MCNSAChallenges.instance.getDataFolder(),"config.yml").exists()) config.save(new File(MCNSAChallenges.instance.getDataFolder(),"config.yml"));
+    		if (!new File(Challenges.instance.getDataFolder(),"config.yml").exists()) config.save(new File(Challenges.instance.getDataFolder(),"config.yml"));
 
-    		config.load(new File(MCNSAChallenges.instance.getDataFolder(),"config.yml"));
+    		config.load(new File(Challenges.instance.getDataFolder(),"config.yml"));
 	    	for (Setting s : Setting.values())
 	    	{
 	    		if (config.get(s.getString()) == null && s.getDefault() != null) config.set(s.getString(), s.getDefault());
@@ -90,7 +90,7 @@ public class IO {
     public static void saveConfig()
     {
     	try {
-			config.save(new File(MCNSAChallenges.instance.getDataFolder(),"config.yml"));
+			config.save(new File(Challenges.instance.getDataFolder(),"config.yml"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -154,7 +154,7 @@ public class IO {
         	conn.commit();
             st.close();
         } catch (SQLException e) {
-            MCNSAChallenges.log.log(Level.SEVERE, "[MCNSAChallenges]: Error while creating tables! - " + e.getMessage());
+            Challenges.log.log(Level.SEVERE, "[Challenges]: Error while creating tables! - " + e.getMessage());
             e.printStackTrace();
     }
         UpdateDB();
@@ -175,7 +175,7 @@ public class IO {
     	}
     	catch(SQLException ex)
     	{
-    		MCNSAChallenges.log.log(Level.INFO, "[MCNSAChallenges] Updating database");
+    		Challenges.log.log(Level.INFO, "[Challenges] Updating database");
     		try {
     			String[] query;
     			query = sql.split(";");
@@ -186,7 +186,7 @@ public class IO {
     			conn.commit();
     			st.close();
     		} catch (SQLException e) {
-    			MCNSAChallenges.log.log(Level.SEVERE, "[Jail] Error while updating tables to the new version - " + e.getMessage());
+    			Challenges.log.log(Level.SEVERE, "[Jail] Error while updating tables to the new version - " + e.getMessage());
                 e.printStackTrace();
     	}
         

@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.MCNSAChallenges;
+import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
 import us.corenetwork.challenges.usercommands.BaseUserCommand;
@@ -34,7 +34,7 @@ public class UserHelpCommand extends BaseUserCommand {
 		if (chCmd.hasPermission(sender))
 			komandes.add(Settings.getCommandDescription("ch", "ch", chCmd.desc));
 
-		for (Entry<String, BaseUserCommand> e : MCNSAChallenges.userCommands.entrySet())
+		for (Entry<String, BaseUserCommand> e : Challenges.userCommands.entrySet())
 		{
 			if (e.getValue().hasPermission(sender))
 				komandes.add(Settings.getCommandDescription(e.getKey(), "ch", e.getValue().desc));

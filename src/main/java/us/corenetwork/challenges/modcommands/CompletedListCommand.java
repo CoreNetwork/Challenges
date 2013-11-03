@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 
 import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.MCNSAChallenges;
+import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Setting;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
@@ -92,7 +92,7 @@ public class CompletedListCommand extends BaseModCommand {
 				statement.close();
 			}
 			catch (SQLException e) {
-	            MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
+	            Challenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
 				e.printStackTrace();
 			}
 		}

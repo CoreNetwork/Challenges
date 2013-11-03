@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.MCNSAChallenges;
+import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
 
@@ -29,7 +29,7 @@ public class AdminHelpCommand extends BaseAdminCommand {
 		if (args.length > 0 && Util.isInteger(args[0])) page = Integer.parseInt(args[0]);
 		List<String> komandes = new ArrayList<String>();
 
-		for (Entry<String, BaseAdminCommand> e : MCNSAChallenges.adminCommands.entrySet())
+		for (Entry<String, BaseAdminCommand> e : Challenges.adminCommands.entrySet())
 		{
 			if (e.getValue().hasPermission(sender))
 				komandes.add(Settings.getCommandDescription(e.getKey(), "cha", e.getValue().desc));

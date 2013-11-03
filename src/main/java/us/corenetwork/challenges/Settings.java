@@ -10,7 +10,7 @@ public class Settings {
 		Object property = IO.config.get(setting.getString());
 		if (property == null)
 		{
-			MCNSAChallenges.log.warning("[FlatcoreWeekly] Configuration entry missing: " + setting.getString());
+			Challenges.log.warning("[FlatcoreWeekly] Configuration entry missing: " + setting.getString());
 			property = setting.getDefault();
 		}
 		

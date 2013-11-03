@@ -89,7 +89,7 @@ public class ChallengesListener implements Listener {
 			e.printStackTrace();
 		}
 		
-		Bukkit.getScheduler().runTask(MCNSAChallenges.instance, new Runnable() {
+		Bukkit.getScheduler().runTask(Challenges.instance, new Runnable() {
 			@Override
 			public void run() {
 				try

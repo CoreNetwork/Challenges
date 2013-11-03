@@ -47,12 +47,12 @@ import us.corenetwork.challenges.usercommands.StatusCommand;
 import us.corenetwork.challenges.usercommands.UserHelpCommand;
 
 
-public class MCNSAChallenges extends JavaPlugin {
+public class Challenges extends JavaPlugin {
 	public static Logger log = Logger.getLogger("Minecraft");
 
 	private ChallengesListener listener;
 	
-	public static MCNSAChallenges instance;
+	public static Challenges instance;
 
 	public static Plugin permissions = null;
 	
@@ -123,7 +123,7 @@ public class MCNSAChallenges extends JavaPlugin {
 		
 		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
 		
-		Bukkit.getServer().getScheduler().runTask(MCNSAChallenges.instance, new WeekAnnouncer());
+		Bukkit.getServer().getScheduler().runTask(Challenges.instance, new WeekAnnouncer());
 		
 		try
 		{
@@ -191,7 +191,7 @@ public class MCNSAChallenges extends JavaPlugin {
 
 		@Override
 		public void run() {
-			Bukkit.getScheduler().runTaskLater(MCNSAChallenges.instance, this, getNextTime());
+			Bukkit.getScheduler().runTaskLater(Challenges.instance, this, getNextTime());
 			
 			int curWeek = WeekUtil.getCurrentWeek();
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
@@ -235,7 +235,7 @@ public class MCNSAChallenges extends JavaPlugin {
 					IO.getConnection().commit();
 				}
 				catch (SQLException e) {
-		            MCNSAChallenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
+		            Challenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
 					e.printStackTrace();
 				}
 

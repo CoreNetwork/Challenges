@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import org.bukkit.command.CommandSender;
 
 import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.MCNSAChallenges;
+import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Util;
 
 
@@ -27,7 +27,7 @@ public class ImportCommand extends BaseAdminCommand {
 
 	public Boolean run(CommandSender sender, String[] args) {	
 
-		File db = new File(MCNSAChallenges.instance.getDataFolder(), "persistance.db");
+		File db = new File(Challenges.instance.getDataFolder(), "persistance.db");
 		if (!db.exists())
 		{
 			Util.Message("&cpersistance.db does not exists!", sender);

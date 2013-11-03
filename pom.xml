@@ -2,15 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>MCNSAChallenges</groupId>
-  <artifactId>MCNSAChallenges</artifactId>
+  <groupId>Challenges</groupId>
+  <artifactId>Challenges</artifactId>
   <version>1.0.1-Release</version>
   <packaging>jar</packaging>
-  <name>MCNSAChallenges</name>
-  <url>https://github.com/MCNSA/MCNSAChallenges</url>
+  <name>Challenges</name>
+  <url>https://github.com/CoreNetwork/Challenges</url>
 
   <build>
-    <finalName>MCNSAChallenges</finalName>
+    <finalName>Challenges</finalName>
     <resources>
       <resource>
         <directory>resources</directory>

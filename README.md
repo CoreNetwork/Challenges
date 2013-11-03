@@ -1,4 +1,4 @@
-MCNSAChallenges
+Challenges
 ===============
 
 Set up various challenges for players to complete every week. 

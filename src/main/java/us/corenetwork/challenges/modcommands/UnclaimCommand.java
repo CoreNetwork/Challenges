@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.MCNSAChallenges;
+import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Setting;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
@@ -27,7 +27,7 @@ public class UnclaimCommand extends BaseModCommand {
 		Integer id = null;
 		if (args.length < 1 || !Util.isInteger(args[0]))
 		{
-			id = MCNSAChallenges.lastTeleport.get(((Player) sender).getName());
+			id = Challenges.lastTeleport.get(((Player) sender).getName());
 			if (id == null)
 			{
 				Util.Message("Usage: /chm unclaim [ID]", sender);
