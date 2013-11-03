@@ -177,8 +177,8 @@ public class PlayerPoints {
 				}
 				
 				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PROMOTED);
-				globalMessage = message.replace("<Player>", name);
-				globalMessage = message.replace("<Class>", newRank.rank);
+				globalMessage = globalMessage.replace("<Player>", name);
+				globalMessage = globalMessage.replace("<Class>", newRank.rank);
 				
 				Util.Broadcast(globalMessage, name);
 			}
@@ -194,10 +194,10 @@ public class PlayerPoints {
 					message = message.replace("<Reason>", reason);
 					
 					String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_DEMOTED);
-					globalMessage = message.replace("<Player>", name);
-					globalMessage = message.replace("<Reason>", reason);
-					globalMessage = message.replace("<Class>", newRank.rank);
-					globalMessage = message.replace("<Points>", Integer.toString(-amount));
+					globalMessage = globalMessage.replace("<Player>", name);
+					globalMessage = globalMessage.replace("<Reason>", reason);
+					globalMessage = globalMessage.replace("<Class>", newRank.rank);
+					globalMessage = globalMessage.replace("<Points>", Integer.toString(-amount));
 					Util.Broadcast(globalMessage, name);
 
 				}
@@ -238,9 +238,9 @@ public class PlayerPoints {
 				message = message.replace("<Reason>", reason);
 				
 				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PUNISHED);
-				globalMessage = message.replace("<Player>", name);
-				globalMessage = message.replace("<Points>", Integer.toString(-amount));
-				globalMessage = message.replace("<Reason>", reason);
+				globalMessage = globalMessage.replace("<Player>", name);
+				globalMessage = globalMessage.replace("<Points>", Integer.toString(-amount));
+				globalMessage = globalMessage.replace("<Reason>", reason);
 				Util.Broadcast(globalMessage, name);
 			}
 			
