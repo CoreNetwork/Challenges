@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -28,7 +29,7 @@ public class ChallengesListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event)
+	public void onJoin(final PlayerJoinEvent event)
 	{			
 		if (Util.hasPermission(event.getPlayer(), "challenges.notify"))
 		{
@@ -87,23 +88,28 @@ public class ChallengesListener implements Listener {
 			e.printStackTrace();
 		}
 		
-		try
-		{
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT * FROM point_changes WHERE Player = ?");
-			statement.setString(1, event.getPlayer().getName());
-			ResultSet set = statement.executeQuery();
-			while (set.next())
-			{
-				PlayerPoints.addPoints(event.getPlayer(), set.getInt("Amount"), set.getString("Reason"), set.getInt("ID"));
-			}
-			
-			statement.close();
+		Bukkit.getScheduler().runTask(MCNSAChallenges.instance, new Runnable() {
+			@Override
+			public void run() {
+				try
+				{
+					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT * FROM point_changes WHERE Player = ?");
+					statement.setString(1, event.getPlayer().getName());
+					ResultSet set = statement.executeQuery();
+					while (set.next())
+					{
+						PlayerPoints.addPoints(event.getPlayer(), set.getInt("Amount"), set.getString("Reason"), set.getInt("ID"));
+					}
+					
+					statement.close();
 
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 
 	}
 	
