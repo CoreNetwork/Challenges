@@ -10,36 +10,27 @@ public class Util {
 	
 	public static void Message(String message, CommandSender sender)
 	{
-		message = message.replaceAll("\\&([0-9abcdef])", ChatColor.COLOR_CHAR + "$1");
-		
-		String color = "f";
-		final int maxLength = 59; //Max length of chat text message
-        final String newLine = "[NEWLINE]";
-        ArrayList<String> chat = new ArrayList<String>();
-        chat.add(0, "");
-        String[] words = message.split(" ");
-        int lineNumber = 0;
-        for (int i = 0; i < words.length; i++) {
-                if (chat.get(lineNumber).replaceAll("\\" + ChatColor.COLOR_CHAR + "([0-9abcdef])", "").length() + words[i].replaceAll("\\" + ChatColor.COLOR_CHAR + "([0-9abcdef])", "").length() < maxLength && !words[i].equals(newLine)) {
-                        chat.set(lineNumber, chat.get(lineNumber) + (chat.get(lineNumber).length() > 0 ? " " : ChatColor.COLOR_CHAR + color ) + words[i]);
-
-                        if (words[i].contains(String.valueOf(ChatColor.COLOR_CHAR))) color = Character.toString(words[i].charAt(words[i].lastIndexOf(String.valueOf(ChatColor.COLOR_CHAR)) + 1));
-                }
-                else {
-                        lineNumber++;
-                        if (!words[i].equals(newLine)) {
-                                chat.add(lineNumber,  ChatColor.COLOR_CHAR + color + words[i]);
-                        }
-                        else
-                                chat.add(lineNumber, "");
-                }
-        }
-        for (int i = 0; i < chat.size(); i++) {
-        	{
-    			sender.sendMessage(chat.get(i));
-        	}
-        	
-        }
+		message = message.replaceAll("\\&([0-9abcdefklmnor])", ChatColor.COLOR_CHAR + "$1");
+	
+		final String newLine = "\\[NEWLINE\\]";
+		String[] lines = message.split(newLine);
+	
+		for (int i = 0; i < lines.length; i++) {
+			lines[i] = lines[i].trim();
+	
+			if (i == 0)
+				continue;
+	
+			int lastColorChar = lines[i - 1].lastIndexOf(ChatColor.COLOR_CHAR);
+			if (lastColorChar == -1 || lastColorChar >= lines[i - 1].length() - 1)
+				continue;
+	
+			char lastColor = lines[i - 1].charAt(lastColorChar + 1);
+			lines[i] = Character.toString(ChatColor.COLOR_CHAR).concat(Character.toString(lastColor)).concat(lines[i]);	
+		}		
+	
+		for (int i = 0; i < lines.length; i++)
+			sender.sendMessage(lines[i]);
 	}
 	
 	public static void Broadcast(String message, String exclusion)
