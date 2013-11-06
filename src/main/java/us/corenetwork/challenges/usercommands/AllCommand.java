@@ -74,7 +74,7 @@ public class AllCommand extends BaseUserCommand {
 			statement.close();
 		}
 		catch (SQLException e) {
-            Challenges.log.log(Level.SEVERE, "[FlatcoreWeekly]: Error while running list command! - " + e.getMessage());
+            Challenges.log.log(Level.SEVERE, "[Challenges]: Error while running list command! - " + e.getMessage());
 			e.printStackTrace();
 		}
 		
