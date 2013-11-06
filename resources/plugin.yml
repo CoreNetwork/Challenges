@@ -10,5 +10,7 @@ commands:
         description: Weekly challenges.
     ch:
         description: Weekly challenges.
+    done:
+        description: Finished typing challenge
     points:
         description: Check your current amount of points.

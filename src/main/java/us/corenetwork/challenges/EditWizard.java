@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -18,6 +19,33 @@ public class EditWizard {
 		data.state = State.WAITING;
 		
 		players.put(player, data);
+	}
+	
+	public static boolean doneEvent(CommandSender sender)
+	{
+		if (!(sender instanceof Player))
+			return false;
+		
+		Player player = (Player) sender;
+		
+		PlayerData data = players.get(player.getName());
+		if (data == null)
+			return false;
+		
+		if (data.state == State.DESCRIPTION)
+		{
+			Util.Message(Settings.getString(Setting.MESSAGE_ENTER_POINTS), player);
+			
+			if (data.points != null)
+			{
+				Util.Message(Settings.getString(Setting.MESSAGE_OLD_POINTS).replace("<Number>", Integer.toString(data.points)), player);
+			}
+
+			data.state = State.POINTS;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public static boolean chatEvent(AsyncPlayerChatEvent event)
@@ -55,35 +83,16 @@ public class EditWizard {
 	
 	public static void enterDescription(Player player, PlayerData data, String desc)
 	{
-		if (data.firstDesc && (desc.trim().equals("done") || desc.trim().equals("!-1")))
+		if (data.firstDesc)
 		{
-			Util.Message(Settings.getString(Setting.MESSAGE_MUST_ENTER_DESCRIPTION), player);
-			return;
+			data.firstDesc = false;
+			data.description = "";
 		}
-		else if (desc.trim().equals("done") || (data.firstDesc && desc.trim().equals("-1")))
-		{
-			Util.Message(Settings.getString(Setting.MESSAGE_ENTER_POINTS), player);
-			
-			if (data.points != null)
-			{
-				Util.Message(Settings.getString(Setting.MESSAGE_OLD_POINTS).replace("<Number>", Integer.toString(data.points)), player);
-			}
-
-			data.state = State.POINTS;
-
-		}
-		else
-		{
-			if (data.firstDesc)
-			{
-				data.firstDesc = false;
-				data.description = "";
-			}
-			
-			data.description += desc;
-			
-			Util.Message(Settings.getString(Setting.MESSAGE_DESCRPITION_PART_ENTERED), player);
-		}
+		
+		data.description += desc;
+		
+		Util.Message(Settings.getString(Setting.MESSAGE_DESCRPITION_PART_ENTERED), player);
+		
 	}
 	
 	public static void enterPoints(Player player, PlayerData data, String pointsS)
