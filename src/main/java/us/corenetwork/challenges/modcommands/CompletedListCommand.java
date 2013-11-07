@@ -98,9 +98,18 @@ public class CompletedListCommand extends BaseModCommand {
 		}
 		
 		
-		String footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
-		footer = footer.replace("<Current>", Integer.toString(page));
-		footer = footer.replace("<Max>", Integer.toString(maxPage));
+		String footer;
+		if (maxPage > 1)
+		{
+			footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
+		}
+		else
+		{
+			footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER_PAGES);
+			footer = footer.replace("<Current>", Integer.toString(page));
+			footer = footer.replace("<Max>", Integer.toString(maxPage));
+		}
+		
 		Util.Message(footer, sender);
 
 		return true;

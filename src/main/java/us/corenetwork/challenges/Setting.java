@@ -69,6 +69,7 @@ public enum Setting {
 	MESSAGE_COMPLETED_ENTRY("Messages.CompletedEntry", "#&a<ID> &f - &f<Player> &f(Level &a<Level>&f)<HandledBy>"),
 	MESSAGE_HANDLED("Messages.HandledBy", " &cHandled by <Mod>"),
 	MESSAGE_COMPLETED_FOOTER("Messages.CompletedFooter", "&7--------------------------------------- [NEWLINE] Use command &e/chm tp [ID]"),
+	MESSAGE_COMPLETED_FOOTER_PAGES("Messages.CompletedFooterPages", "&7--------------------------------------- [NEWLINE] Use command &e/chm tp [ID] &7Page <Page>/<Pages>"),
 	MESSAGE_TELEPORTED("Messages.Teleported", "&aTeleported"),
 	MESSAGE_INVALID_ID("Messages.InvalidID", "&cInvalid ID! Try again."),
 	MESSAGE_ALREADY_HANDLED("Messages.AlreadyHandled", "&cThis submission is already handled by <Mod>!"),
