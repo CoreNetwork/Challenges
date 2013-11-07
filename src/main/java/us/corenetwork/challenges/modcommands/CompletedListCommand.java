@@ -49,11 +49,6 @@ public class CompletedListCommand extends BaseModCommand {
 		
 		int start = (page - 1) * (Settings.getInt(Setting.ITEMS_PER_PAGE));
 		
-		String header = Settings.getString(Setting.MESSAGE_COMPLETED_HEADER);
-		
-		header = header.replace("<Current>", Integer.toString(page));
-		header = header.replace("<Max>", Integer.toString(maxPage));
-		Util.Message(header, sender);
 		
 		if (count == 0)
 		{
@@ -61,6 +56,12 @@ public class CompletedListCommand extends BaseModCommand {
 		}
 		else
 		{
+			String header = Settings.getString(Setting.MESSAGE_COMPLETED_HEADER);
+			
+			header = header.replace("<Current>", Integer.toString(page));
+			header = header.replace("<Max>", Integer.toString(maxPage));
+			Util.Message(header, sender);
+
 			try {
 				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY ID ASC LIMIT ?,?");
 				statement.setInt(1, start);
@@ -95,22 +96,21 @@ public class CompletedListCommand extends BaseModCommand {
 	            Challenges.log.log(Level.SEVERE, "[Challenges]: Error while running list command! - " + e.getMessage());
 				e.printStackTrace();
 			}
+			
+			String footer;
+			if (maxPage > 1)
+			{
+				footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
+			}
+			else
+			{
+				footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER_PAGES);
+				footer = footer.replace("<Current>", Integer.toString(page));
+				footer = footer.replace("<Max>", Integer.toString(maxPage));
+			}
+			
+			Util.Message(footer, sender);
 		}
-		
-		
-		String footer;
-		if (maxPage > 1)
-		{
-			footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER);
-		}
-		else
-		{
-			footer = Settings.getString(Setting.MESSAGE_COMPLETED_FOOTER_PAGES);
-			footer = footer.replace("<Current>", Integer.toString(page));
-			footer = footer.replace("<Max>", Integer.toString(maxPage));
-		}
-		
-		Util.Message(footer, sender);
 
 		return true;
 	}
