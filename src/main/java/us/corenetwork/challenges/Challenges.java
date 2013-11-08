@@ -143,7 +143,7 @@ public class Challenges extends JavaPlugin {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-		if (command.getName().equals("done"))
+		if (command.getName().equals("ok"))
 		{
 			return EditWizard.doneEvent(sender);
 		}
