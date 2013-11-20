@@ -74,6 +74,7 @@ public enum Setting {
 	MESSAGE_INVALID_ID("Messages.InvalidID", "&cInvalid ID! Try again."),
 	MESSAGE_ALREADY_HANDLED("Messages.AlreadyHandled", "&cThis submission is already handled by <Mod>!"),
 	MESSAGE_COMPLETION_DONE("Messages.CompletionDone", "Level marked as completed. Player &a<Player>&f will receive &a<Points>&f points."),
+	MESSAGE_COMPLETION_DONE_NO_POINTS("Messages.CompletionDoneNoPoints", "Level marked as completed, but player will not receive any points. Are you sure you did not complete twice?"),
 	MESSAGE_DELETE_ONLY_OPEN_CHALLENGES("Messages.DeleteOnlyOpenChallenges", "You can't delete already closed challenge!"),
 	MESSAGE_SUBMISSION_REJECTED("Messages.SubmissionRejected", "&9Your challenge submission for level &e<Level>&9 was rejected. Make sure you fully fullfilled objectives and try again."),
 	MESSAGE_SUBMISSION_REJECTED_MESSAGE("Messages.SubmissionRejectedMesage", "&9Your challenge submission for level &e<Level>&9 was rejected: &a<Message>"),
@@ -116,7 +117,6 @@ public enum Setting {
 	
 	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
 	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());
-	
 	
 	private String name;
 	private Object def;

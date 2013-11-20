@@ -99,6 +99,12 @@ public class CompleteCommand extends BaseModCommand {
 			e.printStackTrace();
 		}
 		
+		if (points == 0)
+		{
+			Util.Message(Settings.getString(Setting.MESSAGE_COMPLETION_DONE_NO_POINTS), sender);
+			return true;
+		}
+		
 		String reason = Settings.getString(Setting.MESSAGE_REASON_COMPLETE);
 		reason = reason.replace("<Week>", Integer.toString(week));
 		reason = reason.replace("<Level>", Integer.toString(level));
