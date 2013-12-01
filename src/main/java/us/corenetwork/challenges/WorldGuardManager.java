@@ -54,6 +54,12 @@ public class WorldGuardManager {
 
 		WorldGuardPlugin wg = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 		RegionManager manager = wg.getRegionManager(world);
+		
+		if (manager.getRegion(name) == null)
+		{
+			Challenges.log.warning("[Challenges] Trying to delete nonexistant region in world " + world + "! Name: " + name);
+		}
+		
 		manager.removeRegion(name);
 		try {
 			manager.save();
