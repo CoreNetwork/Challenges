@@ -22,7 +22,6 @@ import us.corenetwork.challenges.admincommands.DeleteLevelCommand;
 import us.corenetwork.challenges.admincommands.EditLevelCommand;
 import us.corenetwork.challenges.admincommands.EditWeekCommand;
 import us.corenetwork.challenges.admincommands.ExitCommand;
-import us.corenetwork.challenges.admincommands.ImportCommand;
 import us.corenetwork.challenges.admincommands.ListCommand;
 import us.corenetwork.challenges.admincommands.ReloadCommand;
 import us.corenetwork.challenges.admincommands.ResumeCommand;
@@ -98,7 +97,6 @@ public class Challenges extends JavaPlugin {
 		adminCommands.put("deletelevel", new DeleteLevelCommand());
 		adminCommands.put("exit", new ExitCommand());
 		adminCommands.put("save", new ExitCommand());
-		adminCommands.put("import", new ImportCommand());
 		adminCommands.put("reload", new ReloadCommand());
 		adminCommands.put("stop", new StopCommand());
 		adminCommands.put("resume", new ResumeCommand());
