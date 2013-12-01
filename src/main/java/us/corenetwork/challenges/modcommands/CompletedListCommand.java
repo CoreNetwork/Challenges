@@ -27,7 +27,7 @@ public class CompletedListCommand extends BaseModCommand {
 	public Boolean run(CommandSender sender, String[] args) {		
 		int count = 0;
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(count) as count FROM (SELECT COUNT(*) as count FROM weekly_completed WHERE State = 0 GROUP BY Player)");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(count) as count FROM (SELECT COUNT(*) as count FROM weekly_completed WHERE State = 0 GROUP BY Player)");
 			ResultSet set = statement.executeQuery();
 			set.next();
 			count = set.getInt("count");
@@ -37,8 +37,8 @@ public class CompletedListCommand extends BaseModCommand {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		int maxPage = (int) Math.ceil(count / Settings.getInt(Setting.ITEMS_PER_PAGE));
+				
+		int maxPage = (int) Math.ceil((double) count / Settings.getInt(Setting.ITEMS_PER_PAGE));
 		int page = 1;
 		
 		if (args.length > 0 && Util.isInteger(args[0]))
