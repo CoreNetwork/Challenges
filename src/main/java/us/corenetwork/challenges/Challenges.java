@@ -248,7 +248,7 @@ public class Challenges extends JavaPlugin {
 					set.close();
 					statement.close();
 					
-					statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = NULL WHERE WeekID < ?");
+					statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = NULL, WGWorld = NULL WHERE WeekID < ?");
 					statement.setInt(1, curWeek);
 					statement.executeUpdate();
 					
