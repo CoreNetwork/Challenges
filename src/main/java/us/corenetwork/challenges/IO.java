@@ -148,7 +148,7 @@ public class IO {
             conn = IO.getConnection();//            {
         	st = conn.createStatement();
         	st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_levels (ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER NOT NULL, Level Integer, Description STRING, Points INTEGER)");
-            st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_completed(ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER, Level INTEGER, Player STRING, State INTEGER, X INTEGER, Y INTEGER, Z INTEGER, World STRING, WGRegion STRING, ModResponse STRING, ClaimedBy STRING)");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_completed(ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER, Level INTEGER, Player STRING, State INTEGER, X INTEGER, Y INTEGER, Z INTEGER, World STRING, WGRegion STRING, WGWorld, ModResponse STRING, ClaimedBy STRING)");
         	st.executeUpdate("CREATE TABLE IF NOT EXISTS player_points (PLAYER STRING, POINTS INTEGER)");
         	st.executeUpdate("CREATE TABLE IF NOT EXISTS point_changes (ID INTEGER PRIMARY KEY, Player String, Amount Integer, Reason String)");
         	conn.commit();
@@ -163,6 +163,7 @@ public class IO {
     public static void UpdateDB()
     {
     	update("SELECT lastUpdate FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD lastUpdate INTEGER");
+    	update("SELECT WGWorld FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD WGWorld STRING");
     }
         
     public static void update(String check, String sql)

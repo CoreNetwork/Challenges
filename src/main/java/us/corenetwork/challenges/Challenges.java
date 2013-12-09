@@ -196,9 +196,11 @@ public class Challenges extends JavaPlugin {
 			Bukkit.getScheduler().runTaskLater(Challenges.instance, this, getNextTime());
 			
 			int curWeek = WeekUtil.getCurrentWeek();
+			
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
 			{
 				curWeek++;
+				Challenges.log.info("[Challenges] New week " + curWeek + "!");
 				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek);
 				IO.config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
 				IO.saveConfig();
@@ -207,7 +209,8 @@ public class Challenges extends JavaPlugin {
 					Util.Message(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), p);
 						
 				try {
-					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT World, WGRegion FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
+					//TODO: Temporary compatibility fallback. Remove World select after next week when all legacy regions get deleted.
+					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT World, WGRegion, WGWorld FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
 					statement.setInt(1, curWeek);
 					ResultSet set = statement.executeQuery();
 					while (set.next())
@@ -215,11 +218,27 @@ public class Challenges extends JavaPlugin {
 						String regionString = set.getString("WGRegion");
 						String[] regions = regionString.split(",");
 						
-						for (String region : regions)
+						
+						String worldsString = set.getString("WGWorld");
+						//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
+						if (worldsString == null)
+							worldsString = "";
+						String[] worlds = worldsString.split(",");
+
+						for (int i = 0; i < regions.length; i++)
 						{
+							String region = regions[i];
 							if (region != null && !region.trim().equals(""))
 							{
-								World world = Bukkit.getServer().getWorld(set.getString("World"));
+								String worldName;
+								
+								//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
+								if (worlds.length < regions.length)
+									worldName = set.getString("World");
+								else
+									worldName = worlds[i];
+																
+								World world = Bukkit.getServer().getWorld(worldName);
 								WorldGuardManager.deleteRegion(world, region);
 							}
 						}

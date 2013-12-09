@@ -58,8 +58,9 @@ public class LockCommand extends BaseModCommand {
 		int week = 0;
 		int level = 0;
 		String curRegions = null;
+		String curWorlds = null;
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Player,State,WeekID,Level,WGRegion FROM weekly_completed WHERE ID = ? LIMIT 1");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Player,State,WeekID,Level,WGRegion,WGWorld FROM weekly_completed WHERE ID = ? LIMIT 1");
 			statement.setInt(1, id);
 			ResultSet set = statement.executeQuery();
 			if (set.next())
@@ -69,6 +70,7 @@ public class LockCommand extends BaseModCommand {
 				int state = set.getInt("State");
 				week = set.getInt("WeekID");
 				curRegions = set.getString("WGRegion");
+				curWorlds = set.getString("WGWorld");
 				
 				if (state != 1)
 				{
@@ -120,18 +122,27 @@ public class LockCommand extends BaseModCommand {
 		
 		WorldGuardManager.createRegion(points[0], points[1], regionName);
 		
-		
+		//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
+		if (curWorlds == null)
+			curWorlds = "";
 		
 		try
 		{			
 			if (curRegions == null || curRegions.trim().length() == 0)
+			{
 				curRegions = regionName;
+				curWorlds = world.getName();
+			}
 			else
+			{
 				curRegions += "," + regionName;
+				curWorlds += "," + world.getName();
+			}
 			
-			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = ? WHERE ID = ?");
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET WGRegion = ?, WGWorld = ? WHERE ID = ?");
 			statement.setString(1, curRegions);
-			statement.setInt(2, id);
+			statement.setString(2, curWorlds);
+			statement.setInt(3, id);
 			statement.executeUpdate();
 			statement.close();
 			
