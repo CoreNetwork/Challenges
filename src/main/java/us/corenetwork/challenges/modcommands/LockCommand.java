@@ -121,11 +121,7 @@ public class LockCommand extends BaseModCommand {
 		}
 		
 		WorldGuardManager.createRegion(points[0], points[1], regionName);
-		
-		//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
-		if (curWorlds == null)
-			curWorlds = "";
-		
+				
 		try
 		{			
 			if (curRegions == null || curRegions.trim().length() == 0)

@@ -209,8 +209,7 @@ public class Challenges extends JavaPlugin {
 					Util.Message(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), p);
 						
 				try {
-					//TODO: Temporary compatibility fallback. Remove World select after next week when all legacy regions get deleted.
-					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT World, WGRegion, WGWorld FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
+					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT WGRegion, WGWorld FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
 					statement.setInt(1, curWeek);
 					ResultSet set = statement.executeQuery();
 					while (set.next())
@@ -220,9 +219,6 @@ public class Challenges extends JavaPlugin {
 						
 						
 						String worldsString = set.getString("WGWorld");
-						//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
-						if (worldsString == null)
-							worldsString = "";
 						String[] worlds = worldsString.split(",");
 
 						for (int i = 0; i < regions.length; i++)
@@ -232,11 +228,7 @@ public class Challenges extends JavaPlugin {
 							{
 								String worldName;
 								
-								//TODO: Temporary compatibility fallback. Remove after next week when all legacy regions get deleted.
-								if (worlds.length < regions.length)
-									worldName = set.getString("World");
-								else
-									worldName = worlds[i];
+								worldName = worlds[i];
 																
 								World world = Bukkit.getServer().getWorld(worldName);
 								WorldGuardManager.deleteRegion(world, region);
