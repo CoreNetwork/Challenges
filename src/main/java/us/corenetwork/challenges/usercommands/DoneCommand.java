@@ -49,7 +49,6 @@ public class DoneCommand extends BaseUserCommand {
 					return true;
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -89,7 +88,6 @@ public class DoneCommand extends BaseUserCommand {
 				statement.close();
 				set.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -106,7 +104,6 @@ public class DoneCommand extends BaseUserCommand {
 			
 			statement.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 						
@@ -148,7 +145,6 @@ public class DoneCommand extends BaseUserCommand {
 			IO.getConnection().commit();
 			statement.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

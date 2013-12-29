@@ -34,7 +34,6 @@ public class WorldGuardManager {
 		try {
 			manager.save();
 		} catch (ProtectionDatabaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -64,7 +63,6 @@ public class WorldGuardManager {
 		try {
 			manager.save();
 		} catch (ProtectionDatabaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
