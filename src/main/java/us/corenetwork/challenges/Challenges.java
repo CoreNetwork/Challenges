@@ -119,7 +119,7 @@ public class Challenges extends JavaPlugin {
 			adminCommands.put("settime", new SetTimeCommand());
 		}
 		
-		log.info("[MCSNAChallenges] " + getDescription().getFullName() + " loaded!");
+		log.info("[Challenges] " + getDescription().getFullName() + " loaded!");
 		
 		Bukkit.getServer().getScheduler().runTask(Challenges.instance, new WeekAnnouncer());
 		
@@ -216,7 +216,6 @@ public class Challenges extends JavaPlugin {
 					{
 						String regionString = set.getString("WGRegion");
 						String[] regions = regionString.split(",");
-						
 						
 						String worldsString = set.getString("WGWorld");
 						String[] worlds = worldsString.split(",");
