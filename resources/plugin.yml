@@ -2,7 +2,7 @@ name: Challenges
 main: us.corenetwork.challenges.Challenges
 version: 1.0.1
 author: matejdro
-depend: [WorldEdit, WorldGuard, GroupManager]
+depend: [WorldEdit, WorldGuard, Vault]
 commands:
     cha:
         description: Weekly challenges.
