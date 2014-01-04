@@ -7,12 +7,7 @@ import java.sql.SQLException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.PlayerPoints;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.*;
 
 
 public class CompleteCommand extends BaseModCommand {
@@ -112,11 +107,12 @@ public class CompleteCommand extends BaseModCommand {
 		PlayerPoints.addPoints(player, points, reason);
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = 1, lastUpdate = ? WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
-			statement.setInt(1, (int) (System.currentTimeMillis() / 1000));
-			statement.setString(2, player);
-			statement.setInt(3, level);
-			statement.setInt(4, week);
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = ?, lastUpdate = ? WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
+			statement.setInt(1, ChallengeState.DONE.code());
+			statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
+			statement.setString(3, player);
+			statement.setInt(4, level);
+			statement.setInt(5, week);
 			
 			statement.executeUpdate();
 						

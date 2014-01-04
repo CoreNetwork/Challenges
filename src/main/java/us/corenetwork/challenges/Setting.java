@@ -116,8 +116,20 @@ public enum Setting {
 	MESSAGE_STATUS_TP_LEVELS("Messages.StatusTpLevels", "Levels <Numbers>: <State>"),
 	
 	MESSAGE_STOPPED("Messages.Stopped", "&cThere is no challenge at this time"),
-	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault());
-	
+	MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT.getDefault()),
+
+	MESSAGE_MOD_LIST_ENTRIES("Messages.ModListEntries.Title", "Challenge entries for <Player>:"),
+	MESSAGE_MOD_LIST_ENTRIES_WEEK("Messages.ModListEntries.Week", "#<Week>: <Entries>"),
+	MESSAGE_MOD_LIST_ENTRIES_ENTRY("Messages.ModListEntries.Entry", "<Color><ID>/<Level>"),
+	MESSAGE_NO_CHALLENGES_THAT_WEEK("Messages.NoChallengesThatWeek", "There are no challenges submitted for that week."),
+
+	COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
+	COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
+	COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
+	COLOR_REJECTED("Colors.ChallengeState.Rejected", "&c"),
+	;
+
+
 	private String name;
 	private Object def;
 	
