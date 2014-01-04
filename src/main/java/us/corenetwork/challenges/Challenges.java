@@ -137,6 +137,7 @@ public class Challenges extends JavaPlugin {
 		modCommands.put("points", new ModPointsCommand());
 		modCommands.put("explode", new ExplodeCommand());
 		modCommands.put("unclaim", new UnclaimCommand());
+		modCommands.put("undo", new UncompleteCommand());
 
 		//DEBUG COMMANDS
 		
