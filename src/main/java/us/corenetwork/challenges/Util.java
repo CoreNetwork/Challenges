@@ -1,10 +1,14 @@
 package us.corenetwork.challenges;
 import java.util.ArrayList;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class Util {
 	
@@ -82,4 +86,44 @@ public class Util {
     		permission = permission.substring(0, lastIndex).concat(".*");  
     	}
     }
+
+	public static void replaceAllHandlers(Logger logger, Handler replace)
+	{
+		for (Handler h : logger.getHandlers()) {
+			logger.removeHandler(h);
+		}
+		logger.addHandler(replace);
+	}
+
+	public static class PluginLoggerHandler extends Handler {
+		private Plugin plugin;
+		private String prefix;
+
+		public PluginLoggerHandler(Plugin plugin)
+		{
+			this.plugin = plugin;
+			prefix = "[" + this.plugin.getDescription().getName() + "] ";
+		}
+
+		@Override
+		public void publish(LogRecord record)
+		{
+			if (!record.getMessage().startsWith(prefix)) {
+				record.setMessage(prefix + record.getMessage());
+			}
+			Bukkit.getLogger().log(record);
+		}
+
+		@Override
+		public void flush()
+		{
+			// nothing
+		}
+
+		@Override
+		public void close() throws SecurityException
+		{
+			// nothing
+		}
+	}
 }

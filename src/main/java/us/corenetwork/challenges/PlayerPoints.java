@@ -5,11 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.anjocaido.groupmanager.GroupManager;
-import org.anjocaido.groupmanager.data.User;
-import org.anjocaido.groupmanager.data.UserVariables;
-import org.anjocaido.groupmanager.dataholder.OverloadedWorldHolder;
-import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -129,38 +126,29 @@ public class PlayerPoints {
 		if (oldRank != newRank)
 		{			
 			World firstWorld = Bukkit.getServer().getWorlds().get(0);
-			
-			GroupManager groupManager = (GroupManager) Bukkit.getServer().getPluginManager().getPlugin("GroupManager");
-			AnjoPermissionsHandler handler = groupManager.getWorldsHolder().getWorldPermissions(firstWorld.getName());
-			OverloadedWorldHolder holder = groupManager.getWorldsHolder().getWorldData(firstWorld.getName());
 
+			Permission permission = Challenges.permission;
+			Chat chat = Challenges.chat;
 			
 			boolean dontChange = false;
+
+			// check if the player is in a protected group
 			for (String group : (List<String>) Settings.getList(Setting.PROTECTED_GROUPS))
 			{
-					if (handler.inGroup(player.getName(), group))
+					if (permission.playerInGroup(player, group))
 					{
 						dontChange = true;
 						break;
 
 					}
 			}
-			
-			User user = holder.getUser(player.getName());
-			
-			if (dontChange)
-			{
-				user.removeSubGroup(holder.getGroup(oldRank.group));
-				user.addSubGroup(holder.getGroup(newRank.group));
-			}
-			else
-			{
-				user.setGroup(holder.getGroup(newRank.group), true);
-				
-				UserVariables variables = user.getVariables();
-				variables.addVar("suffix", newRank.suffix);
 
-			}
+			// TODO do something with guardians
+
+			permission.playerRemoveGroup(firstWorld, player.getName(), oldRank.group);
+			permission.playerAddGroup(firstWorld, player.getName(), newRank.group);
+
+			chat.setPlayerSuffix(player, dontChange ? "" : newRank.suffix);
 									
 			String message;
 			if (amount > 0)

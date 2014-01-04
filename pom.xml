@@ -39,6 +39,10 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
+    <repository>
+        <id>milkbowl-repo</id>
+        <url>http://ci.milkbowl.net/plugin/repository/everything/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -53,7 +57,7 @@
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldedit</artifactId>
-      <version>5.5.3</version>
+      <version>5.5.8</version>
       <scope>compile</scope>
     </dependency>
 
@@ -65,11 +69,10 @@
     </dependency>
 
     <dependency>
-      <groupId>org.anjocaido</groupId>
-      <artifactId>GroupManager</artifactId>
-      <version>2.11.1</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/EssentialsGroupManager.jar</systemPath>
+        <groupId>net.milkbowl.vault</groupId>
+        <artifactId>Vault</artifactId>
+        <version>1.2.30</version>
+        <scope>compile</scope>
     </dependency>
 
   </dependencies>

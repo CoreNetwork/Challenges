@@ -4,15 +4,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -47,13 +51,14 @@ import us.corenetwork.challenges.usercommands.UserHelpCommand;
 
 
 public class Challenges extends JavaPlugin {
-	public static Logger log = Logger.getLogger("Minecraft");
+	public static Logger log;
 
 	private ChallengesListener listener;
 	
 	public static Challenges instance;
 
-	public static Plugin permissions = null;
+	public static Permission permission;
+	public static Chat chat;
 	
 	public static HashMap<String, BaseModCommand> modCommands = new HashMap<String, BaseModCommand>();
 	public static HashMap<String, BaseAdminCommand> adminCommands = new HashMap<String, BaseAdminCommand>();
@@ -61,7 +66,24 @@ public class Challenges extends JavaPlugin {
 	public static BaseUserCommand chCommand = new ChCommand();
 	
 	public static HashMap<String, Integer> lastTeleport = new HashMap<String, Integer>();
-		
+
+
+	private boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(Permission.class);
+		if (permissionProvider != null) {
+			permission = permissionProvider.getProvider();
+		}
+		return (permission != null);
+	}
+
+	private boolean setupChat() {
+		RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(Chat.class);
+		if (chatProvider != null) {
+			chat = chatProvider.getProvider();
+		}
+		return (chat != null);
+	}
+
 	@Override
 	public void onDisable() {
 		IO.freeConnection();
@@ -71,9 +93,22 @@ public class Challenges extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		listener = new ChallengesListener();
+		log = getLogger();
+
+		Util.replaceAllHandlers(getLogger(), new Util.PluginLoggerHandler(this));
 
 		IO.LoadSettings();
 		IO.PrepareDB();
+
+		if (!setupPermissions())
+		{
+			getLogger().warning("could not load Vault permissions - did you forget to install Vault?");
+		}
+
+		if (!setupChat())
+		{
+			getLogger().warning("could not load Vault chat - did you forget to install Vault?");
+		}
 
 		getServer().getPluginManager().registerEvents(listener, this);
 		
@@ -119,7 +154,7 @@ public class Challenges extends JavaPlugin {
 			adminCommands.put("settime", new SetTimeCommand());
 		}
 		
-		log.info("[Challenges] " + getDescription().getFullName() + " loaded!");
+		log.info(getDescription().getFullName() + " loaded!");
 		
 		Bukkit.getServer().getScheduler().runTask(Challenges.instance, new WeekAnnouncer());
 		
@@ -200,7 +235,7 @@ public class Challenges extends JavaPlugin {
 			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
 			{
 				curWeek++;
-				Challenges.log.info("[Challenges] New week " + curWeek + "!");
+				Challenges.log.info("New week " + curWeek + "!");
 				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek);
 				IO.config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
 				IO.saveConfig();
@@ -247,7 +282,7 @@ public class Challenges extends JavaPlugin {
 					IO.getConnection().commit();
 				}
 				catch (SQLException e) {
-		            Challenges.log.log(Level.SEVERE, "[Challenges]: Error while running list command! - " + e.getMessage());
+		            Challenges.log.log(Level.SEVERE, "Error while running list command! - " + e.getMessage(), e);
 					e.printStackTrace();
 				}
 
