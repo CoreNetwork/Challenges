@@ -170,11 +170,12 @@ public class CompletedListCommand extends BaseModCommand {
 				}
 				if (first) {
 					sender.sendMessage(Settings.getString(Setting.MESSAGE_NO_CHALLENGES_THAT_WEEK));
+				} else {
+					String week_line = Settings.getString(Setting.MESSAGE_MOD_LIST_ENTRIES_WEEK);
+					week_line = week_line.replaceAll("<Week>", ""+ week);
+					week_line = week_line.replaceAll("<Entries>", week_entries.toString());
+					sender.sendMessage(week_line);
 				}
-				String week_line = Settings.getString(Setting.MESSAGE_MOD_LIST_ENTRIES_WEEK);
-				week_line = week_line.replaceAll("<Week>", ""+ week);
-				week_line = week_line.replaceAll("<Entries>", week_entries.toString());
-				sender.sendMessage(week_line);
 				return true;
 			}
 			catch (SQLException e)
