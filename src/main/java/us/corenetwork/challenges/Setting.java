@@ -1,5 +1,7 @@
 package us.corenetwork.challenges;
 
+import org.bukkit.ChatColor;
+
 import java.util.Arrays;
 
 
@@ -76,8 +78,10 @@ public enum Setting {
 	MESSAGE_COMPLETION_DONE("Messages.CompletionDone", "Level marked as completed. Player &a<Player>&f will receive &a<Points>&f points."),
 	MESSAGE_COMPLETION_DONE_NO_POINTS("Messages.CompletionDoneNoPoints", "Level marked as completed, but player will not receive any points. Are you sure you did not complete twice?"),
 	MESSAGE_DELETE_ONLY_OPEN_CHALLENGES("Messages.DeleteOnlyOpenChallenges", "You can't delete already closed challenge!"),
-	MESSAGE_SUBMISSION_REJECTED("Messages.SubmissionRejected", "&9Your challenge submission for level &e<Level>&9 was rejected. Make sure you fully fullfilled objectives and try again."),
+	MESSAGE_SUBMISSION_REJECTED("Messages.SubmissionRejected", "&9Your challenge submission for level &e<Level>&9 was rejected. Make sure you fully fulfilled objectives and try again."),
 	MESSAGE_SUBMISSION_REJECTED_MESSAGE("Messages.SubmissionRejectedMesage", "&9Your challenge submission for level &e<Level>&9 was rejected: &a<Message>"),
+	MESSAGE_SUBMISSION_UNDONE("Messages.SubmissionUndone.NoReason", "&9Your challenge submission for level &e<Level>&9 was undone. Make sure you fully fulfilled objectives and try again."),
+	MESSAGE_SUBMISSION_UNDONE_MESSAGE("Messages.SubmissionUndone.Reason", "&9Your challenge submission for level &e<Level>&9 was undone: &a<Message>"),
 	MESSAGE_DELETED("Messages.Deleted", "Submission was deleted and rejected."),
 	MESSAGE_LOCK_ONLY_APPROVED("Messages.LockOnlyApproved", "&cCannot lock! Use &7/chm complete <ID> &cfirst."),
 	MESSAGE_LOCK_FUTURE_ONLY("Messages.LockFutureOnly", "You cannot lock past week's submissions!"),
@@ -123,11 +127,14 @@ public enum Setting {
 	MESSAGE_MOD_LIST_ENTRIES_ENTRY("Messages.ModListEntries.Entry", "<Color><ID>/<Level>"),
 	MESSAGE_NO_CHALLENGES_THAT_WEEK("Messages.NoChallengesThatWeek", "There are no challenges submitted for that week."),
 
+	MESSAGE_MOD_UNDO_SUMMARY("Messages.ModUndo.Summary", "Undone <Levels> levels from <Player>, total of <Points> points"),
+	MESSAGE_MOD_UNDO_NOT_FOUND("Messages.ModUndo.NotFound", "No challenges found to undo"),
+
 	COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
 	COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
 	COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
 	COLOR_REJECTED("Colors.ChallengeState.Rejected", "&c"),
-	;
+	COLOR_UNDONE("Colors.ChallengeState.Rejected", "&c");
 
 
 	private String name;

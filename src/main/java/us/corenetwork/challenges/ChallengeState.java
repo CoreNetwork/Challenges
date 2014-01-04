@@ -10,7 +10,9 @@ public enum ChallengeState
 	DONE(1, Setting.COLOR_ACCEPTED),
 	REJECTED(2, Setting.COLOR_REJECTED),
 	REJECTED_MESSAGE_SENT(3, Setting.COLOR_REJECTED),
-	NOT_SUBMITTED(-1, Setting.COLOR_NOT_SUBMITTED);
+	NOT_SUBMITTED(-1, Setting.COLOR_NOT_SUBMITTED),
+	UNDONE(4, Setting.COLOR_UNDONE),
+	UDONE_MESSAGE_SENT(5, Setting.COLOR_UNDONE);
 
 	private final int code;
 	private final Setting color;
