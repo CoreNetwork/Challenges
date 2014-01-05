@@ -1,5 +1,6 @@
 package us.corenetwork.challenges;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -11,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class Util {
+
+	private static Random random = new Random();
 	
 	public static void Message(String message, CommandSender sender)
 	{
@@ -93,6 +96,11 @@ public class Util {
 			logger.removeHandler(h);
 		}
 		logger.addHandler(replace);
+	}
+
+	public static <T>T getRandomItem(T[] array)
+	{
+		return array[random.nextInt(array.length)];
 	}
 
 	public static class PluginLoggerHandler extends Handler {

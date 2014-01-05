@@ -151,6 +151,7 @@ public class PlayerPoints {
 			chat.setPlayerSuffix(player, dontChange ? "" : newRank.suffix);
 									
 			String message;
+			String jubilation = Util.getRandomItem((String[]) Settings.getProperty(Setting.JUBILATIONS));
 			if (amount > 0)
 			{
 				if (reason == null)
@@ -162,10 +163,12 @@ public class PlayerPoints {
 					message = Settings.getString(Setting.MESSAGE_PROMOTED_REASON);
 					message = message.replace("<Reason>", reason);
 				}
+				message = message.replace("<Jubilation>", jubilation);
 				
 				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PROMOTED);
 				globalMessage = globalMessage.replace("<Player>", name);
 				globalMessage = globalMessage.replace("<Class>", newRank.rank);
+				globalMessage = globalMessage.replace("<Jubilation>", jubilation);
 				
 				Util.Broadcast(globalMessage, name);
 			}

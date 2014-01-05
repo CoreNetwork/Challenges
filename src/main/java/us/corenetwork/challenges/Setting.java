@@ -89,13 +89,13 @@ public enum Setting {
 	MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT("Messages.NewChallengeAnnouncement", "&aAttention flatcorians! There is a new week challenge. Check out &e/ch&a and start gaining some points!"),
 	MESSAGE_GLOBAL_PUNISHED("Messages.GlobalPunished", "&6Player &a<Player>&6 was just punished for &a<Points>&6 points due to &a<Reason>&6!"),
 	MESSAGE_GLOBAL_DEMOTED("Messages.GlobalDemoted", "&cPlayer &7<Player> &chas just lost &7<Points> &cpoints, demoted to &7<Class> &cdue to:&7<Reason>!"),
-	MESSAGE_GLOBAL_PROMOTED("Messages.GlobalPromoted", "&aPlayer &6<Player>&a has just been promoted to &6<Class>&a!"),
+	MESSAGE_GLOBAL_PROMOTED("Messages.GlobalPromoted", "&a<Jubilation> Player &6<Player>&a has just been promoted to &6<Class>&a!"),
 	MESSAGE_PUNISHED("Messages.MessagePunished", "&cYou have been punished! Your flat point count has been deducted by &6<Amount>&c points."),
 	MESSAGE_PUNISHED_REASON("Messages.MessagePunishedReason", "&cYou have been punished! Your flat point count has been deducted by &6<Amount>&c points due to &6<Reason>&c."),
 	MESSAGE_EARNED_POINTS("Messages.MessageEarnedPoints", "&aYou have just earned &c<Amount>&a Points!"),
 	MESSAGE_EARNED_POINTS_REASON("Messages.MessageEarnedPointsReason", "&aYou have just earned &c<Amount>&a Points due to &c<Reason>&a!"),
-	MESSAGE_PROMOTED("Messages.MessagePromoted", "&aCongratulations! You have been promoted to &6<Class>&a!"),
-	MESSAGE_PROMOTED_REASON("Messages.MessagePromotedReason", "&aCongratulations! You have been promoted to &6<Class>&a due to &6<Reason>&a!"),
+	MESSAGE_PROMOTED("Messages.MessagePromoted", "&a<Jubilation> You have been promoted to &6<Class>&a!"),
+	MESSAGE_PROMOTED_REASON("Messages.MessagePromotedReason", "&a<Jubilation> You have been promoted to &6<Class>&a due to &6<Reason>&a!"),
 	MESSAGE_DEMOTED("Messages.MessageDemoted", "&cYou have been demoted to &6<Class>&c!"),
 	MESSAGE_DEMOTED_REASON("Messages.MessageDemotedReason", "&cYou have been demoted to &6<Class>&c due to &6<Reason>&c!"),
 	MESSAGE_PLAYER_POINTS("Messages.PlayerPoints", "&6Player &a<Player>&6 has &a<Points>&6 points total and &a<PendingPoints>&6 points waiting for his logon."),
@@ -134,7 +134,14 @@ public enum Setting {
 	COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
 	COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
 	COLOR_REJECTED("Colors.ChallengeState.Rejected", "&c"),
-	COLOR_UNDONE("Colors.ChallengeState.Rejected", "&c");
+	COLOR_UNDONE("Colors.ChallengeState.Rejected", "&c"),
+
+	JUBILATIONS("Jubilations", new String[] {
+			"Woo!",
+			"Nice work!",
+			"Wow!",
+			"Good job!"
+	});
 
 
 	private String name;
