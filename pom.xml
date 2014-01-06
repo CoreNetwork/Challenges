@@ -40,8 +40,8 @@
       <url>http://repo.bukkit.org/content/groups/public</url>
     </repository>
     <repository>
-        <id>milkbowl-repo</id>
-        <url>http://ci.milkbowl.net/plugin/repository/everything/</url>
+      <id>Milkbowl-repo</id>
+      <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
     </repository>
   </repositories>
 
@@ -69,10 +69,9 @@
     </dependency>
 
     <dependency>
-        <groupId>net.milkbowl.vault</groupId>
-        <artifactId>Vault</artifactId>
-        <version>1.2.30</version>
-        <scope>compile</scope>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.2.27</version>
     </dependency>
 
   </dependencies>
