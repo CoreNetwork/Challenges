@@ -3,6 +3,7 @@ package us.corenetwork.challenges;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.milkbowl.vault.chat.Chat;
@@ -151,7 +152,7 @@ public class PlayerPoints {
 			chat.setPlayerSuffix(player, dontChange ? "" : newRank.suffix);
 									
 			String message;
-			String jubilation = Util.getRandomItem((String[]) Settings.getProperty(Setting.JUBILATIONS));
+			String jubilation = Util.getRandomItem((ArrayList<String>) Settings.getProperty(Setting.JUBILATIONS));
 			if (amount > 0)
 			{
 				if (reason == null)

@@ -103,6 +103,11 @@ public class Util {
 		return array[random.nextInt(array.length)];
 	}
 
+	public static <T>T getRandomItem(ArrayList<T> array)
+	{
+		return array.get(random.nextInt(array.size()));
+	}
+
 	public static class PluginLoggerHandler extends Handler {
 		private Plugin plugin;
 		private String prefix;

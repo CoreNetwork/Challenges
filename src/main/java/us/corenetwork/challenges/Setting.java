@@ -2,6 +2,7 @@ package us.corenetwork.challenges;
 
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -136,12 +137,12 @@ public enum Setting {
 	COLOR_REJECTED("Colors.ChallengeState.Rejected", "&c"),
 	COLOR_UNDONE("Colors.ChallengeState.Rejected", "&c"),
 
-	JUBILATIONS("Jubilations", new String[] {
-			"Woo!",
-			"Nice work!",
-			"Wow!",
-			"Good job!"
-	});
+	JUBILATIONS("Jubilations", new ArrayList<String>(){{
+		add("Woo!");
+		add("Nice work!");
+		add("Great job!");
+		add("Not bad.");
+	}});
 
 
 	private String name;
