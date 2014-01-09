@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,8 @@ import us.corenetwork.challenges.*;
 
 
 public class CompletedListCommand extends BaseModCommand {
+
+	public static final Pattern PAGINATION_PATTERN = Pattern.compile("^\\d+$");
 	
 	public CompletedListCommand()
 	{
@@ -22,7 +25,7 @@ public class CompletedListCommand extends BaseModCommand {
 
 
 	public Boolean run(CommandSender sender, String[] args) {
-		if (args.length == 0) {
+		if (args.length == 0 || PAGINATION_PATTERN.matcher(args[0]).matches()) {
 			return sendAllSubmitted(sender, args);
 		} else if (args.length <= 2) {
 			return sendAllPlayer(sender, args);
