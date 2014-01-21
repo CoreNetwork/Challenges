@@ -27,35 +27,27 @@ public class DoneCommand extends BaseUserCommand {
 		Player player = (Player) sender;
 
 		Integer level = 0;
+        try {
+            PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ? AND State < 2) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
+            statement.setString(1, player.getName());
+            statement.setInt(2, WeekUtil.getCurrentWeek());
+            statement.setInt(3, WeekUtil.getCurrentWeek());
 
-		if (args.length < 1 || !Util.isInteger(args[0]))
-		{
-			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ? AND State < 2) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
-				statement.setString(1, player.getName());
-				statement.setInt(2, WeekUtil.getCurrentWeek());
-				statement.setInt(3, WeekUtil.getCurrentWeek());
+            ResultSet set = statement.executeQuery();
 
-				ResultSet set = statement.executeQuery();
-				
-				if (set.next())
-				{
-					level = set.getInt("Level");
-				}
-				else
-				{
-					Util.Message(Settings.getString(Setting.MESSAGE_CH_ALL_COMPELETED), sender);
-					statement.close();
-					return true;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		else
-			level = Integer.parseInt(args[0]);
-		
-		
+            if (set.next())
+            {
+                level = set.getInt("Level");
+            }
+            else
+            {
+                Util.Message(Settings.getString(Setting.MESSAGE_CH_ALL_COMPELETED), sender);
+                statement.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		
 		PreparedStatement statement = null;
 		ResultSet set = null;
