@@ -19,7 +19,9 @@ Soft dependencies: [WorldEdit](https://github.com/sk89q/worldedit), [WorldGuard]
 |`/ch all`||Display all levels of a challenge.|
 |`/ch done`||Submit challenge entry to staff to review your current level (the one displayed by `/ch`)|
 |`/ch done <level>`||Submit challenge entry to staff to review a certain level of a challenge (so you don’t have to do `/ch done` three times if you completed levels 1, 2 and 3 before submitting).|
+|`/ch top <page>`||Display all users and their awarded points in descending order|
 |`/points`||Display your points, rank and points needed for next rank.|
+
 
 ## Moderator commands
 
