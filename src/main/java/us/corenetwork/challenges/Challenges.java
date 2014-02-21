@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.logging.Handler;
+//import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
+//import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -32,13 +32,7 @@ import us.corenetwork.challenges.admincommands.ResumeCommand;
 import us.corenetwork.challenges.admincommands.SetTimeCommand;
 import us.corenetwork.challenges.admincommands.StopCommand;
 import us.corenetwork.challenges.modcommands.*;
-import us.corenetwork.challenges.usercommands.AllCommand;
-import us.corenetwork.challenges.usercommands.BaseUserCommand;
-import us.corenetwork.challenges.usercommands.ChCommand;
-import us.corenetwork.challenges.usercommands.DoneCommand;
-import us.corenetwork.challenges.usercommands.PointsCommand;
-import us.corenetwork.challenges.usercommands.StatusCommand;
-import us.corenetwork.challenges.usercommands.UserHelpCommand;
+import us.corenetwork.challenges.usercommands.*;
 
 
 public class Challenges extends JavaPlugin {
@@ -112,6 +106,7 @@ public class Challenges extends JavaPlugin {
 		userCommands.put("done", new DoneCommand());
 		userCommands.put("points", new PointsCommand());
 		userCommands.put("status", new StatusCommand());
+		userCommands.put("top", new TopCommand());
 
 		//Admin commands
 		adminCommands.put("help", new AdminHelpCommand());

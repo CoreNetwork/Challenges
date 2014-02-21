@@ -1,6 +1,6 @@
 package us.corenetwork.challenges;
 
-import org.bukkit.ChatColor;
+//import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,6 +131,8 @@ public enum Setting {
 	MESSAGE_MOD_UNDO_SUMMARY("Messages.ModUndo.Summary", "Undone <Levels> levels from <Player>, total of <Points> points"),
 	MESSAGE_MOD_UNDO_NOT_FOUND("Messages.ModUndo.NotFound", "No challenges found to undo"),
 
+	MESSAGE_TOP_HEADER("Messages.TopHeader", "Player              Points  Pending"),
+	
 	COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
 	COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
 	COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
