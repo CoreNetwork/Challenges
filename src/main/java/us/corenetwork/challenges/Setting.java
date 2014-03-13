@@ -147,6 +147,7 @@ public enum Setting {
 	}}),
 
 	TOP_PER_PAGE("Top.MaxPerPage", 10),
+	TOP_FOOTNOTE_COLOR("Top.FootnoteColor", "&7"),
 	TOP_PLACE_COLUMN_HEADER("Top.Place.Header", "&6Place"),
 	TOP_PLACE_COLUMN_DISPLAY("Top.Place.Display", "<Place>"),
 	TOP_PLACE_COLUMN_COLOR("Top.Place.Color", "&6"),

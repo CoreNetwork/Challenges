@@ -83,7 +83,7 @@ public class TopCommand extends BaseUserCommand {
 			
 			if (pagesAll > 1)
 			{
-				Util.Message("Page " + page + "/" + pagesAll, sender);
+				Util.Message(Settings.getString(Setting.TOP_FOOTNOTE_COLOR) + "Page " + page + "/" + pagesAll, sender);
 			}
 			
 			set.close();
