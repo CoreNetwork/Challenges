@@ -5,19 +5,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
-//import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
 import us.corenetwork.challenges.Challenges;
+import us.corenetwork.challenges.IO;
 import us.corenetwork.challenges.Setting;
 import us.corenetwork.challenges.Settings;
-//import us.corenetwork.challenges.TimePrint;
 import us.corenetwork.challenges.Util;
-//import us.corenetwork.challenges.WeekUtil;
 
 
 public class TopCommand extends BaseUserCommand {
+	
+	int page;
+	int pagesAll;
+	int perPageLimit;
+	int offset;
+	int maxPointLength;
+	
 	public TopCommand()
 	{
 		desc = "Show all this week's challenges";
@@ -28,49 +33,99 @@ public class TopCommand extends BaseUserCommand {
 
 	public Boolean run(CommandSender sender, String[] args) {		
 		
+		page = 1;
+		maxPointLength = 0;
+		if (args.length > 0)
+		{
+			if (Util.isInteger(args[0]))
+				page = Integer.parseInt(args[0]);
+			else
+			{
+				Util.Message("Usage: /ch top [page_number]", sender);
+				return true;
+			}
+		}
+		perPageLimit = Settings.getInt(Setting.TOP_PER_PAGE);
+		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT player_points.Player, Points, SUM(IFNULL(Amount,0)) AS PendingPoints FROM player_points LEFT JOIN point_changes on player_points.player = point_changes.player group by player_points.player order by points desc, player_points.player");
+			PreparedStatement countStatement = IO.getConnection().prepareStatement("SELECT COUNT(*) AS CountAll FROM player_points");
+			ResultSet countSet = countStatement.executeQuery();
+			int countAll = countSet.getInt("CountAll");
+			pagesAll = (int)Math.ceil((double)countAll/perPageLimit);
+			
+			if (page > pagesAll)
+				page = pagesAll;
+			
+			offset = (page-1)*perPageLimit;
+			
+			PreparedStatement statement = IO.getConnection().prepareStatement(
+					  "SELECT player_points.Player, Points + SUM(IFNULL(Amount,0)) AS Points "
+					+ "FROM player_points LEFT JOIN point_changes on player_points.player = point_changes.player "
+					+ "GROUP BY player_points.player "
+					+ "ORDER BY points desc, player_points.player "
+					+ "LIMIT ?, ?");
+			statement.setInt(1, offset);
+			statement.setInt(2, perPageLimit);			
+			
 			ResultSet set = statement.executeQuery();
-			Util.Message(Settings.getString(Setting.MESSAGE_TOP_HEADER), sender);
-			int page = 1;
-			int records = 0;
-			if (args.length > 0)
-			{
-				page = Integer.parseInt(args[0]); 
-			}
-			while(records < (page - 1) * 10) 
-			{
-				set.next();	
-				records++;
-			}
-			while (set.next() && records < (page) * 10)
-			{
-				records ++;
-				String player = set.getString("Player") + "                   ";
-				String point = set.getString("Points") + "                   ";
-				String pendingpoint = set.getString("PendingPoints");
-				String line = player.substring(0, 20) + point.substring(0,8) + pendingpoint;
-				
-				Util.Message(line, sender);
-			}
+
+			displayHeader(sender);
+			int counter = 1;
 			while (set.next())
 			{
-				records++;
+				String place = getPlaceString(counter++);
+				String points = getPointsString(set.getString("Points"));
+				String name = getNameString(set.getString("Player"));
+				
+				String line = place + points + name;
+				Util.Message(line, sender);
 			}
-			int pages = (int)Math.ceil(records/10.0);
-			if (pages > 1)
+			
+			if (pagesAll > 1)
 			{
-				Util.Message("Page " + page + "/" + pages, sender);
+				Util.Message("Page " + page + "/" + pagesAll, sender);
 			}
+			
 			set.close();
 			statement.close();
 		}
 		catch (SQLException e) {
             Challenges.log.log(Level.SEVERE, "[Challenges]: Error while running top command! - " + e.getMessage());
 			e.printStackTrace();
-		}
+		}	
 		
 		return true;		
 	}
 	
+	private void displayHeader(CommandSender sender)
+	{
+		String header = Settings.getString(Setting.TOP_PLACE_COLUMN_HEADER) + "  " 
+				+ Settings.getString(Setting.TOP_POINTS_COLUMN_HEADER) + "  "
+				+ Settings.getString(Setting.TOP_NAME_COLUMN_HEADER);
+		Util.Message(header, sender);
+	}
+	
+	private String getPlaceString(int counter)
+	{
+		int place = offset + counter;
+		String placeString = StringUtils.leftPad(String.valueOf(place), String.valueOf(offset + perPageLimit).length(), "0"); 
+		placeString = Settings.getString(Setting.TOP_PLACE_COLUMN_DISPLAY).replace("<Place>", placeString);
+		return Settings.getString(Setting.TOP_PLACE_COLUMN_COLOR) + placeString + ". ";
+	}
+	
+	private String getPointsString(String points)
+	{
+		if(points.length() > maxPointLength)
+			maxPointLength = points.length();
+		
+		String pointsString = StringUtils.leftPad(points, maxPointLength, "0");
+		pointsString = Settings.getString(Setting.TOP_POINTS_COLUMN_DISPLAY).replace("<Points>", pointsString);
+		return Settings.getString(Setting.TOP_POINTS_COLUMN_COLOR) + pointsString + " ";
+	}
+	
+	private String getNameString(String name)
+	{
+		String nameString = Settings.getString(Setting.TOP_NAME_COLUMN_DISPLAY).replace("<Player>", name);
+		return Settings.getString(Setting.TOP_NAME_COLUMN_COLOR) + nameString + " ";
+	}
 }

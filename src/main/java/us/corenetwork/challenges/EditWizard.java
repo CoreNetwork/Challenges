@@ -59,7 +59,8 @@ public class EditWizard {
 			case POINTS:
 				enterPoints(event.getPlayer(), data, event.getMessage());
 				return true;
-
+			default:
+				break;
 		}
 		
 		return false;

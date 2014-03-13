@@ -144,9 +144,19 @@ public enum Setting {
 		add("Nice work!");
 		add("Great job!");
 		add("Not bad.");
-	}});
+	}}),
 
-
+	TOP_PER_PAGE("Top.MaxPerPage", 10),
+	TOP_PLACE_COLUMN_HEADER("Top.Place.Header", "&6Place"),
+	TOP_PLACE_COLUMN_DISPLAY("Top.Place.Display", "<Place>"),
+	TOP_PLACE_COLUMN_COLOR("Top.Place.Color", "&6"),
+	TOP_POINTS_COLUMN_HEADER("Top.Points.Header", "&ePoints"),
+	TOP_POINTS_COLUMN_DISPLAY("Top.Points.Display", "<Points>"),
+	TOP_POINTS_COLUMN_COLOR("Top.Points.Color", "&e"),
+	TOP_NAME_COLUMN_HEADER("Top.Name.Header", "&rName"),
+	TOP_NAME_COLUMN_DISPLAY("Top.Name.Display", "<Player>"),
+	TOP_NAME_COLUMN_COLOR("Top.Name.Color", "&r");
+	
 	private String name;
 	private Object def;
 	

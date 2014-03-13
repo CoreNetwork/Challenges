@@ -47,7 +47,7 @@ public class Challenges extends JavaPlugin {
 	
 	public static HashMap<String, BaseModCommand> modCommands = new HashMap<String, BaseModCommand>();
 	public static HashMap<String, BaseAdminCommand> adminCommands = new HashMap<String, BaseAdminCommand>();
-	public static  HashMap<String, BaseUserCommand> userCommands = new HashMap<String, BaseUserCommand>();
+	public static HashMap<String, BaseUserCommand> userCommands = new HashMap<String, BaseUserCommand>();
 	public static BaseUserCommand chCommand = new ChCommand();
 	
 	public static HashMap<String, Integer> lastTeleport = new HashMap<String, Integer>();

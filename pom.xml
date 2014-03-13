@@ -4,7 +4,7 @@
   
   <groupId>Challenges</groupId>
   <artifactId>Challenges</artifactId>
-  <version>1.0.1-Release</version>
+  <version>1.0.2-Release</version>
   <packaging>jar</packaging>
   <name>Challenges</name>
   <url>https://github.com/CoreNetwork/Challenges</url>
@@ -50,21 +50,21 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.5.2-R0.2-SNAPSHOT</version>
+      <version>1.7.2-R0.3</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldedit</artifactId>
-      <version>5.5.8</version>
+      <version>LATEST</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.sk89q</groupId>
       <artifactId>worldguard</artifactId>
-      <version>5.7.3</version>
+      <version>LATEST</version>
       <scope>compile</scope>
     </dependency>
 
