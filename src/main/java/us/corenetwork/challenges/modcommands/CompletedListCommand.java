@@ -73,7 +73,7 @@ public class CompletedListCommand extends BaseModCommand {
 			Util.Message(header, sender);
 
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY ID ASC LIMIT ?,?");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY Level ASC, ID ASC LIMIT ?,?");
 				statement.setInt(1, start);
 				statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
 
@@ -81,9 +81,13 @@ public class CompletedListCommand extends BaseModCommand {
 				while (set.next())
 				{
 					String line = Settings.getString(Setting.MESSAGE_COMPLETED_ENTRY);
-
+					
+					String playerName = set.getString("Player");
+					if (Challenges.instance.getServer().getPlayerExact(playerName) != null) 
+						playerName = "&2"+playerName;
+					
 					line = line.replace("<ID>", Integer.toString(set.getInt("ID")));
-					line = line.replace("<Player>", set.getString("Player"));
+					line = line.replace("<Player>", playerName);
 					line = line.replace("<Level>", Integer.toString(set.getInt("Level")));
 
 					String handledBy = set.getString("ClaimedBy");
