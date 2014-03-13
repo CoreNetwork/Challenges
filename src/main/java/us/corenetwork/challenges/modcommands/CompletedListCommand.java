@@ -138,15 +138,16 @@ public class CompletedListCommand extends BaseModCommand {
 			}
 			try
 			{
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT weekly_levels.WeekID, weekly_levels.Level, weekly_completed.ID, weekly_completed.State FROM weekly_levels LEFT JOIN weekly_completed ON weekly_levels.WeekID == weekly_completed.WeekID AND weekly_levels.Level == weekly_completed.Level AND weekly_completed.Player=? WHERE weekly_levels.WeekID=? ORDER BY weekly_levels.Level ASC");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT weekly_levels.WeekID, weekly_levels.Level, weekly_completed.ID, weekly_completed.State FROM weekly_levels LEFT JOIN weekly_completed ON weekly_levels.WeekID == weekly_completed.WeekID AND weekly_levels.Level == weekly_completed.Level AND LOWER(weekly_completed.Player) = LOWER(?) WHERE weekly_levels.WeekID=? ORDER BY weekly_levels.Level ASC");
 				statement.setString(1, player);
 				statement.setInt(2, week);
 				ResultSet resultSet = statement.executeQuery();
-				String title = Settings.getString(Setting.MESSAGE_MOD_LIST_ENTRIES);
-				title = title.replaceAll("<Player>", player);
-				sender.sendMessage(title);
 				boolean first = true;
 				StringBuilder week_entries = new StringBuilder();
+                String title = Settings.getString(Setting.MESSAGE_MOD_LIST_ENTRIES);
+                title = title.replaceAll("<Player>", player);
+
+                sender.sendMessage(title);
 				while(resultSet.next()) {
 					if (!first) {
 						week_entries.append(ChatColor.GRAY + ", ");
