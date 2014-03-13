@@ -108,24 +108,36 @@ public class TopCommand extends BaseUserCommand {
 	private String getPlaceString(int counter)
 	{
 		int place = offset + counter;
-		String placeString = StringUtils.leftPad(String.valueOf(place), String.valueOf(offset + perPageLimit).length(), "0"); 
+		String color = Settings.getString(Setting.TOP_PLACE_COLUMN_COLOR);
+		String zeroColor = Settings.getString(Setting.TOP_PLACE_COLUMN_LEADING_ZERO_COLOR);
+		String placeString = padString(color+String.valueOf(place), String.valueOf(offset + perPageLimit).length() + color.length(), zeroColor+ "0"); 
 		placeString = Settings.getString(Setting.TOP_PLACE_COLUMN_DISPLAY).replace("<Place>", placeString);
-		return Settings.getString(Setting.TOP_PLACE_COLUMN_COLOR) + placeString + ". ";
+		return color + placeString + ". ";
 	}
 	
 	private String getPointsString(String points)
 	{
 		if(points.length() > maxPointLength)
 			maxPointLength = points.length();
-		
-		String pointsString = StringUtils.leftPad(points, maxPointLength, "0");
+		String color = Settings.getString(Setting.TOP_POINTS_COLUMN_COLOR);
+		String zeroColor = Settings.getString(Setting.TOP_POINTS_COLUMN_LEADING_ZERO_COLOR);
+		String pointsString = padString(color + points, maxPointLength + color.length(), zeroColor + "0");
 		pointsString = Settings.getString(Setting.TOP_POINTS_COLUMN_DISPLAY).replace("<Points>", pointsString);
-		return Settings.getString(Setting.TOP_POINTS_COLUMN_COLOR) + pointsString + " ";
+		return color + pointsString + " ";
 	}
 	
 	private String getNameString(String name)
 	{
 		String nameString = Settings.getString(Setting.TOP_NAME_COLUMN_DISPLAY).replace("<Player>", name);
 		return Settings.getString(Setting.TOP_NAME_COLUMN_COLOR) + nameString + " ";
+	}
+	
+	
+	private String padString(String string, int length, String padding)
+	{
+		int currentLength = string.length();
+		for(int i = 0;i<length-currentLength;i++)
+			string = padding + string;
+		return string;
 	}
 }
