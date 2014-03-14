@@ -13,6 +13,7 @@ import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Setting;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.WorldEditHandler;
 
 
 public class DenyCommand extends BaseModCommand {
@@ -98,44 +99,26 @@ public class DenyCommand extends BaseModCommand {
 				Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED).replace("<Level>", level), player);
 			else
 				Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_REJECTED_MESSAGE).replace("<Message>", message).replace("<Level>", level), player);
-
-			try
-			{
-				PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
-				statement.setString(1, message == null ? "" : message);
-				statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
-				statement.setInt(3, weekId);
-				statement.setString(4, playerName);
-				statement.executeUpdate();
-				statement.close();
-				
-				IO.getConnection().commit();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
 		}
-		else
-		{
-			try
-			{
-				PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
-				statement.setString(1, message == null ? "" : message);
-				statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
-				statement.setInt(3, weekId);
-				statement.setString(4, playerName);
-				statement.executeUpdate();
-				statement.close();
-				
-				IO.getConnection().commit();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}	
 		
+		try
+		{
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
+			statement.setString(1, message == null ? "" : message);
+			statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
+			statement.setInt(3, weekId);
+			statement.setString(4, playerName);
+			statement.executeUpdate();
+			statement.close();
+			
+			IO.getConnection().commit();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		WorldEditHandler.clearSelection((Player) sender);
 		Util.Message(Settings.getString(Setting.MESSAGE_DELETED), sender);
 		return true;
 	}

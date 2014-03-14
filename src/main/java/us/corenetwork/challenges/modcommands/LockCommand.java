@@ -106,6 +106,7 @@ public class LockCommand extends BaseModCommand {
 		}
 		
 		Block[] points = WorldEditHandler.getWorldEditRegion(player, autoExpand);
+		WorldEditHandler.clearSelection(player);
 		if (points == null)
 			return true;
 		

@@ -103,7 +103,7 @@ public class IO {
     		
     		ConfigurationSection section = (ConfigurationSection) e.getValue();
     		rank.neededPoints = section.getInt("PointsNeeded");
-    		rank.group = section.getString("PEXGroup");
+    		rank.group = section.getString("Group");
     		rank.suffix = section.getString("Suffix");
     		
     		ranks.add(rank);
@@ -130,7 +130,7 @@ public class IO {
 				int points = classesPoints[counter];
 				
 				config.set(cPrefix + prefix + pClass + ".PointsNeeded", points);
-				config.set(cPrefix + prefix + pClass + ".PEXGroup", pClass);
+				config.set(cPrefix + prefix + pClass + ".Group", pClass);
 				config.set(cPrefix + prefix + pClass + ".Suffix", suffixes[pId]);
 				counter++;
 			}

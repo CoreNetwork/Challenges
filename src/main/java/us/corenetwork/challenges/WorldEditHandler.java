@@ -14,6 +14,7 @@ import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
+import com.sk89q.worldedit.regions.RegionSelector;
 
 public class WorldEditHandler {
 	 public static Block[] getWorldEditRegion(Player bplayer, boolean autoExpand)
@@ -24,16 +25,17 @@ public class WorldEditHandler {
 				WorldEditPlugin we = (WorldEditPlugin) plugin;
 				LocalPlayer player = new BukkitPlayer(we, we.getServerInterface(), bplayer);
 				LocalSession session = we.getWorldEdit().getSession(player);
-				if (!(session.getRegionSelector() instanceof CuboidRegionSelector))
+			
+				RegionSelector selector = session.getRegionSelector(player.getWorld());
+				if (!(selector instanceof CuboidRegionSelector))
 				{
 					Util.Message("You must select cuboid region!", bplayer);
 					return null;
 				}
-				
-				CuboidRegionSelector selector = (CuboidRegionSelector) session.getRegionSelector();
+				CuboidRegionSelector cuboidSelector = (CuboidRegionSelector) selector;
 		
 				try {
-					CuboidRegion region = selector.getRegion();
+					CuboidRegion region = cuboidSelector.getRegion();
 					
 					if (autoExpand)
 					{
@@ -44,6 +46,7 @@ public class WorldEditHandler {
 						region.expand(new Vector(0, 0, 1));
 						region.expand(new Vector(0, 0, -1));						
 					}
+					session.dispatchCUISelection(player);
 		            
 					Block[] corners = new Block[2];
 					
@@ -52,9 +55,6 @@ public class WorldEditHandler {
 					
 					Vector v2 = region.getPos2();
 					corners[1] = bplayer.getWorld().getBlockAt(v2.getBlockX(), v2.getBlockY(), v2.getBlockZ());
-									
-					selector.clear();
-		            session.dispatchCUISelection(player);
 					
 					return corners;
 
@@ -77,4 +77,21 @@ public class WorldEditHandler {
 			
 			return null;
 	    }
+
+	 public static void clearSelection(Player bplayer)
+	 {
+		 Plugin plugin = Challenges.instance.getServer().getPluginManager().getPlugin("WorldEdit");
+		 if (plugin == null)
+		 {
+			Util.Message("WorldEdit is not installed!", bplayer);
+			return;
+		 }
+		 
+		 WorldEditPlugin we = (WorldEditPlugin) plugin;
+		 LocalPlayer player = new BukkitPlayer(we, we.getServerInterface(), bplayer);
+		 LocalSession session = we.getWorldEdit().getSession(player);
+		 RegionSelector selector = session.getRegionSelector(player.getWorld());
+		 selector.clear();
+		 session.dispatchCUISelection(player);
+	 }
 }

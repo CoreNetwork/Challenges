@@ -139,6 +139,7 @@ public enum Setting {
 	COLOR_REJECTED("Colors.ChallengeState.Rejected", "&c"),
 	COLOR_UNDONE("Colors.ChallengeState.Rejected", "&c"),
 
+	@SuppressWarnings("serial")
 	JUBILATIONS("Jubilations", new ArrayList<String>(){{
 		add("Woo!");
 		add("Nice work!");
