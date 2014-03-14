@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -172,6 +173,9 @@ public class PlayerPoints {
 				globalMessage = globalMessage.replace("<Jubilation>", jubilation);
 				
 				Util.Broadcast(globalMessage, name);
+				if(Settings.getBoolean(Setting.RUN_COMMAND_ON_RANK_UP))
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Settings.getString(Setting.COMMAND_ON_RANK_UP));
+				
 			}
 			else
 			{

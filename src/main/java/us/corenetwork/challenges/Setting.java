@@ -159,7 +159,11 @@ public enum Setting {
 	TOP_POINTS_COLUMN_LEADING_ZERO_COLOR("Top.Points.LeadingZeroColor", "&8"),
 	TOP_NAME_COLUMN_HEADER("Top.Name.Header", "&rName"),
 	TOP_NAME_COLUMN_DISPLAY("Top.Name.Display", "<Player>"),
-	TOP_NAME_COLUMN_COLOR("Top.Name.Color", "&r");
+	TOP_NAME_COLUMN_COLOR("Top.Name.Color", "&r"),
+	
+	RUN_COMMAND_ON_RANK_UP("RunCommandOnRankUp", false),
+	COMMAND_ON_RANK_UP("CommandOnRankUp", "crankreload");
+	
 	
 	private String name;
 	private Object def;

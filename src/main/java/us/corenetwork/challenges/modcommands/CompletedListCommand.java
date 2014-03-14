@@ -9,7 +9,13 @@ import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import us.corenetwork.challenges.*;
+import us.corenetwork.challenges.ChallengeState;
+import us.corenetwork.challenges.Challenges;
+import us.corenetwork.challenges.IO;
+import us.corenetwork.challenges.Setting;
+import us.corenetwork.challenges.Settings;
+import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.WeekUtil;
 
 
 public class CompletedListCommand extends BaseModCommand {
