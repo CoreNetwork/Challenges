@@ -90,7 +90,7 @@ public class CompletedListCommand extends BaseModCommand {
 					
 					String playerName = set.getString("Player");
 					if (Challenges.instance.getServer().getPlayerExact(playerName) != null) 
-						playerName = "&2"+playerName;
+						playerName = "&a"+playerName;
 					
 					line = line.replace("<ID>", Integer.toString(set.getInt("ID")));
 					line = line.replace("<Player>", playerName);
