@@ -98,8 +98,8 @@ public class TopCommand extends BaseUserCommand {
 	
 	private void displayHeader(CommandSender sender)
 	{
-		String header = Settings.getString(Setting.TOP_PLACE_COLUMN_HEADER) + "  " 
-				+ Settings.getString(Setting.TOP_POINTS_COLUMN_HEADER) + "  "
+		String header = Settings.getString(Setting.TOP_PLACE_COLUMN_HEADER) + " " 
+				+ Settings.getString(Setting.TOP_POINTS_COLUMN_HEADER) + " "
 				+ Settings.getString(Setting.TOP_NAME_COLUMN_HEADER);
 		Util.Message(header, sender);
 	}
