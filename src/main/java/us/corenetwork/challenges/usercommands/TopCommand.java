@@ -54,6 +54,8 @@ public class TopCommand extends BaseUserCommand {
 			
 			if (page > pagesAll)
 				page = pagesAll;
+			if (page < 1)
+				page = 1;
 			
 			offset = (page-1)*perPageLimit;
 			

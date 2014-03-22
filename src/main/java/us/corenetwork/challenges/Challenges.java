@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -31,8 +32,25 @@ import us.corenetwork.challenges.admincommands.ReloadCommand;
 import us.corenetwork.challenges.admincommands.ResumeCommand;
 import us.corenetwork.challenges.admincommands.SetTimeCommand;
 import us.corenetwork.challenges.admincommands.StopCommand;
-import us.corenetwork.challenges.modcommands.*;
-import us.corenetwork.challenges.usercommands.*;
+import us.corenetwork.challenges.modcommands.BaseModCommand;
+import us.corenetwork.challenges.modcommands.CompleteCommand;
+import us.corenetwork.challenges.modcommands.CompletedListCommand;
+import us.corenetwork.challenges.modcommands.DenyCommand;
+import us.corenetwork.challenges.modcommands.ExplodeCommand;
+import us.corenetwork.challenges.modcommands.LockCommand;
+import us.corenetwork.challenges.modcommands.ModHelpCommand;
+import us.corenetwork.challenges.modcommands.ModPointsCommand;
+import us.corenetwork.challenges.modcommands.TpCommand;
+import us.corenetwork.challenges.modcommands.UnclaimCommand;
+import us.corenetwork.challenges.modcommands.UncompleteCommand;
+import us.corenetwork.challenges.usercommands.AllCommand;
+import us.corenetwork.challenges.usercommands.BaseUserCommand;
+import us.corenetwork.challenges.usercommands.ChCommand;
+import us.corenetwork.challenges.usercommands.DoneCommand;
+import us.corenetwork.challenges.usercommands.PointsCommand;
+import us.corenetwork.challenges.usercommands.StatusCommand;
+import us.corenetwork.challenges.usercommands.TopCommand;
+import us.corenetwork.challenges.usercommands.UserHelpCommand;
 
 
 public class Challenges extends JavaPlugin {
