@@ -29,7 +29,7 @@ public class WorldGuardManager {
 		region.setFlag(DefaultFlag.BUILD, StateFlag.State.DENY);
 		region.setFlag(DefaultFlag.CHEST_ACCESS, StateFlag.State.DENY);
 		region.setFlag(DefaultFlag.PISTONS, StateFlag.State.DENY);
-		
+		region.setFlag(DefaultFlag.USE, StateFlag.State.DENY);
 		manager.addRegion(region);
 		try {
 			manager.save();
