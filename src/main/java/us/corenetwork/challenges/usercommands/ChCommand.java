@@ -140,7 +140,7 @@ public class ChCommand extends BaseUserCommand {
 			}
 			else
 			{
-				Util.Message(Settings.getString(Setting.MESSAGE_INVALID_LEVEL), sender);
+				Util.Message(Settings.getString(Setting.MESSAGE_INVALID_LEVEL).replace("<Level>", Integer.toString(level)), sender);
 
 			}
 			
