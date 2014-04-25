@@ -24,7 +24,7 @@ public class TopCommand extends BaseUserCommand {
 	
 	public TopCommand()
 	{
-		desc = "Show all this week's challenges";
+		desc = "Show top scores.";
 		needPlayer = false;
 		permission = "top";
 	}

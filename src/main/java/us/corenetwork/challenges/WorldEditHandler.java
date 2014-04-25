@@ -35,7 +35,7 @@ public class WorldEditHandler {
 				CuboidRegionSelector cuboidSelector = (CuboidRegionSelector) selector;
 		
 				try {
-					CuboidRegion region = cuboidSelector.getRegion();
+					CuboidRegion region = (CuboidRegion) cuboidSelector.getRegion();
 					
 					if (autoExpand)
 					{
