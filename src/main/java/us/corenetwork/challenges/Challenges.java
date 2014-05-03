@@ -193,9 +193,7 @@ public class Challenges extends JavaPlugin {
 			BaseUserCommand cmd = userCommands.get(args[0]);
 			if (cmd != null)
 				return cmd.execute(sender, args);
-			else
-				return userCommands.get("help").execute(sender, args);
-
+			
 		}
 		else if (command.getName().equals("chm")) //Mod command
 		{
@@ -205,8 +203,6 @@ public class Challenges extends JavaPlugin {
 			BaseModCommand cmd = modCommands.get(args[0]);
 			if (cmd != null)
 				return cmd.execute(sender, args);
-			else
-				return modCommands.get("help").execute(sender, args);
 				
 		}
 		else if (command.getName().equals("cha")) //Admin command
@@ -217,8 +213,6 @@ public class Challenges extends JavaPlugin {
 			BaseAdminCommand cmd = adminCommands.get(args[0]);
 			if (cmd != null)
 				return cmd.execute(sender, args);
-			else
-				return adminCommands.get("help").execute(sender, args);
 				
 		}
 		else //flatpoints command
@@ -226,6 +220,7 @@ public class Challenges extends JavaPlugin {
 			BaseUserCommand cmd = userCommands.get("points");
 			return cmd.execute(sender, args);
 		}
+		return true;
 	}
 	
 	private static class WeekAnnouncer extends BukkitRunnable
