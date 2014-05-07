@@ -103,6 +103,7 @@ public class LockCommand extends BaseModCommand {
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+            return true;
 		}
 		
 		Block[] points = WorldEditHandler.getWorldEditRegion(player, autoExpand);
