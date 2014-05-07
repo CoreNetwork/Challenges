@@ -78,6 +78,7 @@ public class LockCommand extends BaseModCommand {
 					Util.Message(Settings.getString(Setting.MESSAGE_LOCK_ONLY_APPROVED).replace("<ID>", Integer.toString(id)), sender);
 					set.close();
 					statement.close();
+                    WorldEditHandler.clearSelection(player);
 					return true;
 				}
 				
@@ -86,6 +87,7 @@ public class LockCommand extends BaseModCommand {
 					Util.Message(Settings.getString(Setting.MESSAGE_LOCK_FUTURE_ONLY), sender);
 					set.close();
 					statement.close();
+                    WorldEditHandler.clearSelection(player);
 					return true;
 				}
 				
@@ -95,6 +97,7 @@ public class LockCommand extends BaseModCommand {
 				Util.Message(Settings.getString(Setting.MESSAGE_INVALID_ID), sender);
 				set.close();
 				statement.close();
+                WorldEditHandler.clearSelection(player);
 				return true;
 			}
 			
@@ -103,6 +106,7 @@ public class LockCommand extends BaseModCommand {
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+            WorldEditHandler.clearSelection(player);
             return true;
 		}
 		
