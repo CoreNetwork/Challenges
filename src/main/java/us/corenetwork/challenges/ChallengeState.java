@@ -12,7 +12,7 @@ public enum ChallengeState
 	REJECTED_MESSAGE_SENT(3, Setting.COLOR_REJECTED),
 	NOT_SUBMITTED(-1, Setting.COLOR_NOT_SUBMITTED),
 	UNDONE(4, Setting.COLOR_UNDONE),
-	UDONE_MESSAGE_SENT(5, Setting.COLOR_UNDONE);
+	UNDONE_MESSAGE_SENT(5, Setting.COLOR_UNDONE);
 
 	private final int code;
 	private final Setting color;
