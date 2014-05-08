@@ -43,7 +43,7 @@ public class CompletedListCommand extends BaseModCommand {
 	{
 		int count = 0;
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(count) as count FROM (SELECT COUNT(*) as count FROM weekly_completed WHERE State = 0 GROUP BY Player)");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(count) as count FROM (SELECT COUNT(*) as count FROM weekly_completed WHERE State = 0 GROUP BY WeekID, Player)");
 			ResultSet set = statement.executeQuery();
 			set.next();
 			count = set.getInt("count");
@@ -79,13 +79,26 @@ public class CompletedListCommand extends BaseModCommand {
 			Util.Message(header, sender);
 
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level FROM weekly_completed WHERE State = 0 GROUP BY Player ORDER BY Level ASC, ID ASC LIMIT ?,?");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level, WeekID FROM weekly_completed WHERE State = 0 GROUP BY WeekID, Player ORDER BY WeekID ASC, Level ASC, ID ASC LIMIT ?,?");
 				statement.setInt(1, start);
 				statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
+
+                int lastWeek = -1;
 
 				ResultSet set = statement.executeQuery();
 				while (set.next())
 				{
+                    int week = set.getInt("WeekID");
+                    if (week != lastWeek) {
+                        if (lastWeek != -1) {
+                            Util.Message(Settings.getString(Setting.MESSAGE_MOD_LIST_SEPERATOR), sender);
+                        }
+
+                        String weekListHeader = Settings.getString(Setting.MESSAGE_MOD_LIST_HEADER).replaceAll("<Week>", week + "");
+                        Util.Message(weekListHeader, sender);
+
+                        lastWeek = week;
+                    }
 					String line = Settings.getString(Setting.MESSAGE_COMPLETED_ENTRY);
 					
 					String playerName = set.getString("Player");

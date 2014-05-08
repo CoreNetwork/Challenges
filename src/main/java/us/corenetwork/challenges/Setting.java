@@ -114,6 +114,8 @@ public enum Setting {
     MESSAGE_STATUS_TP_LEVELS("Messages.StatusTpLevels", "&6[Levels <Numbers>] &7<State>"),
     MESSAGE_STOPPED("Messages.Stopped", "&cChallenges start soon, relax your anus muscles."),
     MESSAGE_RESUMED_ANNOUNCEMENT("Messages.ResumedAnnouncement", "&b-------- [NEWLINE] &bAttention Flatcore! There is a new weekly challenge. [NEWLINE] &bCheck out &f/ch &band get some points! [NEWLINE] &b--------"),
+    MESSAGE_MOD_LIST_HEADER("Messages.ModList.Header", "Challenge entries from week #<Week>:[NEWLINE]&8---------------------------------"),
+    MESSAGE_MOD_LIST_SEPERATOR("Messages.ModList.Seperator", "&8---------------------------------"),
     MESSAGE_MOD_LIST_ENTRIES("Messages.ModListEntries.Title", "Challenge entries for <Player>:"),
     MESSAGE_MOD_LIST_ENTRIES_WEEK("Messages.ModListEntries.Week", "#<Week>: <Entries>"),
     MESSAGE_MOD_LIST_ENTRIES_ENTRY("Messages.ModListEntries.Entry", "<Color><ID>/<Level>"),
