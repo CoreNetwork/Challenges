@@ -1,1 +1,0 @@
-Jail is a Bukkit Plugin, originally by matejdro. It handles Jailing players using /jail and includes MANY features. See http://dev.bukkit.org/server-mods/jail for more information.
