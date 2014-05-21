@@ -47,6 +47,7 @@ public class Util {
 			if (!p.getName().equals(exclusion))
 				Util.Message(message, p);
 		}
+        Util.Message(message, Bukkit.getConsoleSender());
 
 	}
 		
