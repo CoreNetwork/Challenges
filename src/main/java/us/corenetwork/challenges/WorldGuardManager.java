@@ -30,6 +30,12 @@ public class WorldGuardManager {
 		region.setFlag(DefaultFlag.CHEST_ACCESS, StateFlag.State.DENY);
 		region.setFlag(DefaultFlag.PISTONS, StateFlag.State.DENY);
 		region.setFlag(DefaultFlag.USE, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.CREEPER_EXPLOSION, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.GHAST_FIREBALL, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.ENDER_BUILD, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.ENTITY_ITEM_FRAME_DESTROY, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.ENTITY_PAINTING_DESTROY, StateFlag.State.DENY);
+        region.setFlag(DefaultFlag.ENDERDRAGON_BLOCK_DAMAGE, StateFlag.State.DENY);
 		manager.addRegion(region);
 		try {
 			manager.save();
