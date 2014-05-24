@@ -8,13 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.TimePrint;
-import us.corenetwork.challenges.Util;
-import us.corenetwork.challenges.WeekUtil;
+import us.corenetwork.challenges.*;
 
 
 public class AllCommand extends BaseUserCommand {
@@ -51,10 +45,10 @@ public class AllCommand extends BaseUserCommand {
 				line = line.replace("<Desc>", set.getString("Description"));
 				
 				String status;
-				int state = set.getInt("Status");
-				if (state == 1)
+				ChallengeState state = ChallengeState.getByCode(set.getInt("Status"));
+				if (state == ChallengeState.DONE)
 					status = Settings.getString(Setting.MESSAGE_COMPLETED);
-				else if (state == 0)
+				else if (state == ChallengeState.SUBMITTED)
 					status = Settings.getString(Setting.MESSAGE_WAITING_INSPECTION);
 				else
 				{

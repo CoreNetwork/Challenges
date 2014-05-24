@@ -35,7 +35,8 @@ public class ChallengesListener implements Listener {
 		if (Util.hasPermission(event.getPlayer(), "challenges.notify"))
 		{
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) FROM weekly_completed WHERE State = 0");
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) FROM weekly_completed WHERE State = ?");
+				statement.setInt(1, ChallengeState.SUBMITTED.code());
 				ResultSet set = statement.executeQuery();
 				
 				set.next();

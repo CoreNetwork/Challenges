@@ -10,11 +10,7 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.*;
 
 
 public class ExplodeCommand extends BaseModCommand {
@@ -114,15 +110,15 @@ public class ExplodeCommand extends BaseModCommand {
 			
 			if (set.next())
 			{
-				int state = set.getInt(1);
+				ChallengeState state = ChallengeState.getByCode(set.getInt(1));
 				
 				
 				switch (state)
 				{
-				case 0:
+				case SUBMITTED:
 					waitingLevels.add(i + 1);
 					break;
-				case 1:
+				case DONE:
 					approvedLevels.add(i + 1);
 					break;
 				default:

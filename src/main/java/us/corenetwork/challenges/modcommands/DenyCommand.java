@@ -8,12 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
-import us.corenetwork.challenges.WorldEditHandler;
+import us.corenetwork.challenges.*;
 
 
 public class DenyCommand extends BaseModCommand {
@@ -64,10 +59,10 @@ public class DenyCommand extends BaseModCommand {
 			ResultSet set = statement.executeQuery();
 			if (set.next())
 			{
-				int state = set.getInt("State");
+				ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
 				level = Integer.toString(set.getInt("Level"));
 				weekId = set.getInt("WeekID");
-				if (state != 0)
+				if (state != ChallengeState.SUBMITTED)
 				{
 					Util.Message(Settings.getString(Setting.MESSAGE_DELETE_ONLY_OPEN_CHALLENGES), sender);
 					set.close();

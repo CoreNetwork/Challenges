@@ -83,17 +83,17 @@ public class UncompleteCommand extends BaseModCommand
 						String message = first ? reason : "Undone because earlier level has been undone";
 
 						Player player1 = Bukkit.getServer().getPlayerExact(player);
-						int newState = 2;
+						ChallengeState newState = ChallengeState.REJECTED;
 						if (player1 != null)
 						{
-							newState = 3;
+							newState = ChallengeState.REJECTED_MESSAGE_SENT;
 							if (reason == null)
 								Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_UNDONE).replace("<Level>", level), player1);
 							else
 								Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_UNDONE_MESSAGE).replace("<Message>", message).replace("<Level>", level), player1);
 						}
 						statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State=?, lastUpdate=?, ModResponse=?, moderator=? WHERE ID=?");
-						statement.setInt(1, newState);
+						statement.setInt(1, newState.code());
 						statement.setInt(2, (int) (System.currentTimeMillis()/1000));
 						statement.setString(3, message);
 						statement.setInt(4, currentID);

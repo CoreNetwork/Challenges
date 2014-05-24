@@ -9,14 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
-import us.corenetwork.challenges.WeekUtil;
-import us.corenetwork.challenges.WorldEditHandler;
-import us.corenetwork.challenges.WorldGuardManager;
+import us.corenetwork.challenges.*;
 
 
 public class LockCommand extends BaseModCommand {
@@ -67,12 +60,12 @@ public class LockCommand extends BaseModCommand {
 			{
 				author = set.getString("Player");
 				level = set.getInt("Level");
-				int state = set.getInt("State");
+				ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
 				week = set.getInt("WeekID");
 				curRegions = set.getString("WGRegion");
 				curWorlds = set.getString("WGWorld");
 				
-				if (state != 1)
+				if (state != ChallengeState.DONE)
 				{
 					
 					Util.Message(Settings.getString(Setting.MESSAGE_LOCK_ONLY_APPROVED).replace("<ID>", Integer.toString(id)), sender);

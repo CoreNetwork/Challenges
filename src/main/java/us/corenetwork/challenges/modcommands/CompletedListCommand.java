@@ -70,9 +70,10 @@ public class CompletedListCommand extends BaseModCommand {
 			Util.Message(header, sender);
 
 			try {
-				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level, WeekID FROM weekly_completed WHERE State = 0 GROUP BY WeekID, Player ORDER BY WeekID ASC, Level ASC, ID ASC LIMIT ?,?");
-				statement.setInt(1, start);
-				statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
+				PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Max(ID) as ID,Player,ClaimedBy,Max(Level) As Level, WeekID FROM weekly_completed WHERE State = ? GROUP BY WeekID, Player ORDER BY WeekID ASC, Level ASC, ID ASC LIMIT ?,?");
+				statement.setInt(1, ChallengeState.SUBMITTED.code());
+				statement.setInt(2, start);
+				statement.setInt(3, Settings.getInt(Setting.ITEMS_PER_PAGE));
 
                 int lastWeek = -1;
 
