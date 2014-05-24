@@ -92,11 +92,12 @@ public class UncompleteCommand extends BaseModCommand
 							else
 								Util.Message(Settings.getString(Setting.MESSAGE_SUBMISSION_UNDONE_MESSAGE).replace("<Message>", message).replace("<Level>", level), player1);
 						}
-						statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State=?, lastUpdate=?, ModResponse=? WHERE ID=?");
+						statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State=?, lastUpdate=?, ModResponse=?, moderator=? WHERE ID=?");
 						statement.setInt(1, newState);
 						statement.setInt(2, (int) (System.currentTimeMillis()/1000));
 						statement.setString(3, message);
 						statement.setInt(4, currentID);
+						statement.setString(5, sender.getName());
 						statement.execute();
 						first = false;
 					}

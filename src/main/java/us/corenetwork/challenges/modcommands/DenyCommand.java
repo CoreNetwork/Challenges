@@ -103,11 +103,12 @@ public class DenyCommand extends BaseModCommand {
 		
 		try
 		{
-			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=?, moderator=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
 			statement.setString(1, message == null ? "" : message);
 			statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
-			statement.setInt(3, weekId);
-			statement.setString(4, playerName);
+			statement.setString(3, sender.getName());
+			statement.setInt(4, weekId);
+			statement.setString(5, playerName);
 			statement.executeUpdate();
 			statement.close();
 			

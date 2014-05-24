@@ -112,12 +112,13 @@ public class CompleteCommand extends BaseModCommand {
 		PlayerPoints.addPoints(player, points, reason);
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = ?, lastUpdate = ? WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
+			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET State = ?, lastUpdate = ?, moderator = ? WHERE player = ? AND level <= ? AND weekID = ? AND state = 0");
 			statement.setInt(1, ChallengeState.DONE.code());
 			statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
-			statement.setString(3, player);
-			statement.setInt(4, level);
-			statement.setInt(5, week);
+			statement.setString(3, sender.getName());
+			statement.setString(4, player);
+			statement.setInt(5, level);
+			statement.setInt(6, week);
 			
 			statement.executeUpdate();
 						

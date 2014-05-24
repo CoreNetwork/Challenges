@@ -35,6 +35,10 @@ public enum ChallengeState
 		return code;
 	}
 
+	public String getPrint() {
+		return color() + name();
+	}
+
 	public ChatColor color()
 	{
 		return ChatColor.getByChar(Settings.getString(color).charAt(1));

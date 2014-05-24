@@ -32,17 +32,7 @@ import us.corenetwork.challenges.admincommands.ReloadCommand;
 import us.corenetwork.challenges.admincommands.ResumeCommand;
 import us.corenetwork.challenges.admincommands.SetTimeCommand;
 import us.corenetwork.challenges.admincommands.StopCommand;
-import us.corenetwork.challenges.modcommands.BaseModCommand;
-import us.corenetwork.challenges.modcommands.CompleteCommand;
-import us.corenetwork.challenges.modcommands.CompletedListCommand;
-import us.corenetwork.challenges.modcommands.DenyCommand;
-import us.corenetwork.challenges.modcommands.ExplodeCommand;
-import us.corenetwork.challenges.modcommands.LockCommand;
-import us.corenetwork.challenges.modcommands.ModHelpCommand;
-import us.corenetwork.challenges.modcommands.ModPointsCommand;
-import us.corenetwork.challenges.modcommands.TpCommand;
-import us.corenetwork.challenges.modcommands.UnclaimCommand;
-import us.corenetwork.challenges.modcommands.UncompleteCommand;
+import us.corenetwork.challenges.modcommands.*;
 import us.corenetwork.challenges.usercommands.AllCommand;
 import us.corenetwork.challenges.usercommands.BaseUserCommand;
 import us.corenetwork.challenges.usercommands.ChCommand;
@@ -151,6 +141,9 @@ public class Challenges extends JavaPlugin {
 		modCommands.put("explode", new ExplodeCommand());
 		modCommands.put("unclaim", new UnclaimCommand());
 		modCommands.put("undo", new UncompleteCommand());
+		modCommands.put("top", new ModTopCommand());
+		modCommands.put("history", new HistoryCommand());
+		modCommands.put("blame", new BlameCommand());
 
 		//DEBUG COMMANDS
 		
