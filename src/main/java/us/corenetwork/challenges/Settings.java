@@ -1,5 +1,7 @@
 package us.corenetwork.challenges;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.util.List;
 
 
@@ -7,7 +9,8 @@ public class Settings {
 	
 	public static Object getProperty(Setting setting)
 	{
-		Object property = IO.config.get(setting.getString());
+		YamlConfiguration config = setting.getSettingType().getConfig();
+		Object property = config.get(setting.getString());
 		if (property == null)
 		{
 			Challenges.log.warning("[Challenges] Configuration entry missing: " + setting.getString());
@@ -40,13 +43,14 @@ public class Settings {
 	public static String getCommandDescription(String cmd, String type, String def)
 	{
 		String path = "CommandDescriptions." + type + "." + cmd;
-		
-		Object descO = IO.config.get(path);
+
+		YamlConfiguration config = SettingType.CONFIG.getConfig();
+		Object descO = config.get(path);
 		if (descO == null)
 		{
-			IO.config.set(path, "&a/" + type + " " + cmd + " &8-&f " + def);
+			config.set(path, "&a/" + type + " " + cmd + " &8-&f " + def);
 			IO.saveConfig();
-			descO = IO.config.get(path);
+			descO = config.get(path);
 		}
 		
 		return (String) descO;

@@ -2,10 +2,7 @@ package us.corenetwork.challenges.admincommands;
 
 import org.bukkit.command.CommandSender;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.*;
 
 
 public class StopCommand extends BaseAdminCommand {
@@ -18,8 +15,8 @@ public class StopCommand extends BaseAdminCommand {
 	}
 
 
-	public Boolean run(CommandSender sender, String[] args) {		
-		IO.config.set(Setting.STOPPED.getString(), true);
+	public Boolean run(CommandSender sender, String[] args) {
+		SettingType.STORAGE.getConfig().set(Setting.STOPPED.getString(), true);
 		IO.saveConfig();
 		
 		Util.Message(Settings.getString(Setting.MESSAGE_STOPPED_ADMIN), sender);

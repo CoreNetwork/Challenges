@@ -5,6 +5,8 @@ package us.corenetwork.challenges;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+;
+
 public enum Setting {
 
     SWITCH_TIME_OFFSET("SwitchTimeOffset", 3600 * 19 + 3600 * 24 * 6),
@@ -12,9 +14,9 @@ public enum Setting {
     PROTECTED_GROUPS("ProtectedGroups", Arrays.asList(new String[]{"Guardian"})),
     ITEMS_PER_PAGE("ItemsPerPage", 10),
     DEBUG_MODE("DebugMode", false),
-    CURRENT_WEEK("CurrentWeek", 1),
-    CURRENT_WEEK_START("CurrentWeekStart", null),
-    STOPPED("Stopped", false),
+    CURRENT_WEEK("CurrentWeek", 1, SettingType.STORAGE),
+    CURRENT_WEEK_START("CurrentWeekStart", null, SettingType.STORAGE),
+    STOPPED("Stopped", false, SettingType.STORAGE),
     MESSAGE_NO_PERMISSION("Messages.NoPermssion", "&cYou are not allowed to do that."),
     MESSAGE_LIST_WEEKS_HEADER("Messages.ListWeeksHeader", "&6ID &2START DATE &7STATUS [NEWLINE] &8---------------------------------"),
     MESSAGE_LIST_WEEKS_ENTRY("Messages.ListWeeksEntry", "&6#<ID> &2<Date> &7<Status>"),
@@ -160,20 +162,34 @@ public enum Setting {
     RUN_COMMAND_ON_RANK_UP("RunCommandOnRankUp", false),
     COMMAND_ON_RANK_UP("CommandOnRankUp", "crankreload");
 
-    private String name;
+	private SettingType type;
+
+	private String name;
 
     private Object def;
 
     private Setting(String Name, Object Def) {
         name = Name;
         def = Def;
+	    this.type = SettingType.CONFIG;
     }
 
-    public String getString() {
+	private Setting(String Name, Object Def, SettingType type) {
+		name = Name;
+		def = Def;
+		this.type = type;
+	}
+
+	public String getString() {
         return name;
     }
 
     public Object getDefault() {
         return def;
     }
+
+	public SettingType getSettingType()
+	{
+		return type;
+	}
 }

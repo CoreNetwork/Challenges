@@ -16,7 +16,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 public class IO {
 	private static Connection connection;
-	public static YamlConfiguration config;
 
 	public static synchronized Connection getConnection() {
 		if (connection == null) connection = createConnection();
@@ -55,21 +54,33 @@ public class IO {
 	public static void LoadSettings()
 	{
 		try {
-			config = new YamlConfiguration();
+			SettingType.CONFIG.setConfig(new YamlConfiguration());
+			SettingType.STORAGE.setConfig(new YamlConfiguration());
+			SettingType.CONFIG.setConfigFile(new File(Challenges.instance.getDataFolder(), "config.yml"));
+			SettingType.STORAGE.setConfigFile(new File(Challenges.instance.getDataFolder(), "storage.yml"));
 
-			if (!new File(Challenges.instance.getDataFolder(),"config.yml").exists()) config.save(new File(Challenges.instance.getDataFolder(),"config.yml"));
+			if (!SettingType.STORAGE.getConfigFile().exists())
+			{
+				SettingType.STORAGE.save();
+			}
+			if (!SettingType.CONFIG.getConfigFile().exists())
+			{
+				SettingType.CONFIG.save();
+			}
 
-			config.load(new File(Challenges.instance.getDataFolder(),"config.yml"));
+			SettingType.CONFIG.load();
+			SettingType.STORAGE.load();
 			for (Setting s : Setting.values())
 			{
+				YamlConfiguration config = s.getSettingType().getConfig();
 				if (config.get(s.getString()) == null && s.getDefault() != null) config.set(s.getString(), s.getDefault());
 			}
 
-			if (config.get(Setting.PLAYER_CLASSES.getString()) == null)
+			if (SettingType.CONFIG.getConfig().get(Setting.PLAYER_CLASSES.getString()) == null)
 				setDefaultClasses();
 
-			if (config.get(Setting.CURRENT_WEEK_START.getString()) == null)
-				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getCurrentWeekCalculatedStart());
+			if (SettingType.STORAGE.getConfig().get(Setting.CURRENT_WEEK_START.getString()) == null)
+				SettingType.STORAGE.getConfig().set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getCurrentWeekCalculatedStart());
 
 			loadRanks();
 
@@ -88,7 +99,8 @@ public class IO {
 	public static void saveConfig()
 	{
 		try {
-			config.save(new File(Challenges.instance.getDataFolder(),"config.yml"));
+			SettingType.CONFIG.save();
+			SettingType.STORAGE.save();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +108,7 @@ public class IO {
 
 	public static void loadRanks()
 	{
-		for (Entry<String, Object> e : config.getConfigurationSection(Setting.PLAYER_CLASSES.getString()).getValues(false).entrySet())
+		for (Entry<String, Object> e : SettingType.CONFIG.getConfig().getConfigurationSection(Setting.PLAYER_CLASSES.getString()).getValues(false).entrySet())
 		{
 			PlayerRank rank = new PlayerRank();
 			rank.rank = e.getKey();
@@ -129,6 +141,7 @@ public class IO {
 
 				int points = classesPoints[counter];
 
+				YamlConfiguration config = SettingType.CONFIG.getConfig();
 				config.set(cPrefix + prefix + pClass + ".PointsNeeded", points);
 				config.set(cPrefix + prefix + pClass + ".Group", pClass);
 				config.set(cPrefix + prefix + pClass + ".Suffix", suffixes[pId]);

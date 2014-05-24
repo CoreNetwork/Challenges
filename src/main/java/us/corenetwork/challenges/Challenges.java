@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -229,8 +230,9 @@ public class Challenges extends JavaPlugin {
 			{
 				curWeek++;
 				Challenges.log.info("New week " + curWeek + "!");
-				IO.config.set(Setting.CURRENT_WEEK.getString(), curWeek);
-				IO.config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
+				YamlConfiguration config = SettingType.STORAGE.getConfig();
+				config.set(Setting.CURRENT_WEEK.getString(), curWeek);
+				config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
 				IO.saveConfig();
 				
 				for (Player p : Bukkit.getServer().getOnlinePlayers())
