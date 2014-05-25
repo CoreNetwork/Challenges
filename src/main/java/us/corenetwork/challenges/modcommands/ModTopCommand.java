@@ -24,7 +24,7 @@ public class ModTopCommand extends BaseModCommand
 	{
 		try
 		{
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) AS edits, moderator FROM weekly_completed GROUP BY moderator ORDER BY edits");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT COUNT(*) AS edits, moderator FROM weekly_completed GROUP BY moderator ORDER BY edits DESC");
 			ResultSet set = statement.executeQuery();
 			int rank = 1;
 
@@ -33,6 +33,10 @@ public class ModTopCommand extends BaseModCommand
 			while (set.next()) {
 				String player = set.getString("moderator");
 				int edits = set.getInt("edits");
+
+				if (player == null) {
+					continue;
+				}
 
 				String entry = Settings.getString(Setting.MESSAGE_MOD_TOP_ENTRY);
 				entry = entry.replaceAll("<Rank>", rank + "");

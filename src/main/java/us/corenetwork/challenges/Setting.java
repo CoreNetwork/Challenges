@@ -171,7 +171,7 @@ public enum Setting {
     private Setting(String Name, Object Def) {
         name = Name;
         def = Def;
-	    this.type = SettingType.CONFIG;
+	    this.type = SettingType.CONFIG
     }
 
 	private Setting(String Name, Object Def, SettingType type) {
