@@ -84,6 +84,13 @@ public class HistoryCommand extends BaseModCommand
 		int ID = set.getInt("ID");
 		ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
 		String moderator = set.getString("moderator");
+
+		if (moderator == null) {
+			moderator = set.getString("ClaimedBy");
+		}
+		if (moderator == null) {
+			moderator = "<none>";
+		}
 		int lastUpdate = set.getInt("lastUpdate");
 
 		String time = TimePrint.formatSekunde(System.currentTimeMillis() / 1000 - lastUpdate);
