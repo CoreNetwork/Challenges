@@ -62,7 +62,7 @@ public class WorldGuardManager {
 		
 		if (manager.getRegion(name) == null)
 		{
-			Challenges.log.warning("[Challenges] Trying to delete nonexistant region in world " + world + "! Name: " + name);
+			Challenges.log.warning("[Challenges] Trying to delete nonexistent region in world " + world + "! Name: " + name);
 		}
 		
 		manager.removeRegion(name);
