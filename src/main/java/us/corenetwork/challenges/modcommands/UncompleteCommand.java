@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import us.corenetwork.challenges.*;
+import us.corenetwork.challenges.model.ChallengeState;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

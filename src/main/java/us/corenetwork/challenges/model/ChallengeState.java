@@ -1,6 +1,8 @@
-package us.corenetwork.challenges;
+package us.corenetwork.challenges.model;
 
 import org.bukkit.ChatColor;
+import us.corenetwork.challenges.Setting;
+import us.corenetwork.challenges.Settings;
 
 import java.util.HashMap;
 

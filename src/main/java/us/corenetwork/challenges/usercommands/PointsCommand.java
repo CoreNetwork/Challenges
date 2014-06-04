@@ -30,11 +30,11 @@ public class PointsCommand extends BaseUserCommand {
 		else
 		{
 			message = Settings.getString(Setting.MESSAGE_FLATPOINTS_NEXT_RANK);
-			message = message.replace("<NewRank>", nextRank.rank);
-			message = message.replace("<PointsLeft>", Integer.toString(nextRank.neededPoints - points));
+			message = message.replace("<NewRank>", nextRank.getRank());
+			message = message.replace("<PointsLeft>", Integer.toString(nextRank.getNeededPoints() - points));
 		}
 		message = message.replace("<Points>", Integer.toString(points));
-		message = message.replace("<Rank>", curRank.rank);
+		message = message.replace("<Rank>", curRank.getRank());
 
 		Util.Message(message, sender);
 		

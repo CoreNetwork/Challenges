@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import us.corenetwork.challenges.*;
+import us.corenetwork.challenges.model.ChallengeState;
 
 
 public class CompletedListCommand extends BaseModCommand {

@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import us.corenetwork.challenges.modcommands.UnclaimCommand;
+import us.corenetwork.challenges.model.ChallengeState;
 
 
 public class ChallengesListener implements Listener {

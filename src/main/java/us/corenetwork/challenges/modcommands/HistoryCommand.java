@@ -2,6 +2,7 @@ package us.corenetwork.challenges.modcommands;
 
 import org.bukkit.command.CommandSender;
 import us.corenetwork.challenges.*;
+import us.corenetwork.challenges.model.ChallengeState;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

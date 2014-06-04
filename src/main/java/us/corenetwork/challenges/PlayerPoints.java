@@ -93,7 +93,7 @@ public class PlayerPoints {
 		
 		for (PlayerRank rank : IO.ranks)
 		{
-			if (rank.neededPoints <= points)
+			if (rank.getNeededPoints() <= points)
 			{
 				curRank = rank;
 			}
@@ -108,7 +108,7 @@ public class PlayerPoints {
 		
 		for (PlayerRank rank : IO.ranks)
 		{
-			if (rank.neededPoints > currentRank.neededPoints && (winner == null || rank.neededPoints < winner.neededPoints))
+			if (rank.getNeededPoints() > currentRank.getNeededPoints() && (winner == null || rank.getNeededPoints() < winner.getNeededPoints()))
 			{
 				winner = rank;
 			}
@@ -146,10 +146,10 @@ public class PlayerPoints {
 
 			// TODO do something with guardians
 
-			permission.playerRemoveGroup(firstWorld, player.getName(), oldRank.group);
-			permission.playerAddGroup(firstWorld, player.getName(), newRank.group);
+			permission.playerRemoveGroup(firstWorld, player.getName(), oldRank.getGroup());
+			permission.playerAddGroup(firstWorld, player.getName(), newRank.getGroup());
 
-			chat.setPlayerSuffix(player, dontChange ? "" : newRank.suffix);
+			chat.setPlayerSuffix(player, dontChange ? "" : newRank.getSuffix());
 									
 			String message;
 			String jubilation = Util.getRandomItem((ArrayList<String>) Settings.getProperty(Setting.JUBILATIONS));
@@ -168,7 +168,7 @@ public class PlayerPoints {
 				
 				String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_PROMOTED);
 				globalMessage = globalMessage.replace("<Player>", name);
-				globalMessage = globalMessage.replace("<Class>", newRank.rank);
+				globalMessage = globalMessage.replace("<Class>", newRank.getRank());
 				globalMessage = globalMessage.replace("<Jubilation>", jubilation);
 				
 				Util.Broadcast(globalMessage, name);
@@ -190,7 +190,7 @@ public class PlayerPoints {
 					String globalMessage = Settings.getString(Setting.MESSAGE_GLOBAL_DEMOTED);
 					globalMessage = globalMessage.replace("<Player>", name);
 					globalMessage = globalMessage.replace("<Reason>", reason);
-					globalMessage = globalMessage.replace("<Class>", newRank.rank);
+					globalMessage = globalMessage.replace("<Class>", newRank.getRank());
 					globalMessage = globalMessage.replace("<Points>", Integer.toString(-amount));
 					Util.Broadcast(globalMessage, name);
 
@@ -198,7 +198,7 @@ public class PlayerPoints {
 			}
 			
 			
-			message = message.replace("<Class>", newRank.rank);
+			message = message.replace("<Class>", newRank.getRank());
 			Util.Message(message, player);
 		}
 		else if (amount > 0)

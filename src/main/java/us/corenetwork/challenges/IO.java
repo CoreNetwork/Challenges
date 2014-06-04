@@ -11,45 +11,65 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-public class IO {
-	private static Connection connection;
+import us.corenetwork.challenges.model.ChallengeLevel;
+import us.corenetwork.challenges.model.LevelSubmission;
 
-	public static synchronized Connection getConnection() {
-		if (connection == null) connection = createConnection();
+public class IO {
+	private static ConnectionSource connection;
+    private static Dao<LevelSubmission, Integer> levelSubmissionDao;
+    private static Dao<ChallengeLevel, Integer> challengeLevelDao
+
+	public static synchronized ConnectionSource getConnection() {
+		if (connection == null) {
+            connection = createConnection();
+        }
 		return connection;
 	}
 
 	public static ArrayList<PlayerRank> ranks = new ArrayList<PlayerRank>();
 
-	private static Connection createConnection() {
+	private static ConnectionSource createConnection() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  new File(Challenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
-			ret.setAutoCommit(false);
-			return ret;
+            ConnectionSource source = new JdbcConnectionSource("jdbc:sqlite:" +  new File(Challenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
+            try {
+                levelSubmissionDao = DaoManager.createDao(source, LevelSubmission.class);
+                challengeLevelDao = DaoManager.createDao(source, ChallengeLevel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return source;
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public static synchronized void freeConnection() {
-		Connection conn = getConnection();
-		if(conn != null) {
-			try {
-				conn.close();
-				conn = null;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public static Dao<ChallengeLevel, Integer> getChallengeLevelDao() {
+        return challengeLevelDao;
+    }
+
+    public static Dao<LevelSubmission, Integer> getLevelSubmissionDao() {
+        return levelSubmissionDao;
+    }
+
+    public static synchronized void freeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            connection = null;
+        }
+    }
 
 	public static void LoadSettings()
 	{
@@ -110,14 +130,8 @@ public class IO {
 	{
 		for (Entry<String, Object> e : SettingType.CONFIG.getConfig().getConfigurationSection(Setting.PLAYER_CLASSES.getString()).getValues(false).entrySet())
 		{
-			PlayerRank rank = new PlayerRank();
-			rank.rank = e.getKey();
-
-			ConfigurationSection section = (ConfigurationSection) e.getValue();
-			rank.neededPoints = section.getInt("PointsNeeded");
-			rank.group = section.getString("Group");
-			rank.suffix = section.getString("Suffix");
-
+            ConfigurationSection section = (ConfigurationSection) e.getValue();
+			PlayerRank rank = new PlayerRank(e.getKey(), section.getInt("PointsNeeded"), section.getString("Group"), section.getString("Suffix"));
 			ranks.add(rank);
 		}
 	}
@@ -152,11 +166,11 @@ public class IO {
 
 	public static void PrepareDB()
 	{
-		Connection conn;
+		ConnectionSource conn;
 		Statement st = null;
 		try {
 			conn = IO.getConnection();//            {
-			st = conn.createStatement();
+			st = conn.;
 			st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_levels (ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER NOT NULL, Level Integer, Description STRING, Points INTEGER)");
 			st.executeUpdate("CREATE TABLE IF NOT EXISTS weekly_completed(ID INTEGER PRIMARY KEY NOT NULL, WeekID INTEGER, Level INTEGER, Player STRING, State INTEGER, X INTEGER, Y INTEGER, Z INTEGER, World STRING, WGRegion STRING, WGWorld, ModResponse STRING, ClaimedBy STRING, moderator STRING)");
 			st.executeUpdate("CREATE TABLE IF NOT EXISTS player_points (PLAYER STRING, POINTS INTEGER)");
@@ -175,6 +189,8 @@ public class IO {
 		update("SELECT lastUpdate FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD lastUpdate INTEGER");
 		update("SELECT WGWorld FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD WGWorld STRING");
 		update("SELECT moderator FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD moderator STRING");
+        update("SELECT LevelID FROM weekly_completed LIMIT 1", "ALTER TABLE weekly_completed ADD COLUMN LevelID int;" +
+                "UPDATE weekly_completed SET LevelID = (SELECT ID FROM weekly_levels WHERE weekly_levels.WeekID = weekly_completed.WeekID AND weekly_levels.Level = weekly_completed.Level);");
 	}
 
 	public static void update(String check, String sql)
@@ -198,7 +214,7 @@ public class IO {
 				conn.commit();
 				st.close();
 			} catch (SQLException e) {
-				Challenges.log.log(Level.SEVERE, "[Jail] Error while updating tables to the new version - " + e.getMessage());
+				Challenges.log.log(Level.SEVERE, "[Challenges] Error while updating tables to the new version - " + e.getMessage());
 				e.printStackTrace();
 			}
 
