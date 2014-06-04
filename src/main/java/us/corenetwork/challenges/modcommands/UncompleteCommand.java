@@ -96,8 +96,8 @@ public class UncompleteCommand extends BaseModCommand
 						statement.setInt(1, newState.code());
 						statement.setInt(2, (int) (System.currentTimeMillis()/1000));
 						statement.setString(3, message);
-						statement.setInt(4, currentID);
-						statement.setString(5, sender.getName());
+						statement.setInt(5, currentID);
+						statement.setString(4, sender.getName());
 						statement.execute();
 						first = false;
 					}
