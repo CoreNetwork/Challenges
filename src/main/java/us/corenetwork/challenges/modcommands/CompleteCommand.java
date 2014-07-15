@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import us.corenetwork.challenges.*;
-import us.corenetwork.combine.notification.Notification;
 
 
 public class CompleteCommand extends BaseModCommand {

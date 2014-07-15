@@ -79,11 +79,6 @@
       <artifactId>javaparser</artifactId>
       <version>1.0.10</version>
     </dependency>
-    <dependency>
-        <groupId>us.core-network</groupId>
-        <artifactId>combine</artifactId>
-        <version>0.1-DEV</version>
-    </dependency>
 
   </dependencies>
 

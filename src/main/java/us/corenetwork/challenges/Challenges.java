@@ -33,7 +33,6 @@ import us.corenetwork.challenges.usercommands.PointsCommand;
 import us.corenetwork.challenges.usercommands.StatusCommand;
 import us.corenetwork.challenges.usercommands.TopCommand;
 import us.corenetwork.challenges.usercommands.UserHelpCommand;
-import us.corenetwork.combine.notification.CombineNotifications;
 
 
 public class Challenges extends JavaPlugin {
@@ -52,7 +51,6 @@ public class Challenges extends JavaPlugin {
 	public static BaseUserCommand chCommand = new ChCommand();
 	
 	public static HashMap<String, Integer> lastTeleport = new HashMap<String, Integer>();
-    public static CombineNotifications notifications;
 
 
 	private boolean setupPermissions() {
@@ -81,9 +79,6 @@ public class Challenges extends JavaPlugin {
 		instance = this;
 		listener = new ChallengesListener();
 		log = getLogger();
-
-//        notifications = Bukkit.getServicesManager().getRegistration(CombineNotifications.class).getProvider();
-//        NotificationTemplates.init();
 
 		IO.LoadSettings();
 		IO.PrepareDB();
