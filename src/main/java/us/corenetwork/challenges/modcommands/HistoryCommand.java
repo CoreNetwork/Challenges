@@ -6,6 +6,7 @@ import us.corenetwork.challenges.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class HistoryCommand extends BaseModCommand
 {
@@ -20,7 +21,7 @@ public class HistoryCommand extends BaseModCommand
 	public Boolean run(CommandSender sender, String[] args)
 	{
 		int page = 1;
-		String player = null;
+		UUID player = null;
 
 		// init args
 		if (args.length > 0)
@@ -28,11 +29,10 @@ public class HistoryCommand extends BaseModCommand
 			if (RegexUtils.PAGINATION_PATTERN.matcher(args[0]).matches())
 			{
 				page = Integer.valueOf(args[0]);
-			} else
-			{
-				player = args[0];
-			}
-		}
+			} else {
+                player = Util.getPlayerUUIDFromName(args[0]);
+            }
+        }
 		if (args.length > 1)
 		{
 			if (RegexUtils.PAGINATION_PATTERN.matcher(args[1]).matches())
@@ -41,6 +41,8 @@ public class HistoryCommand extends BaseModCommand
 			}
 		}
 		int start = (page - 1) * (Settings.getInt(Setting.ITEMS_PER_PAGE));
+
+        String playerName = Util.getPlayerNameFromUUID(player);
 
 		try
 		{
@@ -52,7 +54,7 @@ public class HistoryCommand extends BaseModCommand
 				statement.setInt(2, Settings.getInt(Setting.ITEMS_PER_PAGE));
 			} else {
 				statement = IO.getConnection().prepareStatement("SELECT * FROM weekly_completed WHERE moderator = ? ORDER BY lastUpdate DESC LIMIT ?,?");
-				statement.setString(1, player);
+				statement.setString(1, player.toString());
 				statement.setInt(2, start);
 				statement.setInt(3, Settings.getInt(Setting.ITEMS_PER_PAGE));
 			}
@@ -62,7 +64,7 @@ public class HistoryCommand extends BaseModCommand
 			String header = Settings.getString(player == null ? Setting.MESSAGE_MOD_HISTORY_HEADER : Setting.MESSAGE_MOD_HISTORY_HEADER_PLAYER);
 			if (player != null)
 			{
-				header = header.replaceAll("<Player>", player);
+				header = header.replaceAll("<Player>", playerName);
 			}
 			Util.Message(header, sender);
 
@@ -79,25 +81,27 @@ public class HistoryCommand extends BaseModCommand
 		return true;
 	}
 
-	public static String getChallengeBlame(String player, ResultSet set) throws SQLException
+	public static String getChallengeBlame(UUID player, ResultSet set) throws SQLException
 	{
 		int ID = set.getInt("ID");
 		ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
-		String moderator = set.getString("moderator");
+        UUID moderator = Util.getUUIDFromString(set.getString("moderator"));
 
 		if (moderator == null) {
-			moderator = set.getString("ClaimedBy");
-		}
-		if (moderator == null) {
-			moderator = "<none>";
+            moderator = Util.getUUIDFromString(set.getString("ClaimedBy"));
+        }
+        if (moderator == null) {
+			moderator = null;
 		}
 		int lastUpdate = set.getInt("lastUpdate");
+
+        String modName = Util.getPlayerNameFromUUID(moderator);
 
 		String time = TimePrint.formatSekunde(System.currentTimeMillis() / 1000 - lastUpdate);
 
 		String entry = Settings.getString(player == null ? Setting.MESSAGE_MOD_HISTORY_ENTRY_PLAYER : Setting.MESSAGE_MOD_HISTORY_ENTRY);
 		entry = entry.replaceAll("<ID>", ID + "");
-		entry = entry.replaceAll("<moderator>", moderator);
+		entry = entry.replaceAll("<moderator>", modName);
 		entry = entry.replaceAll("<State>", state.getPrint());
 		entry = entry.replaceAll("<time>", time);
 		return entry;

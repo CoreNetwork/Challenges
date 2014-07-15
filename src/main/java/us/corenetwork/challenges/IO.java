@@ -3,14 +3,12 @@ package us.corenetwork.challenges;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import com.evilmidget38.UUIDFetcher;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -82,9 +80,18 @@ public class IO {
 			if (SettingType.STORAGE.getConfig().get(Setting.CURRENT_WEEK_START.getString()) == null)
 				SettingType.STORAGE.getConfig().set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getCurrentWeekCalculatedStart());
 
-			loadRanks();
 
-			saveConfig();
+
+            Integer oldVersion = Settings.getInt(Setting.STORAGE_VERSION);
+            Integer newVersion = 1;
+            if (oldVersion < newVersion) {
+                upgradeStorage(oldVersion, newVersion);
+            }
+
+            SettingType.STORAGE.getConfig().set(Setting.STORAGE_VERSION.getString(), newVersion);
+
+            loadRanks();
+            saveConfig();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -96,7 +103,105 @@ public class IO {
 		}
 	}
 
-	public static void saveConfig()
+    private static Set<String> getAllPlayerNames() {
+        String queries[] = {
+                "SELECT PLAYER AS p FROM player_points",
+                "SELECT Player AS p FROM point_changes",
+                "SELECT Player AS p FROM weekly_completed",
+                "SELECT moderator AS p FROM weekly_completed"
+        };
+        try {
+
+            Set<String> players = new HashSet<String>();
+            for (String query : queries) {
+                PreparedStatement stm = IO.getConnection().prepareStatement(query);
+                stm.execute();
+                ResultSet set = stm.getResultSet();
+                while (set.next()) {
+                    String p = set.getString("p");
+                    if (p == null) {
+                        continue;
+                    }
+                    players.add(p);
+                }
+            }
+            return players;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Collections.EMPTY_SET;
+    }
+
+
+    private static void upgradeStorage(int oldVersion, int newVersion) {
+        if (oldVersion == 0) { // player names instead of UUID in database
+            try {
+                Challenges.log.info("Upgrading player names to UUIDs. This might take a while. Under no circumstances terminate the process, since this will hurt your database");
+                Challenges.log.info("Searching for player names ...");
+                // cache player-to-uuid so the whole process is faster
+                Set<String> playerNames = getAllPlayerNames();
+                Challenges.log.info("UUID lookup for " + playerNames.size() + " names ...");
+                Util.lookupUUIDs(playerNames);
+                // upgrade table player_points
+                Challenges.log.info("Upgrading table 1/3 ...");
+                PreparedStatement stm = IO.getConnection().prepareStatement("SELECT PLAYER FROM player_points");
+                stm.execute();
+                ResultSet results = stm.getResultSet();
+                PreparedStatement update = IO.getConnection().prepareStatement("UPDATE player_points SET PLAYER=? WHERE PLAYER=?");
+                while (results.next()) {
+                    String playerName = results.getString("PLAYER");
+                    UUID uuid = Util.getPlayerUUIDFromName(playerName);
+                    update.setString(1, uuid.toString());
+                    update.setString(2, playerName);
+                    update.addBatch();
+                }
+                update.executeBatch();
+                update.close();
+
+                // upgrade table point_changes
+                Challenges.log.info("Upgrading table 2/3 ...");
+                stm = IO.getConnection().prepareStatement("SELECT ID, Player FROM point_changes");
+                stm.execute();
+                results = stm.getResultSet();
+                update = IO.getConnection().prepareStatement("UPDATE point_changes SET Player=? WHERE ID=?");
+                while (results.next()) {
+                    String playerName = results.getString("Player");
+                    int ID = results.getInt("ID");
+                    UUID uuid = Util.getPlayerUUIDFromName(playerName);
+                    update.setString(1, uuid.toString());
+                    update.setInt(2, ID);
+                    update.addBatch();
+                }
+                update.executeBatch();
+                update.close();
+
+                // upgrade table weekly_completed
+                Challenges.log.info("Upgrading table 3/3 ...");
+                stm = IO.getConnection().prepareStatement("SELECT ID, Player, moderator FROM weekly_completed");
+                stm.execute();
+                results = stm.getResultSet();
+                update = IO.getConnection().prepareStatement("UPDATE weekly_completed SET Player=?, moderator=? WHERE ID=?");
+                while (results.next()) {
+                    String playerName = results.getString("Player");
+                    String moderatorName = results.getString("moderator");
+                    UUID player = Util.getPlayerUUIDFromName(playerName);
+                    UUID moderator = moderatorName != null ? Util.getPlayerUUIDFromName(moderatorName) : null;
+                    int ID = results.getInt("ID");
+                    update.setString(1, player.toString());
+                    update.setString(2, moderator != null ? moderator.toString() : null);
+                    update.setInt(3, ID);
+                    update.addBatch();
+                }
+                update.executeBatch();
+                update.close();
+                Challenges.log.info("Upgrade complete");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void saveConfig()
 	{
 		try {
 			SettingType.CONFIG.save();

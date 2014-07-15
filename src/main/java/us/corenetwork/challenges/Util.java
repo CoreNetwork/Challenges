@@ -1,10 +1,11 @@
 package us.corenetwork.challenges;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import com.evilmidget38.NameFetcher;
+import com.evilmidget38.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,8 +15,10 @@ import org.bukkit.plugin.Plugin;
 public class Util {
 
 	private static Random random = new Random();
-	
-	public static void Message(String message, CommandSender sender)
+    private static Map<String, UUID> playerNameToUUID = new HashMap<String, UUID>();
+    private static Map<UUID, String> UUIDToPlayerName = new HashMap<UUID, String>();
+
+    public static void Message(String message, CommandSender sender)
 	{
 		message = message.replaceAll("\\&([0-9abcdefklmnor])", ChatColor.COLOR_CHAR + "$1");
 	
@@ -89,6 +92,59 @@ public class Util {
     		
     		permission = permission.substring(0, lastIndex).concat(".*");  
     	}
+    }
+
+    public static void lookupUUIDs(Set<String> players) {
+        UUIDFetcher fetcher = new UUIDFetcher(new ArrayList<String>(players));
+        try {
+            Map<String, UUID> res = fetcher.call();
+            playerNameToUUID.putAll(res);
+            for (Map.Entry<String, UUID> e : res.entrySet()) {
+                UUIDToPlayerName.put(e.getValue(), e.getKey());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getPlayerNameFromUUID(final UUID uuid) {
+        if (uuid == null) {
+            return "<no uuid>";
+        }
+        String name = UUIDToPlayerName.get(uuid);
+        if (name == null) {
+            name = Bukkit.getOfflinePlayer(uuid).getName();
+        }
+        if (name == null) {
+            NameFetcher fetcher = new NameFetcher(new ArrayList<UUID>(){{add(uuid);}});
+            try {
+                Map<UUID, String> names = fetcher.call();
+                name = names.get(uuid);
+                if (name != null) {
+                    UUIDToPlayerName.put(uuid, name);
+                    playerNameToUUID.put(name, uuid);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return name != null ? name : "<" + uuid.toString() + ">";
+    }
+
+    @SuppressWarnings("deprecated")
+    public static UUID getPlayerUUIDFromName(String name) {
+        UUID id = playerNameToUUID.get(name);
+        if (id != null) {
+            return id;
+        }
+        return Bukkit.getOfflinePlayer(name).getUniqueId();
+    }
+
+    public static UUID getUUIDFromString(String string) {
+        if (string == null) {
+            return null;
+        }
+        return UUID.fromString(string);
     }
 
 	public static void replaceAllHandlers(Logger logger, Handler replace)

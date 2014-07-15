@@ -34,7 +34,7 @@ public class AllCommand extends BaseUserCommand {
 		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT *, IFNULL((Select State FROM weekly_completed WHERE weekly_completed.WeekID = l.WeekID AND weekly_completed.Level >= l.level AND weekly_completed.player = ? ORDER BY Level ASC LIMIT 1), -1) AS Status FROM weekly_levels l WHERE weekID = ? ORDER BY level");
-			statement.setString(1, ((Player)sender).getName());	
+			statement.setString(1, ((Player)sender).getUniqueId().toString());
 			statement.setInt(2, curWeek);
 			ResultSet set = statement.executeQuery();
 			while (set.next())

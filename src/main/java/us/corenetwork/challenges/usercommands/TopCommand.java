@@ -3,6 +3,7 @@ package us.corenetwork.challenges.usercommands;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.command.CommandSender;
@@ -66,7 +67,7 @@ public class TopCommand extends BaseUserCommand {
 					+ "ORDER BY points desc, player_points.player "
 					+ "LIMIT ?, ?");
 			statement.setInt(1, offset);
-			statement.setInt(2, perPageLimit);			
+			statement.setInt(2, perPageLimit);
 			
 			ResultSet set = statement.executeQuery();
 
@@ -76,7 +77,7 @@ public class TopCommand extends BaseUserCommand {
 			{
 				String place = getPlaceString(counter++);
 				String points = getPointsString(set.getString("Points"));
-				String name = getNameString(set.getString("Player"));
+				String name = getNameString(Util.getPlayerNameFromUUID(Util.getUUIDFromString(set.getString("Player"))));
 				
 				String line = place + points + name;
 				Util.Message(line, sender);

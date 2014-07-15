@@ -160,7 +160,9 @@ public enum Setting {
     TOP_NAME_COLUMN_DISPLAY("Top.Name.Display", "<Player>"),
     TOP_NAME_COLUMN_COLOR("Top.Name.Color", "&r"),
     RUN_COMMAND_ON_RANK_UP("RunCommandOnRankUp", false),
-    COMMAND_ON_RANK_UP("CommandOnRankUp", "crankreload");
+    COMMAND_ON_RANK_UP("CommandOnRankUp", "crankreload"),
+
+    STORAGE_VERSION("StorageVersion", 0, SettingType.STORAGE);
 
 	private SettingType type;
 
