@@ -47,7 +47,7 @@ public class ChCommand extends BaseUserCommand {
 		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level, Description, Points FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ? AND State < 2) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
-			statement.setString(1, ((Player)sender).getName());
+			statement.setString(1, ((Player)sender).getUniqueId().toString());
 			statement.setInt(2, curWeek);
 			statement.setInt(3, curWeek);
 
@@ -101,7 +101,7 @@ public class ChCommand extends BaseUserCommand {
 		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT *, IFNULL((Select State FROM weekly_completed WHERE weekly_completed.WeekID = l.WeekID AND weekly_completed.Level >= l.level AND weekly_completed.player = ? ORDER BY Level ASC LIMIT 1), -1) AS Status FROM weekly_levels l WHERE weekID = ? AND level = ?");
-			statement.setString(1, ((Player)sender).getName());	
+			statement.setString(1, ((Player)sender).getUniqueId().toString());
 			statement.setInt(2, curWeek);
 			statement.setInt(3, level);
 			ResultSet set = statement.executeQuery();

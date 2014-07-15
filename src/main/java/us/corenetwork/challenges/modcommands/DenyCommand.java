@@ -3,8 +3,10 @@ package us.corenetwork.challenges.modcommands;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -49,8 +51,8 @@ public class DenyCommand extends BaseModCommand {
 			
 			message = message.trim();
 		}
-		
-		String playerName = "";
+
+        UUID playerUUID = null;
 		String level = "";
 		int weekId = 0;
 		try {
@@ -70,7 +72,7 @@ public class DenyCommand extends BaseModCommand {
 					return true;
 				}
 				
-				playerName = set.getString("Player");
+				playerUUID = Util.getUUIDFromString(set.getString("Player"));
 			}
 			else
 			{
@@ -87,7 +89,7 @@ public class DenyCommand extends BaseModCommand {
 			e.printStackTrace();
 		}
 		
-		Player player = Bukkit.getServer().getPlayerExact(playerName);
+		Player player = Bukkit.getServer().getPlayer(playerUUID);
 		if (player != null)
 		{
 			if (message == null)
@@ -101,9 +103,9 @@ public class DenyCommand extends BaseModCommand {
 			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET state = 2, ModResponse=?, lastUpdate=?, moderator=? WHERE state <> 1 AND WeekID = ? AND Player = ?");
 			statement.setString(1, message == null ? "" : message);
 			statement.setInt(2, (int) (System.currentTimeMillis() / 1000));
-			statement.setString(3, sender.getName());
+			statement.setString(3, ((Player) sender).getUniqueId().toString());
 			statement.setInt(4, weekId);
-			statement.setString(5, playerName);
+			statement.setString(5, playerUUID.toString());
 			statement.executeUpdate();
 			statement.close();
 			

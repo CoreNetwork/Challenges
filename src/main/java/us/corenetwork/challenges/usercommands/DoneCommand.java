@@ -29,7 +29,7 @@ public class DoneCommand extends BaseUserCommand {
 		Integer level = 0;
         try {
             PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ? AND State < 2) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
-            statement.setString(1, player.getName());
+            statement.setString(1, player.getUniqueId().toString());
             statement.setInt(2, WeekUtil.getCurrentWeek());
             statement.setInt(3, WeekUtil.getCurrentWeek());
 
@@ -54,7 +54,7 @@ public class DoneCommand extends BaseUserCommand {
 		try
 		{
 			statement = IO.getConnection().prepareStatement("SELECT weekly_levels.Level, weekly_completed.State FROM weekly_levels LEFT JOIN weekly_completed ON weekly_levels.WeekID = weekly_completed.WeekID AND weekly_levels.Level  <= weekly_completed.level AND weekly_completed.player = ? AND weekly_completed.state < 2 WHERE weekly_levels.level = ? AND weekly_levels.weekID = ? LIMIT 1");
-			statement.setString(1, player.getName());
+			statement.setString(1, player.getUniqueId().toString());
 			statement.setInt(2, level);
 			statement.setInt(3, WeekUtil.getCurrentWeek());
 			
@@ -113,7 +113,7 @@ public class DoneCommand extends BaseUserCommand {
 			//Delete old submission first
 			PreparedStatement delStatement = IO.getConnection().prepareStatement("DELETE FROM weekly_completed WHERE WeekID = ? AND Player = ? AND Level <= ? AND State >= 2");
 			delStatement.setInt(1, WeekUtil.getCurrentWeek());
-			delStatement.setString(2, player.getName());
+			delStatement.setString(2, player.getUniqueId().toString());
 			delStatement.setInt(3, level);
 			delStatement.executeUpdate();
 			delStatement.close();
@@ -121,7 +121,7 @@ public class DoneCommand extends BaseUserCommand {
 			statement = IO.getConnection().prepareStatement("INSERT INTO weekly_completed (WeekID, Level, Player, State, X, Y, Z, World, lastUpdate) VALUES (?,?,?,0,?,?,?,?,?)");
 			statement.setInt(1, WeekUtil.getCurrentWeek());
 			statement.setInt(2, level);
-			statement.setString(3, player.getName());
+			statement.setString(3, player.getUniqueId().toString());
 			statement.setInt(4, player.getLocation().getBlockX());
 			statement.setInt(5, player.getLocation().getBlockY());
 			statement.setInt(6, player.getLocation().getBlockZ());

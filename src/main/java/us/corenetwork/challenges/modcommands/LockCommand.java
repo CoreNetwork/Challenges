@@ -3,6 +3,7 @@ package us.corenetwork.challenges.modcommands;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -47,7 +48,7 @@ public class LockCommand extends BaseModCommand {
 		
 		Player player = (Player) sender;
 		
-		String author = null;
+		UUID authorUUID = null;
 		int week = 0;
 		int level = 0;
 		String curRegions = null;
@@ -58,7 +59,7 @@ public class LockCommand extends BaseModCommand {
 			ResultSet set = statement.executeQuery();
 			if (set.next())
 			{
-				author = set.getString("Player");
+				authorUUID = Util.getUUIDFromString(set.getString("Player"));
 				level = set.getInt("Level");
 				ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
 				week = set.getInt("WeekID");
@@ -108,8 +109,8 @@ public class LockCommand extends BaseModCommand {
 		if (points == null)
 			return true;
 		
-		String originalName = "w" + week + "t" + level + "-" + author;
-		String regionName = "w" + week + "t" + level + "-" + author;
+		String originalName = "w" + week + "t" + level + "-" + authorUUID.toString();
+		String regionName = "w" + week + "t" + level + "-" + authorUUID.toString();
 
 		World world = points[0].getWorld();
 		int counter = 2;
