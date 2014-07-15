@@ -24,8 +24,13 @@ public class IO {
 
 	private static Connection createConnection() {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  new File(Challenges.instance.getDataFolder().getPath(), "data.sqlite").getPath());
+            File oldFile = new File(Challenges.instance.getDataFolder(), "data.sqlite");
+            File newFile = new File(Challenges.instance.getDataFolder(), "challenges.sqlite");
+            if (oldFile.exists() && !newFile.exists()) {
+                oldFile.renameTo(newFile);
+            }
+            Class.forName("org.sqlite.JDBC");
+			Connection ret = DriverManager.getConnection("jdbc:sqlite:" +  newFile.getPath());
 			ret.setAutoCommit(false);
 			return ret;
 		} catch (ClassNotFoundException e) {
