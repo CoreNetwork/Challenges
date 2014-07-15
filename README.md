@@ -49,7 +49,6 @@ Administrators in this case are staff members who overseer adding new weekly cha
 |`/cha edit <number>`||Edit weekly challenge of certain number. Enters challenge creation mode.|
 |`/cha list`||List all weekly challenges and their numbers.|
 |`/cha list <number>`||List all levels for weekly challenge of certain number.|
-|`/cha exit`||Exit challenge creation mode.|
 |`/cha save`||Exit challenge creation mode.|
 |`/cha createlevel`||Add a new level. Works only in challenge creation mode.|
 |`/cha deletelevel <level>`||Delete a level. Works only in challenge creation mode.|
