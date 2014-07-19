@@ -26,7 +26,7 @@ public class AllCommand extends BaseUserCommand {
 		header = header.replace("<ID>", Integer.toString(curWeek));
 		
 		long start = WeekUtil.getWeekStart(curWeek);
-		long end = start + WeekUtil.SECONDS_PER_WEEK - 1;
+		long end = WeekUtil.getWeekStart(curWeek + 1);
 		header = header.replace("<From>", TimePrint.formatDate(start));
 		header = header.replace("<To>", TimePrint.formatDate(end));
 		header = header.replace("<Left>", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));

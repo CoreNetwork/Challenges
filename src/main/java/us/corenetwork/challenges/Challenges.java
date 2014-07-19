@@ -22,6 +22,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
 import us.corenetwork.challenges.admincommands.*;
 import us.corenetwork.challenges.admincommands.SaveCommand;
 import us.corenetwork.challenges.modcommands.*;
@@ -214,13 +216,13 @@ public class Challenges extends JavaPlugin {
 			
 			int curWeek = WeekUtil.getCurrentWeek();
 			
-			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
+			if (WeekUtil.getWeekStart(curWeek + 1) < System.currentTimeMillis() / 1000)
 			{
 				curWeek++;
 				Challenges.log.info("New week " + curWeek + "!");
 				YamlConfiguration config = SettingType.STORAGE.getConfig();
 				config.set(Setting.CURRENT_WEEK.getString(), curWeek);
-				config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
+				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek));
 				IO.saveConfig();
 				
 				for (Player p : Bukkit.getServer().getOnlinePlayers())
@@ -274,7 +276,8 @@ public class Challenges extends JavaPlugin {
 		
 		private static long getNextTime()
 		{
-			long timeLeft = WeekUtil.SECONDS_PER_WEEK - (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(WeekUtil.getCurrentWeek()));
+			DateTime nextWeekStart = new DateTime().withMillis(WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1) * 1000);
+			long timeLeft = nextWeekStart.getMillis() - System.currentTimeMillis();
 			if (timeLeft < 5)
 				return 1;
 			else if (timeLeft < 20)
