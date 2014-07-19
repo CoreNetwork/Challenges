@@ -270,6 +270,31 @@ public class PlayerPoints {
 				
 		return currentRank != newRank ? newRank : null;
 	}
-	
-	
+
+
+	public static int getPending(String player)
+	{
+		int pendingPoints = 0;
+
+		try
+		{
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(Amount) FROM point_changes WHERE Player = ?");
+			statement.setString(1, player);
+
+			ResultSet set = statement.executeQuery();
+
+			if (set.next())
+			{
+				pendingPoints = set.getInt(1);
+			}
+
+			statement.close();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return pendingPoints;
+	}
 }
