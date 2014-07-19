@@ -37,6 +37,7 @@ Moderators in this case are staff members who review challenge entry tickets (te
 |`/chm deny [<id>] <reason>`||Reject challenge entry with a reason. The `id` parameter is optional – by default it will use ID of entry you teleported to. If `id` is skipped, `reason` cannot start with a number.|
 |`/chm points <player>`||Display player’s total amount of points, rank and points needed for next rank.|
 |`/chm points <player> <value> <reason>`||Manually change the amount of points by `value` – it can be a positive number (to reward a player) or negative (to punish a player). Reason is optional – if skipped, player will not get a notification unless it causes a rank change.|
+|`/chm all <level> [<week>]` ||Displays a list of the IDs of accepted challenge entries for the given level in the given week.|
     
 ## Administrator commands
 

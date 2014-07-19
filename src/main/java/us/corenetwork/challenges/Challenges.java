@@ -132,6 +132,7 @@ public class Challenges extends JavaPlugin {
 		modCommands.put("top", new ModTopCommand());
 		modCommands.put("history", new HistoryCommand());
 		modCommands.put("blame", new BlameCommand());
+		modCommands.put("all", new PrintAllSubmissionsCommand());
 
 		//DEBUG COMMANDS
 		

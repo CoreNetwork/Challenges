@@ -135,6 +135,8 @@ public enum Setting {
 	MESSAGE_MOD_TOP_ENTRY("Messages.ModTop.Entry", "#<Rank> <Player> <Edits>"),
 	MESSAGE_MOD_UNCLAIM("Messages.ModUnclaim.Unclaim", "&6Your claim for a submission has been released."),
 	MESSAGE_MOD_UNCLAIM_ID("Messages.ModUnclaim.UnclaimId", "&6A claim for submission &7<ID>&6 has been released."),
+	MESSAGE_MOD_ALL_SUBMISSIONS("Messages.ModSubmissions.List", "&6All accepted submissions for level &7<Level>&6 in week &7<Week>&6:[NEWLINE]<List>"),
+	MESSAGE_MOD_ALL_SUBMISSIONS_NONE("Message.ModSubmissions.NotFound", "&6No accepted submissions for level &7<Level>&6 in week &7<Week>&6 found."),
     COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
     COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
     COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
