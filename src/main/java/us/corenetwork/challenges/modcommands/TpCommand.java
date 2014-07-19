@@ -50,7 +50,7 @@ public class TpCommand extends BaseModCommand {
 		UnclaimCommand.unclaimPlayer(((Player) sender).getUniqueId());
 		
 		try {
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy,Player,WeekId FROM weekly_completed WHERE ID = ? LIMIT 1");
+			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy,Player,WeekId,State FROM weekly_completed WHERE ID = ? LIMIT 1");
 			statement.setInt(1, id);
 			ResultSet set = statement.executeQuery();
 			if (set.next())
@@ -59,6 +59,7 @@ public class TpCommand extends BaseModCommand {
 				int x = set.getInt("X");
 				int y = set.getInt("Y");
 				int z = set.getInt("Z");
+				ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
 
                 UUID claimedBy = Util.getUUIDFromString(set.getString("ClaimedBy"));
                 String modName = Util.getPlayerNameFromUUID(claimedBy);
@@ -98,13 +99,15 @@ public class TpCommand extends BaseModCommand {
 					
 					try
 					{
-						PreparedStatement statement2 = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy=? WHERE ID = ?");
-						statement2.setString(1, player.getName());
-						statement2.setInt(2, id);
-						statement2.executeUpdate();
-						statement2.close();
-						
-						IO.getConnection().commit();
+						if (state == ChallengeState.SUBMITTED) {
+							PreparedStatement statement2 = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy=? WHERE ID = ?");
+							statement2.setString(1, player.getName());
+							statement2.setInt(2, id);
+							statement2.executeUpdate();
+							statement2.close();
+
+							IO.getConnection().commit();
+						}
 					}
 					catch (SQLException e)
 					{
