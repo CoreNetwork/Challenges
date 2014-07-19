@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -47,7 +46,7 @@ public class TpCommand extends BaseModCommand {
 		else
 			id = Integer.parseInt(args[0]);
 		
-		UnclaimCommand.unclaimPlayer(((Player) sender).getUniqueId());
+		UnclaimCommand.unclaimPlayer(((Player) sender).getName());
 		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT X,Y,Z,WORLD,ClaimedBy,Player,WeekId,State FROM weekly_completed WHERE ID = ? LIMIT 1");
@@ -60,12 +59,11 @@ public class TpCommand extends BaseModCommand {
 				int y = set.getInt("Y");
 				int z = set.getInt("Z");
 				ChallengeState state = ChallengeState.getByCode(set.getInt("State"));
-
-                UUID claimedBy = Util.getUUIDFromString(set.getString("ClaimedBy"));
-                String modName = Util.getPlayerNameFromUUID(claimedBy);
-                if (claimedBy != null && !claimedBy.equals(((Player) sender).getUniqueId()))
+				
+				String claimedBy = set.getString("ClaimedBy");
+				if (claimedBy != null && !claimedBy.equals(((Player) sender).getName()))
 				{
-					Util.Message(Settings.getString(Setting.MESSAGE_ALREADY_HANDLED).replace("<Mod>", modName), sender);
+					Util.Message(Settings.getString(Setting.MESSAGE_ALREADY_HANDLED).replace("<Mod>", claimedBy), sender);
 				}
 				else
 				{
@@ -93,7 +91,7 @@ public class TpCommand extends BaseModCommand {
 					
 					Util.Message(message, sender);
 					
-					UUID challengeOwner = Util.getUUIDFromString(set.getString("Player"));
+					String challengeOwner = set.getString("Player");
 					int week = set.getInt("WeekId");
 					Util.Message(getPlayerDataString(challengeOwner, week), sender);
 					
@@ -131,7 +129,7 @@ public class TpCommand extends BaseModCommand {
 		return true;
 	}
 	
-	private String getPlayerDataString(UUID player, int week) throws SQLException
+	private String getPlayerDataString(String player, int week) throws SQLException
 	{
 		String playerData = "";
 		List<Integer> notSubmittedLevels = new ArrayList<Integer>(5);
@@ -152,7 +150,7 @@ public class TpCommand extends BaseModCommand {
 			statement = IO.getConnection().prepareStatement("SELECT state FROM weekly_completed WHERE WeekID = ? AND Level > ? AND Player = ? ORDER BY Level ASC LIMIT 1");
 			statement.setInt(1, week);
 			statement.setInt(2, i);
-			statement.setString(3, player.toString());
+			statement.setString(3, player);
 			
 			set = statement.executeQuery();
 			

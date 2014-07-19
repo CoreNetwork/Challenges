@@ -79,7 +79,6 @@ public class Challenges extends JavaPlugin {
 		instance = this;
 		listener = new ChallengesListener();
 		log = getLogger();
-
 		IO.LoadSettings();
 		IO.PrepareDB();
 

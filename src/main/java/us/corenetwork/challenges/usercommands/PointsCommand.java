@@ -21,7 +21,7 @@ public class PointsCommand extends BaseUserCommand {
 
 
 	public Boolean run(CommandSender sender, String[] args) {
-		int points = PlayerPoints.getPoints(((Player) sender).getUniqueId());
+		int points = PlayerPoints.getPoints(((Player) sender).getName());
 		PlayerRank curRank = PlayerPoints.getRank(points);
 		PlayerRank nextRank = PlayerPoints.getNextRank(curRank);
 		String message;

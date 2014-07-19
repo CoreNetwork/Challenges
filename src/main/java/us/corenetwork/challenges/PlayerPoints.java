@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -15,12 +14,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class PlayerPoints {
-	public static int getPoints(UUID player)
+	public static int getPoints(String name)
 	{
 		int points = 0;
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Points FROM player_points WHERE Player = ? LIMIT 1");
-			statement.setString(1, player.toString());
+			statement.setString(1, name);
 			ResultSet set = statement.executeQuery();
 			if (set.next())
 			{
@@ -37,16 +36,16 @@ public class PlayerPoints {
 		return points;
 	}
 	
-	public static void setPoints(UUID player, Integer points)
+	public static void setPoints(String name, Integer points)
 	{
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("DELETE FROM player_points WHERE Player = ?");
-			statement.setString(1, player.toString());
+			statement.setString(1, name);
 			statement.executeUpdate();
 			statement.close();
 			
 			statement = IO.getConnection().prepareStatement("INSERT INTO player_points (Player, Points) VALUES (?,?)");
-			statement.setString(1, player.toString());
+			statement.setString(1, name);
 			statement.setInt(2, points);
 			statement.executeUpdate();
 			statement.close();
@@ -59,9 +58,9 @@ public class PlayerPoints {
 		}
 	}	
 	
-	public static void addPoints(UUID playerUUID, Integer amount, String reason)
+	public static void addPoints(String name, Integer amount, String reason)
 	{
-		Player player = Bukkit.getServer().getPlayer(playerUUID);
+		Player player = Bukkit.getServer().getPlayerExact(name);
 		if (player != null)
 		{
 			addPoints(player, amount, reason, null);
@@ -71,7 +70,7 @@ public class PlayerPoints {
 		PreparedStatement statement;
 		try {
 			statement = IO.getConnection().prepareStatement("INSERT INTO point_changes (Player, Amount, Reason) VALUES (?,?,?)");
-			statement.setString(1, playerUUID.toString());
+			statement.setString(1, name);
 			statement.setInt(2, amount);
 			statement.setString(3, reason);
 
@@ -122,7 +121,7 @@ public class PlayerPoints {
 	{
 		String name = player.getName();
 		
-		int curPoints = getPoints(player.getUniqueId());
+		int curPoints = getPoints(player.getName());
 		PlayerRank oldRank = getRank(curPoints);
 		PlayerRank newRank = getRank(curPoints + amount);
 				
@@ -243,7 +242,7 @@ public class PlayerPoints {
 			Util.Message(message, player);
 		}
 		
-		setPoints(player.getUniqueId(), getPoints(player.getUniqueId()) + amount);
+		setPoints(player.getName(), getPoints(player.getName()) + amount);
 		
 		if (id != null)
 		{
@@ -263,7 +262,7 @@ public class PlayerPoints {
 		}
 	}
 	
-	private static PlayerRank getNewRank(UUID player, Integer change)
+	private static PlayerRank getNewRank(String player, Integer change)
 	{
 		int curPoints = getPoints(player);
 		PlayerRank currentRank = getRank(curPoints);

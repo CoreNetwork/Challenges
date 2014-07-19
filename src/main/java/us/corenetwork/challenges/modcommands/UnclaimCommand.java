@@ -2,7 +2,6 @@ package us.corenetwork.challenges.modcommands;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,12 +47,12 @@ public class UnclaimCommand extends BaseModCommand {
 		return true;
 	}
 	
-	public static void unclaimPlayer(UUID player)
+	public static void unclaimPlayer(String player)
 	{
 		try
 		{
 			PreparedStatement statement = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy = NULL WHERE ClaimedBy = ?");
-			statement.setString(1, player.toString());
+			statement.setString(1, player);
 			
 			statement.executeUpdate();
 			IO.getConnection().commit();

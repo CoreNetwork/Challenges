@@ -8,7 +8,6 @@ import us.corenetwork.challenges.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public class UncompleteCommand extends BaseModCommand
@@ -46,12 +45,12 @@ public class UncompleteCommand extends BaseModCommand
 				ResultSet resultSet = statement.executeQuery();
 				int baseLevel = 0;
 				int week = 0;
-				UUID player = null;
+				String player = "";
 				if (resultSet.next()) {
 					baseLevel = resultSet.getInt("Level");
 					week = resultSet.getInt("WeekID");
-                    player = Util.getUUIDFromString(resultSet.getString("Player"));
-                } else {
+					player = resultSet.getString("Player");
+				} else {
 					sender.sendMessage(Settings.getString(Setting.MESSAGE_MOD_UNDO_NOT_FOUND));
 					return true;
 				}
@@ -62,7 +61,7 @@ public class UncompleteCommand extends BaseModCommand
 						"ORDER BY weekly_levels.Level ASC");
 				statement.setInt(1, baseLevel);
 				statement.setInt(2, week);
-				statement.setString(3, player.toString());
+				statement.setString(3, player);
 				resultSet = statement.executeQuery();
 				int points = 0;
 				int levels = 0;
@@ -83,7 +82,7 @@ public class UncompleteCommand extends BaseModCommand
 						int currentID = resultSet.getInt("ID");
 						String message = first ? reason : "Undone because earlier level has been undone";
 
-						Player player1 = Bukkit.getServer().getPlayer(player);
+						Player player1 = Bukkit.getServer().getPlayerExact(player);
 						ChallengeState newState = ChallengeState.REJECTED;
 						if (player1 != null)
 						{
@@ -98,7 +97,7 @@ public class UncompleteCommand extends BaseModCommand
 						statement.setInt(2, (int) (System.currentTimeMillis()/1000));
 						statement.setString(3, message);
 						statement.setInt(5, currentID);
-						statement.setString(4, ((Player) sender).getUniqueId().toString());
+						statement.setString(4, sender.getName());
 						statement.execute();
 						first = false;
 					}
@@ -109,7 +108,7 @@ public class UncompleteCommand extends BaseModCommand
 
 				String summary = Settings.getString(Setting.MESSAGE_MOD_UNDO_SUMMARY);
 				summary = summary.replaceAll("<Points>", "" + points);
-				summary = summary.replaceAll("<Player>", Util.getPlayerNameFromUUID(player));
+				summary = summary.replaceAll("<Player>", player);
 				summary = summary.replaceAll("<Levels>", "" + levels);
 				sender.sendMessage(summary);
 			}

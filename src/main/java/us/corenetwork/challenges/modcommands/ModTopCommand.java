@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 public class ModTopCommand extends BaseModCommand
 {
@@ -34,23 +33,23 @@ public class ModTopCommand extends BaseModCommand
 			Util.Message(Settings.getString(Setting.MESSAGE_MOD_TOP_HEADER), sender);
 
 			while (set.next()) {
-                UUID player = Util.getUUIDFromString(set.getString("moderator"));
-                int edits = set.getInt("edits");
+				String player = set.getString("moderator");
+				int edits = set.getInt("edits");
 
-                if (player == null) {
-                    continue;
-                }
+				if (player == null) {
+					continue;
+				}
 
-                String entry = Settings.getString(Setting.MESSAGE_MOD_TOP_ENTRY);
-                entry = entry.replaceAll("<Rank>", rank + "");
-                entry = entry.replaceAll("<Player>", Util.getPlayerNameFromUUID(player));
-                entry = entry.replaceAll("<Edits>", edits + "");
+				String entry = Settings.getString(Setting.MESSAGE_MOD_TOP_ENTRY);
+				entry = entry.replaceAll("<Rank>", rank + "");
+				entry = entry.replaceAll("<Player>", player);
+				entry = entry.replaceAll("<Edits>", edits + "");
 
-                Util.Message(entry, sender);
+				Util.Message(entry, sender);
 
-                rank++;
-            }
-        }
+				rank++;
+			}
+		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();

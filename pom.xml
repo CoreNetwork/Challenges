@@ -17,7 +17,7 @@
         <filtering>true</filtering>
       </resource>
     </resources>
-    <sourceDirectory>src/main/java</sourceDirectory>
+    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -50,7 +50,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.7.9-R0.2</version>
+      <version>1.7.2-R0.3</version>
       <scope>compile</scope>
     </dependency>
 
