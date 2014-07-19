@@ -133,6 +133,8 @@ public enum Setting {
 	MESSAGE_MOD_HISTORY_ENTRY_PLAYER("Messages.ModHistory.EntryPlayer", "&b#<ID> Level <Level> <State> &7by <moderator>, <time> ago"),
 	MESSAGE_MOD_TOP_HEADER("Messages.ModTop.Header", "Challenge edits rank list[NEWLINE]&8---------------------------------"),
 	MESSAGE_MOD_TOP_ENTRY("Messages.ModTop.Entry", "#<Rank> <Player> <Edits>"),
+	MESSAGE_MOD_UNCLAIM("Messages.ModUnclaim.Unclaim", "&6Your claim for a submission has been released."),
+	MESSAGE_MOD_UNCLAIM_ID("Messages.ModUnclaim.UnclaimId", "&6A claim for submission &7<ID>&6 has been released."),
     COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
     COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
     COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),
