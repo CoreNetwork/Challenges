@@ -222,11 +222,10 @@ public class Challenges extends JavaPlugin {
 				Challenges.log.info("New week " + curWeek + "!");
 				YamlConfiguration config = SettingType.STORAGE.getConfig();
 				config.set(Setting.CURRENT_WEEK.getString(), curWeek);
-				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek));
+				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek + 1)); // + 1 because the offset is needed.
 				IO.saveConfig();
-				
-				for (Player p : Bukkit.getServer().getOnlinePlayers())
-					Util.Message(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), p);
+
+				Util.Broadcast(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), "");
 						
 				try {
 					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT WGRegion, WGWorld FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
@@ -278,6 +277,7 @@ public class Challenges extends JavaPlugin {
 		{
 			DateTime nextWeekStart = new DateTime().withMillis(WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1) * 1000);
 			long timeLeft = nextWeekStart.getMillis() - System.currentTimeMillis();
+			timeLeft /= 1000; // convert to seconds
 			if (timeLeft < 5)
 				return 1;
 			else if (timeLeft < 20)
