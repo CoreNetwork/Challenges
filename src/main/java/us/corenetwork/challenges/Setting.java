@@ -17,6 +17,7 @@ public enum Setting {
     CURRENT_WEEK("CurrentWeek", 1, SettingType.STORAGE),
     CURRENT_WEEK_START("CurrentWeekStart", null, SettingType.STORAGE),
     STOPPED("Stopped", false, SettingType.STORAGE),
+    FIRST_WEEK_START("FirstWeekStart", "Sun, 18:00"),
     MESSAGE_NO_PERMISSION("Messages.NoPermssion", "&cYou are not allowed to do that."),
     MESSAGE_LIST_WEEKS_HEADER("Messages.ListWeeksHeader", "&6ID &2START DATE &7STATUS [NEWLINE] &8---------------------------------"),
     MESSAGE_LIST_WEEKS_ENTRY("Messages.ListWeeksEntry", "&6#<ID> &2<Date> &7<Status>"),

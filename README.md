@@ -73,7 +73,7 @@ edit the value before first starting your server. It is enough to create the fil
 FirstWeekStart: Wed, 12:00
 ```
 
-As you might have guessed, the entry is formatted like this: 3-letter weekday name, followed by a comma and the time in
+As you might have guessed, the entry is formatted like this: -letter weekday name, followed by a comma and the time in
 24-hour format. **Strings that violate this format will crash the plugin.**
 
 For the record, these are the weekday names the plugin recognises:
