@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 public enum Setting {
 
-	@Deprecated
     SWITCH_TIME_OFFSET("SwitchTimeOffset", 3600 * 19 + 3600 * 24 * 6),
     PLAYER_CLASSES("PlayerClasses", null),
     PROTECTED_GROUPS("ProtectedGroups", Arrays.asList(new String[]{"Guardian"})),
@@ -18,7 +17,6 @@ public enum Setting {
     CURRENT_WEEK("CurrentWeek", 1, SettingType.STORAGE),
     CURRENT_WEEK_START("CurrentWeekStart", null, SettingType.STORAGE),
     STOPPED("Stopped", false, SettingType.STORAGE),
-	FIRST_WEEK_START("FirstWeekStart", "Sun, 18:00"),
     MESSAGE_NO_PERMISSION("Messages.NoPermssion", "&cYou are not allowed to do that."),
     MESSAGE_LIST_WEEKS_HEADER("Messages.ListWeeksHeader", "&6ID &2START DATE &7STATUS [NEWLINE] &8---------------------------------"),
     MESSAGE_LIST_WEEKS_ENTRY("Messages.ListWeeksEntry", "&6#<ID> &2<Date> &7<Status>"),
@@ -139,6 +137,7 @@ public enum Setting {
 	MESSAGE_MOD_UNCLAIM_ID("Messages.ModUnclaim.UnclaimId", "&6A claim for submission &7<ID>&6 has been released."),
 	MESSAGE_MOD_ALL_SUBMISSIONS("Messages.ModSubmissions.List", "&6All accepted submissions for level &7<Level>&6 in week &7<Week>&6:[NEWLINE]<List>"),
 	MESSAGE_MOD_ALL_SUBMISSIONS_NONE("Message.ModSubmissions.NotFound", "&6No accepted submissions for level &7<Level>&6 in week &7<Week>&6 found."),
+    MESSAGE_DEBUG_MODE("MessageDebug", false),
     COLOR_NOT_SUBMITTED("Colors.ChallengeState.NotSubmitted", "&8"),
     COLOR_SUBMITTED("Colors.ChallengeState.Submitted", "&6"),
     COLOR_ACCEPTED("Colors.ChallengeState.Accepted", "&e"),

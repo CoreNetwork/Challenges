@@ -8,13 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.Challenges;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.TimePrint;
-import us.corenetwork.challenges.Util;
-import us.corenetwork.challenges.WeekUtil;
+import us.corenetwork.challenges.*;
 
 
 public class ChCommand extends BaseUserCommand {
@@ -35,15 +29,15 @@ public class ChCommand extends BaseUserCommand {
 		}
 		
 		int curWeek = WeekUtil.getCurrentWeek();
-		String header = Settings.getString(Setting.MESSAGE_CH_HEADER);
-		header = header.replace("<ID>", Integer.toString(curWeek));
+        Message header = Message.from(Setting.MESSAGE_CH_HEADER);
+        header.variable("ID", curWeek);
 		
 		long start = WeekUtil.getWeekStart(curWeek);
-		long end = WeekUtil.getWeekStart(curWeek + 1);
-		header = header.replace("<From>", TimePrint.formatDate(start));
-		header = header.replace("<To>", TimePrint.formatDate(end));
-		header = header.replace("<Left>", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));
-		Util.Message(header, sender);
+        long end = WeekUtil.getWeekStart(curWeek + 1);
+        header.variable("From", TimePrint.formatDate(start));
+        header.variable("To", TimePrint.formatDate(end));
+        header.variable("Left", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));
+        header.send(sender);
 		
 		try {
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT Level, Description, Points FROM weekly_levels WHERE Level > (SELECT IFNULL(MAX(Level), 0) FROM weekly_completed WHERE Player = ? AND WeekID = ? AND State < 2) AND WeekID = ? ORDER BY Level ASC LIMIT 1");
@@ -52,26 +46,22 @@ public class ChCommand extends BaseUserCommand {
 			statement.setInt(3, curWeek);
 
 			ResultSet set = statement.executeQuery();
-			if (set.next())
-			{
-				String line = Settings.getString(Setting.MESSAGE_CH_ENTRY);
-				
-				line = line.replace("<Level>", Integer.toString(set.getInt("Level")));
-				line = line.replace("<Desc>", set.getString("Description"));
-				int points = set.getInt("Points");
-				if (points == 1)
-					line = line.replace("<Status>", Settings.getString(Setting.MESSAGE_POINT).replace("<Points>", Integer.toString(points)));
-				else
-					line = line.replace("<Status>", Settings.getString(Setting.MESSAGE_POINTS).replace("<Points>", Integer.toString(points)));
+			if (set.next()) {
+                Message chEntry = Message.from(Setting.MESSAGE_CH_ENTRY);
+                chEntry.variable("Level", set.getInt("Level"))
+                        .variable("Desc", set.getString("Description"));
 
-				line = line.replace("<Status>", Settings.getString(Setting.MESSAGE_POINTS).replace("<Points>", Integer.toString(set.getInt("Points"))));
-				
-				Util.Message(line, sender);
-				Util.Message(Settings.getString(Setting.MESSAGE_CH_FOOTER), sender);
-			}
-			else
+                int points = set.getInt("Points");
+                if (points == 1)
+                    chEntry.variable("Status", Message.from(Setting.MESSAGE_POINT).variable("Points", points));
+                else
+                    chEntry.variable("Status", Message.from(Setting.MESSAGE_POINTS).variable("Points", points));
+
+                chEntry.send(sender);
+                Message.from(Setting.MESSAGE_CH_FOOTER).send(sender);
+            } else
 			{
-				Util.Message(Settings.getString(Setting.MESSAGE_CH_ALL_COMPELETED), sender);
+                Message.from(Setting.MESSAGE_CH_ALL_COMPELETED).send(sender);
 			}
 			
 			set.close();

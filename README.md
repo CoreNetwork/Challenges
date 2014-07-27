@@ -90,6 +90,11 @@ The plugin will create 3 files in its data directory:
 This file can be freely edited. If you accidentally delete a configuration node, it will be regenerated with the default
 value next launch.
 
+There is a debug mode for the messages you can see in chat, allowing you to obtain the correct node in the config and it
+also shows you all available variables you can use. Enable it in ```MessageDebug``` by setting that node to ```true```
+and give the user you want to debug the messages with the permission ```challenges.message.debug```. To see the variables
+and the config node, hover over a chat line the plugin sends you when entering various commands.
+
 ### storage.yml
 
 You shouldn't mess around with this file. Edit only if you know exactly how the values are used.
