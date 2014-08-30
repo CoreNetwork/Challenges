@@ -10,11 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import org.bukkit.entity.Player;
-import us.corenetwork.challenges.IO;
-import us.corenetwork.challenges.PlayerPoints;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.*;
 import us.corenetwork.challenges.usercommands.PointsCommand;
 
 
@@ -36,7 +32,7 @@ public class ModPointsCommand extends BaseModCommand {
 		}
 		
 		if (args.length < 2)
-			PointsCommand.printPoints(sender, args[0]);
+			PointsCommand.printPoints(sender, Util.getPlayerUUIDFromName(args[0]));
 		else
 			modifyPoints(sender, args);
 		
@@ -47,12 +43,12 @@ public class ModPointsCommand extends BaseModCommand {
 	{
 		int change = Integer.parseInt(args[1]);
 		
-		String message = Settings.getString(Setting.MESSAGE_PLAYER_POINTS_ALTERED);
+		Message message = Message.from(Setting.MESSAGE_PLAYER_POINTS_ALTERED);
         String playerName = args[0];
-        OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
-        message = message.replace("<Player>", player.getName());
-		message = message.replace("<Change>", Integer.toString(change));
-		Util.Message(message, sender);
+        OfflinePlayer player = Bukkit.getPlayer(Util.getPlayerUUIDFromName(playerName));
+        message = message.variable("Player", player.getName());
+		message = message.variable("Change", change);
+		message.send(sender);
 		
 		String reason = null;
 		if (args.length > 2)

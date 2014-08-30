@@ -1,5 +1,6 @@
 package us.corenetwork.challenges;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,6 +77,8 @@ public class Challenges extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		IO.freeConnection();
+		File userCache = new File(Challenges.instance.getDataFolder(), "usercache.yml");
+		Util.saveUserCache(userCache);
 	}
 
 	@Override
@@ -83,8 +86,8 @@ public class Challenges extends JavaPlugin {
 		instance = this;
 		listener = new ChallengesListener();
 		log = getLogger();
-		IO.LoadSettings();
 		IO.PrepareDB();
+		IO.LoadSettings();
 
 		if (!setupPermissions())
 		{

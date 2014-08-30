@@ -98,6 +98,14 @@ public class IO {
             loadRanks();
             saveConfig();
 
+			File userCache = new File(Challenges.instance.getDataFolder(), "usercache.yml");
+			if (userCache.exists())
+			{
+				Util.loadUserCache(userCache);
+			}
+
+			Util.loadUsersYml(new File(Settings.getString(Setting.GROUPMANAGER_USERS_FILE)));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

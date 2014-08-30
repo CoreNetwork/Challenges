@@ -273,14 +273,14 @@ public class PlayerPoints {
 	}
 
 
-	public static int getPending(String player)
+	public static int getPending(UUID player)
 	{
 		int pendingPoints = 0;
 
 		try
 		{
 			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(Amount) FROM point_changes WHERE Player = ?");
-			statement.setString(1, player);
+			statement.setString(1, player.toString());
 
 			ResultSet set = statement.executeQuery();
 

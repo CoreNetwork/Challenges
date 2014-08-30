@@ -1,4 +1,5 @@
 package us.corenetwork.challenges;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -11,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.yaml.snakeyaml.Yaml;
 
 public class Util {
 
@@ -115,7 +117,7 @@ public class Util {
 
     public static String getPlayerNameFromUUID(final UUID uuid) {
         if (uuid == null) {
-            return "<no uuid>";
+            return "<no player>";
         }
         String name = UUIDToPlayerName.get(uuid);
         if (name == null) {
@@ -137,11 +139,73 @@ public class Util {
         return name != null ? name : "<" + uuid.toString() + ">";
     }
 
+	public static void loadUsersYml(File file) {
+		try {
+			Yaml yaml = new Yaml();
+			Map<String, Object> data = yaml.loadAs(new FileInputStream(file), Map.class);
+			Map<String, Map> users = (Map<String, Map>) data.get("users");
+			for (Map.Entry<String, Map> e : users.entrySet())
+			{
+				UUID uuid = null;
+				try
+				{
+					uuid = getUUIDFromString(e.getKey());
+				}
+				catch (Exception e1)
+				{
+					continue;
+				}
+				Map<String, Object> playerData = e.getValue();
+				String name = (String) playerData.get("lastname");
+
+				UUIDToPlayerName.put(uuid, name);
+				playerNameToUUID.put(name, uuid);
+			}
+		} catch (IOException e) {
+			Challenges.instance.getLogger().warning("Couldn't find the users.yml file. Name from UUID lookup will be a bit slow when starting your server.");
+		}
+	}
+
+	public static void saveUserCache(File file)
+	{
+		Yaml yaml = new Yaml();
+		try
+		{
+			yaml.dump(UUIDToPlayerName, new FileWriter(file));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static void loadUserCache(File file)
+	{
+		Yaml yaml = new Yaml();
+		try
+		{
+			Map<String, String> data = yaml.loadAs(new FileInputStream(file), Map.class);
+			for (Map.Entry<String, String> e : data.entrySet())
+			{
+				UUID uuid = getUUIDFromString(e.getKey());
+				UUIDToPlayerName.put(uuid, e.getValue());
+				playerNameToUUID.put(e.getValue(), uuid);
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+
+	}
+
     @SuppressWarnings("deprecated")
     public static UUID getPlayerUUIDFromName(String name) {
         UUID id = playerNameToUUID.get(name);
         if (id != null) {
             return id;
+        } else {
         }
         return Bukkit.getOfflinePlayer(name).getUniqueId();
     }

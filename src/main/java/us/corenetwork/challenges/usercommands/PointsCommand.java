@@ -4,11 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import us.corenetwork.challenges.PlayerPoints;
-import us.corenetwork.challenges.PlayerRank;
-import us.corenetwork.challenges.Setting;
-import us.corenetwork.challenges.Settings;
-import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.*;
 
 import java.util.UUID;
 
@@ -34,35 +30,35 @@ public class PointsCommand extends BaseUserCommand {
 		int points = PlayerPoints.getPoints(player);
 		PlayerRank curRank = PlayerPoints.getRank(points);
 		PlayerRank nextRank = PlayerPoints.getNextRank(curRank);
-		String message;
+		Message message;
 		boolean needPlayer = !((Player) sender).getUniqueId().equals(player);
 		if (nextRank == null)
 		{
 			if (needPlayer)
 			{
-				message = Settings.getString(Setting.MESSAGE_FLATPOINTS_PLAYER);
+				message = Message.from(Setting.MESSAGE_FLATPOINTS_PLAYER);
 			} else {
-				message = Settings.getString(Setting.MESSAGE_FLATPOINTS);
+				message = Message.from(Setting.MESSAGE_FLATPOINTS);
 			}
 		}
 		else
 		{
 			if (needPlayer)
 			{
-				message = Settings.getString(Setting.MESSAGE_FLATPOINTS_NEXT_RANK_PLAYER);
+				message = Message.from(Setting.MESSAGE_FLATPOINTS_NEXT_RANK_PLAYER);
 			}
 			else
 			{
-				message = Settings.getString(Setting.MESSAGE_FLATPOINTS_NEXT_RANK);
+				message = Message.from(Setting.MESSAGE_FLATPOINTS_NEXT_RANK);
 			}
-			message = message.replace("<NewRank>", nextRank.rank);
-			message = message.replace("<PointsLeft>", Integer.toString(nextRank.neededPoints - points));
+			message.variable("NewRank", nextRank.rank);
+			message.variable("PointsLeft", nextRank.neededPoints - points);
 		}
-		message = message.replace("<Points>", Integer.toString(points));
-		message = message.replace("<Rank>", curRank.rank);
+		message.variable("Player", Util.getPlayerNameFromUUID(player));
+		message.variable("PointsPending", PlayerPoints.getPending(player));
+		message.variable("Points", points);
+		message.variable("Rank", curRank.rank);
 
-		Util.Message(message, sender);
-		
-		return true;
+		message.send(sender);
 	}
 }
