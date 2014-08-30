@@ -171,7 +171,12 @@ public class Util {
 		Yaml yaml = new Yaml();
 		try
 		{
-			yaml.dump(UUIDToPlayerName, new FileWriter(file));
+			Map<String, String> dump = new HashMap<String, String>();
+			for (Map.Entry<UUID, String> e : UUIDToPlayerName.entrySet())
+			{
+				dump.put(e.getKey().toString(), e.getValue());
+			}
+			yaml.dump(dump, new FileWriter(file));
 		}
 		catch (IOException e)
 		{
