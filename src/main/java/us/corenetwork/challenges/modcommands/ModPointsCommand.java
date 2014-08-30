@@ -15,6 +15,7 @@ import us.corenetwork.challenges.PlayerPoints;
 import us.corenetwork.challenges.Setting;
 import us.corenetwork.challenges.Settings;
 import us.corenetwork.challenges.Util;
+import us.corenetwork.challenges.usercommands.PointsCommand;
 
 
 public class ModPointsCommand extends BaseModCommand {
@@ -35,27 +36,14 @@ public class ModPointsCommand extends BaseModCommand {
 		}
 		
 		if (args.length < 2)
-			checkPoints(sender, args);
+			PointsCommand.printPoints(sender, args[0]);
 		else
 			modifyPoints(sender, args);
 		
 		return true;
 	}
 	
-	private void checkPoints(CommandSender sender, String[] args) {
-        UUID player = Util.getPlayerUUIDFromName(args[0]);
-        int points = PlayerPoints.getPoints(player);
-        int pendingPoints = getPending(player);
-
-        String message = Settings.getString(Setting.MESSAGE_PLAYER_POINTS);
-        message = message.replace("<Player>", args[0]);
-        message = message.replace("<Points>", Integer.toString(points));
-        message = message.replace("<PendingPoints>", Integer.toString(pendingPoints));
-
-        Util.Message(message, sender);
-    }
-
-    private void modifyPoints(CommandSender sender, String[] args)
+	private void modifyPoints(CommandSender sender, String[] args)
 	{
 		int change = Integer.parseInt(args[1]);
 		
@@ -78,29 +66,4 @@ public class ModPointsCommand extends BaseModCommand {
 		PlayerPoints.addPoints(player.getUniqueId(), change, reason);
 	}
 
-	private int getPending(UUID player)
-	{
-		int pendingPoints = 0;
-		
-		try
-		{
-			PreparedStatement statement = IO.getConnection().prepareStatement("SELECT SUM(Amount) FROM point_changes WHERE Player = ?");
-			statement.setString(1, player.toString());
-			
-			ResultSet set = statement.executeQuery();
-			
-			if (set.next())
-			{
-				pendingPoints = set.getInt(1);
-			}
-			
-			statement.close();
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return pendingPoints;
-	}
 }

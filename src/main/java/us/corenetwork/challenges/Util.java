@@ -20,30 +20,36 @@ public class Util {
 
     public static void Message(String message, CommandSender sender)
 	{
-		message = message.replaceAll("\\&([0-9abcdefklmnor])", ChatColor.COLOR_CHAR + "$1");
-	
-		final String newLine = "\\[NEWLINE\\]";
-		String[] lines = message.split(newLine);
-	
-		for (int i = 0; i < lines.length; i++) {
-			lines[i] = lines[i].trim();
-	
-			if (i == 0)
-				continue;
-	
-			int lastColorChar = lines[i - 1].lastIndexOf(ChatColor.COLOR_CHAR);
-			if (lastColorChar == -1 || lastColorChar >= lines[i - 1].length() - 1)
-				continue;
-	
-			char lastColor = lines[i - 1].charAt(lastColorChar + 1);
-			lines[i] = Character.toString(ChatColor.COLOR_CHAR).concat(Character.toString(lastColor)).concat(lines[i]);	
-		}		
-	
-		for (int i = 0; i < lines.length; i++)
-			sender.sendMessage(lines[i]);
+        String[] lines = getMessageLines(message);
+
+        for (String line : lines) {
+            sender.sendMessage(line);
+        }
 	}
-	
-	public static void Broadcast(String message, String exclusion)
+
+    public static String[] getMessageLines(String message) {
+        message = message.replaceAll("\\&([0-9abcdefklmnor])", ChatColor.COLOR_CHAR + "$1");
+
+        final String newLine = "\\[NEWLINE\\]";
+        String[] lines = message.split(newLine);
+
+        for (int i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].trim();
+
+            if (i == 0)
+                continue;
+
+            int lastColorChar = lines[i - 1].lastIndexOf(ChatColor.COLOR_CHAR);
+            if (lastColorChar == -1 || lastColorChar >= lines[i - 1].length() - 1)
+                continue;
+
+            char lastColor = lines[i - 1].charAt(lastColorChar + 1);
+            lines[i] = Character.toString(ChatColor.COLOR_CHAR).concat(Character.toString(lastColor)).concat(lines[i]);
+        }
+        return lines;
+    }
+
+    public static void Broadcast(String message, String exclusion)
 	{
 		for (Player p : Bukkit.getOnlinePlayers())
 		{

@@ -24,6 +24,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import us.corenetwork.challenges.admincommands.*;
 import us.corenetwork.challenges.admincommands.SaveCommand;
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
+import us.corenetwork.challenges.admincommands.*;
+import us.corenetwork.challenges.admincommands.SaveCommand;
 import us.corenetwork.challenges.modcommands.*;
 import us.corenetwork.challenges.usercommands.AllCommand;
 import us.corenetwork.challenges.usercommands.BaseUserCommand;
@@ -33,7 +37,6 @@ import us.corenetwork.challenges.usercommands.PointsCommand;
 import us.corenetwork.challenges.usercommands.StatusCommand;
 import us.corenetwork.challenges.usercommands.TopCommand;
 import us.corenetwork.challenges.usercommands.UserHelpCommand;
-import us.corenetwork.combine.notification.CombineNotifications;
 
 
 public class Challenges extends JavaPlugin {
@@ -52,7 +55,6 @@ public class Challenges extends JavaPlugin {
 	public static BaseUserCommand chCommand = new ChCommand();
 	
 	public static HashMap<String, Integer> lastTeleport = new HashMap<String, Integer>();
-    public static CombineNotifications notifications;
 
 
 	private boolean setupPermissions() {
@@ -81,10 +83,6 @@ public class Challenges extends JavaPlugin {
 		instance = this;
 		listener = new ChallengesListener();
 		log = getLogger();
-
-//        notifications = Bukkit.getServicesManager().getRegistration(CombineNotifications.class).getProvider();
-//        NotificationTemplates.init();
-
 		IO.LoadSettings();
 		IO.PrepareDB();
 
@@ -138,6 +136,7 @@ public class Challenges extends JavaPlugin {
 		modCommands.put("top", new ModTopCommand());
 		modCommands.put("history", new HistoryCommand());
 		modCommands.put("blame", new BlameCommand());
+		modCommands.put("all", new PrintAllSubmissionsCommand());
 
 		//DEBUG COMMANDS
 		
@@ -219,17 +218,16 @@ public class Challenges extends JavaPlugin {
 			
 			int curWeek = WeekUtil.getCurrentWeek();
 			
-			if (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(curWeek) > WeekUtil.SECONDS_PER_WEEK)
+			if (WeekUtil.getWeekStart(curWeek + 1) < System.currentTimeMillis() / 1000)
 			{
 				curWeek++;
 				Challenges.log.info("New week " + curWeek + "!");
 				YamlConfiguration config = SettingType.STORAGE.getConfig();
 				config.set(Setting.CURRENT_WEEK.getString(), curWeek);
-				config.set(Setting.CURRENT_WEEK_START.getString(), Settings.getLong(Setting.CURRENT_WEEK_START) + WeekUtil.SECONDS_PER_WEEK);
+				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek + 1)); // + 1 because the offset is needed.
 				IO.saveConfig();
-				
-				for (Player p : Bukkit.getServer().getOnlinePlayers())
-					Util.Message(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), p);
+
+				Util.Broadcast(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), "");
 						
 				try {
 					PreparedStatement statement = IO.getConnection().prepareStatement("SELECT WGRegion, WGWorld FROM weekly_completed WHERE WGRegion IS NOT NULL AND WeekID < ?");
@@ -279,7 +277,9 @@ public class Challenges extends JavaPlugin {
 		
 		private static long getNextTime()
 		{
-			long timeLeft = WeekUtil.SECONDS_PER_WEEK - (WeekUtil.getCurrentTime() - WeekUtil.getWeekStart(WeekUtil.getCurrentWeek()));
+			DateTime nextWeekStart = new DateTime().withMillis(WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1) * 1000);
+			long timeLeft = nextWeekStart.getMillis() - System.currentTimeMillis();
+			timeLeft /= 1000; // convert to seconds
 			if (timeLeft < 5)
 				return 1;
 			else if (timeLeft < 20)

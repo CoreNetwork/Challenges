@@ -98,12 +98,14 @@ public class HistoryCommand extends BaseModCommand
         String modName = Util.getPlayerNameFromUUID(moderator);
 
 		String time = TimePrint.formatSekunde(System.currentTimeMillis() / 1000 - lastUpdate);
+        int level = set.getInt("Level");
 
 		String entry = Settings.getString(player == null ? Setting.MESSAGE_MOD_HISTORY_ENTRY_PLAYER : Setting.MESSAGE_MOD_HISTORY_ENTRY);
 		entry = entry.replaceAll("<ID>", ID + "");
 		entry = entry.replaceAll("<moderator>", modName);
 		entry = entry.replaceAll("<State>", state.getPrint());
 		entry = entry.replaceAll("<time>", time);
+        entry = entry.replaceAll("<Level>", level + "");
 		return entry;
 	}
 }

@@ -149,7 +149,7 @@ public class StatusCommand extends BaseUserCommand {
 
 
             long start = WeekUtil.getWeekStart(week);
-            long end = start + WeekUtil.SECONDS_PER_WEEK - 1;
+            long end = WeekUtil.getWeekStart(week + 1);
             long left = end - WeekUtil.getCurrentTime();
 
             String header = Settings.getString(end >= WeekUtil.getCurrentTime() ? Setting.MESSAGE_STATUS_HEADER : Setting.MESSAGE_STATUS_HEADER_PAST);

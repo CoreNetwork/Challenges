@@ -37,6 +37,7 @@ Moderators in this case are staff members who review challenge entry tickets (te
 |`/chm deny [<id>] <reason>`||Reject challenge entry with a reason. The `id` parameter is optional – by default it will use ID of entry you teleported to. If `id` is skipped, `reason` cannot start with a number.|
 |`/chm points <player>`||Display player’s total amount of points, rank and points needed for next rank.|
 |`/chm points <player> <value> <reason>`||Manually change the amount of points by `value` – it can be a positive number (to reward a player) or negative (to punish a player). Reason is optional – if skipped, player will not get a notification unless it causes a rank change.|
+|`/chm all <level> [<week>]` ||Displays a list of the IDs of accepted challenge entries for the given level in the given week.|
     
 ## Administrator commands
 
@@ -57,3 +58,47 @@ Administrators in this case are staff members who overseer adding new weekly cha
 |`/cha resume`||Re-enable checking and submitting challenges by players.|
 |`/cha resume <id>`||Re-enable checking and submitting challenges by players and switch current week to `id`. Can be used to continue with challenges after a long break (waiting for bukkit to update for new Minecraft version, long server maintenance/outage).|    
 |`/cha reload`||Reload configuration from file.|
+
+# Setup
+
+## Challenge interval and switch time
+
+Every week, a new challenge is created. You can not edit this interval.
+
+By default, a new challenge starts every Sunday at 6 PM. You can edit this switch time in the config.yml, under the node
+FirstWeekStart. You can not change the switch point later on, so if you set up a new Challenges database, be sure to
+edit the value before first starting your server. It is enough to create the file ```plugins/Challenges/config.yml``` with this content:
+
+```
+FirstWeekStart: Wed, 12:00
+```
+
+As you might have guessed, the entry is formatted like this: -letter weekday name, followed by a comma and the time in
+24-hour format. **Strings that violate this format will crash the plugin.**
+
+For the record, these are the weekday names the plugin recognises:
+```Mon, Tue, Wed, Thu, Fri, Sat, Sun```
+
+**Important:** After the first launch, restart your server (or reload the plugin).
+
+## Files in the plugins/Challenges/ folder
+
+The plugin will create 3 files in its data directory:
+
+### config.yml
+
+This file can be freely edited. If you accidentally delete a configuration node, it will be regenerated with the default
+value next launch.
+
+There is a debug mode for the messages you can see in chat, allowing you to obtain the correct node in the config and it
+also shows you all available variables you can use. Enable it in ```MessageDebug``` by setting that node to ```true```
+and give the user you want to debug the messages with the permission ```challenges.message.debug```. To see the variables
+and the config node, hover over a chat line the plugin sends you when entering various commands.
+
+### storage.yml
+
+You shouldn't mess around with this file. Edit only if you know exactly how the values are used.
+
+### challenges.db
+
+The database in SQLite 3 format.

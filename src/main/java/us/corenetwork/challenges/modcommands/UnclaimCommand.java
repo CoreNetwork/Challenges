@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -44,6 +45,7 @@ public class UnclaimCommand extends BaseModCommand {
 			id = Integer.parseInt(args[0]);
 		
 		unclaimSubmission(id);
+		Util.Message(Settings.getString(Setting.MESSAGE_MOD_UNCLAIM_ID).replaceAll("<ID>", Integer.toString(id)), sender);
 		
 		return true;
 	}
@@ -58,6 +60,12 @@ public class UnclaimCommand extends BaseModCommand {
 			statement.executeUpdate();
 			IO.getConnection().commit();
 			statement.close();
+
+			Player player1 = Bukkit.getPlayer(player);
+			if (player1 != null)
+			{
+				Util.Message(Settings.getString(Setting.MESSAGE_MOD_UNCLAIM), player1);
+			}
 		}
 		catch (SQLException e)
 		{
