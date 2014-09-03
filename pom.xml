@@ -4,7 +4,7 @@
   
   <groupId>Challenges</groupId>
   <artifactId>Challenges</artifactId>
-  <version>1.0.2-Release</version>
+  <version>1.0.3-Release</version>
   <packaging>jar</packaging>
   <name>Challenges</name>
   <url>https://github.com/CoreNetwork/Challenges</url>
