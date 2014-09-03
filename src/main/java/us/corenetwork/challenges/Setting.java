@@ -169,7 +169,7 @@ public enum Setting {
     TOP_NAME_COLUMN_COLOR("Top.Name.Color", "&r"),
     RUN_COMMAND_ON_RANK_UP("RunCommandOnRankUp", false),
     COMMAND_ON_RANK_UP("CommandOnRankUp", "crankreload"),
-	GROUPMANAGER_USERS_FILE("GroupManager.UsersYml", ""),
+	GROUPMANAGER_USERS_FILE("GroupManager.UsersYml", "plugins/GroupManager/worlds/world/users.yml"),
 
     STORAGE_VERSION("StorageVersion", 0, SettingType.STORAGE);
 

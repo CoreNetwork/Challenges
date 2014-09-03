@@ -15,5 +15,3 @@ commands:
         description: Finished typing challenge
     points:
         description: Check your current amount of points.
-    n:
-        description: Check your notifications.
