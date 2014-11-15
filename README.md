@@ -7,6 +7,8 @@ Each challenge can have multiple levels (players can only complete higher levels
 
 Soft dependencies: [WorldEdit](https://github.com/sk89q/worldedit), [WorldGuard](https://github.com/sk89q/worldguard) (see `/chm lock` below.)
 
+You can build the plugin with `mvn clean package` or download the plugin here: [http://build.core-network.us/](http://build.core-network.us:8080/)
+
 # Commands
 
 ## Player commands
