@@ -86,8 +86,14 @@ public class Challenges extends JavaPlugin {
 		instance = this;
 		listener = new ChallengesListener();
 		log = getLogger();
+
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+
 		IO.PrepareDB();
 		IO.LoadSettings();
+
 
 		if (!setupPermissions())
 		{
