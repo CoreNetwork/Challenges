@@ -23,8 +23,8 @@ public class WorldEditHandler {
 			if (plugin != null)
 			{
 				WorldEditPlugin we = (WorldEditPlugin) plugin;
-				LocalPlayer player = new BukkitPlayer(we, we.getServerInterface(), bplayer);
-				LocalSession session = we.getWorldEdit().getSession(player);
+				BukkitPlayer player = new BukkitPlayer(we, we.getServerInterface(), bplayer);
+				LocalSession session = we.getWorldEdit().getSessionManager().get(player);
 			
 				RegionSelector selector = session.getRegionSelector(player.getWorld());
 				if (!(selector instanceof CuboidRegionSelector))

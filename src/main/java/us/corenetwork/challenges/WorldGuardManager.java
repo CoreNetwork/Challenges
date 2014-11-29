@@ -3,13 +3,12 @@ package us.corenetwork.challenges;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.databases.ProtectionDatabaseException;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
@@ -37,9 +36,11 @@ public class WorldGuardManager {
         region.setFlag(DefaultFlag.ENTITY_PAINTING_DESTROY, StateFlag.State.DENY);
         region.setFlag(DefaultFlag.ENDERDRAGON_BLOCK_DAMAGE, StateFlag.State.DENY);
 		manager.addRegion(region);
-		try {
+		try
+		{
 			manager.save();
-		} catch (ProtectionDatabaseException e) {
+		} catch (StorageException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -66,9 +67,11 @@ public class WorldGuardManager {
 		}
 		
 		manager.removeRegion(name);
-		try {
+		try
+		{
 			manager.save();
-		} catch (ProtectionDatabaseException e) {
+		} catch (StorageException e)
+		{
 			e.printStackTrace();
 		}
 	}
