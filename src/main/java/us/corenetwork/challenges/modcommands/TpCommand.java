@@ -102,7 +102,7 @@ public class TpCommand extends BaseModCommand {
 					{
 						if (state == ChallengeState.SUBMITTED) {
 							PreparedStatement statement2 = IO.getConnection().prepareStatement("UPDATE weekly_completed SET ClaimedBy=? WHERE ID = ?");
-							statement2.setString(1, player.getName());
+							statement2.setString(1, player.getUniqueId().toString());
 							statement2.setInt(2, id);
 							statement2.executeUpdate();
 							statement2.close();
