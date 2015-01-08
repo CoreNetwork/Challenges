@@ -147,8 +147,8 @@ public class PlayerPoints {
 
 			// TODO do something with guardians
 
-			permission.playerRemoveGroup(firstWorld, player.getName(), oldRank.group);
-			permission.playerAddGroup(firstWorld, player.getName(), newRank.group);
+			permission.playerRemoveGroup(player, oldRank.group);
+			permission.playerAddGroup(player, newRank.group);
 
 			chat.setPlayerSuffix(player, dontChange ? "" : newRank.suffix);
 									
