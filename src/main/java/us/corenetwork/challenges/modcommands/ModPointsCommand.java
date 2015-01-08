@@ -45,8 +45,8 @@ public class ModPointsCommand extends BaseModCommand {
 		
 		Message message = Message.from(Setting.MESSAGE_PLAYER_POINTS_ALTERED);
         String playerName = args[0];
-        OfflinePlayer player = Bukkit.getPlayer(Util.getPlayerUUIDFromName(playerName));
-        message = message.variable("Player", player.getName());
+        UUID player = Util.getPlayerUUIDFromName(playerName);
+        message = message.variable("Player", playerName);
 		message = message.variable("Change", change);
 		message.send(sender);
 		
@@ -59,7 +59,7 @@ public class ModPointsCommand extends BaseModCommand {
 			
 			reason = reason.trim();
 		}
-		PlayerPoints.addPoints(player.getUniqueId(), change, reason);
+		PlayerPoints.addPoints(player, change, reason);
 	}
 
 }
