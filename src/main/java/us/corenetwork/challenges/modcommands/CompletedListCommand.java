@@ -152,7 +152,7 @@ public class CompletedListCommand extends BaseModCommand {
 			return false;
 		} else {
 			String playerName = args[0];
-			UUID playerUUID = Util.getUUIDFromString(playerName);
+			UUID playerUUID = Util.getPlayerUUIDFromName(playerName);
             int week = WeekUtil.getCurrentWeek();
 			if (args.length >= 2 && Util.isInteger(args[1])) {
 				week = Integer.valueOf(args[1]);
