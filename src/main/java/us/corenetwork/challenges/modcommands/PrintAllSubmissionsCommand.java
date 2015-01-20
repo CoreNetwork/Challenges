@@ -70,6 +70,7 @@ public class PrintAllSubmissionsCommand extends BaseModCommand
 			}
 			message = message.replace("<Week>", Integer.toString(week));
 			message = message.replace("<Level>", Integer.toString(level));
+            message = message.replace("<Total>", Integer.toString(ids.size()));
 			Util.Message(message, sender);
 		}
 		catch (SQLException e)
