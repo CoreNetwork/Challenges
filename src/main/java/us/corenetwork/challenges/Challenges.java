@@ -23,7 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import org.joda.time.Duration;
+import org.joda.time.Seconds;
 import us.corenetwork.challenges.admincommands.*;
 import us.corenetwork.challenges.admincommands.SaveCommand;
 import org.joda.time.DateTime;
@@ -288,12 +288,12 @@ public class Challenges extends JavaPlugin {
 		private static long getNextTime()
 		{
 			DateTime nextWeekStart = WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1);
-            Duration timeLeft = new Duration(DateTime.now(), nextWeekStart);
-			if (timeLeft.isShorterThan(Duration.standardSeconds(5)))
+            int timeLeft = Seconds.secondsBetween(DateTime.now(), nextWeekStart).getSeconds();
+			if (timeLeft < 5)
 				return 1;
-			else if (timeLeft.isShorterThan(Duration.standardSeconds(20)))
+			else if (timeLeft < 20)
 				return 40;
-			else if (timeLeft.isShorterThan(Duration.standardMinutes(2)))
+			else if (timeLeft < 120)
 				return 200;
 			else 
 				return 600;
