@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.Seconds;
 import us.corenetwork.challenges.*;
 
 
@@ -25,11 +28,11 @@ public class AllCommand extends BaseUserCommand {
 		String header = Settings.getString(Setting.MESSAGE_CH_HEADER);
 		header = header.replace("<ID>", Integer.toString(curWeek));
 		
-		long start = WeekUtil.getWeekStart(curWeek);
-		long end = WeekUtil.getWeekStart(curWeek + 1);
+		DateTime start = WeekUtil.getWeekStart(curWeek);
+		DateTime end = WeekUtil.getWeekStart(curWeek + 1);
 		header = header.replace("<From>", TimePrint.formatDate(start));
 		header = header.replace("<To>", TimePrint.formatDate(end));
-		header = header.replace("<Left>", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));
+		header = header.replace("<Left>", TimePrint.formatSekunde(Seconds.secondsBetween(DateTime.now(), end).getSeconds()));
 		Util.Message(header, sender);
 		
 		try {

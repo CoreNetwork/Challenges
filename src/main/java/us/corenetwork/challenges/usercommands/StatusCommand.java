@@ -11,6 +11,9 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.Seconds;
 import us.corenetwork.challenges.IO;
 import us.corenetwork.challenges.Challenges;
 import us.corenetwork.challenges.Setting;
@@ -148,16 +151,15 @@ public class StatusCommand extends BaseUserCommand {
             }
 
 
-            long start = WeekUtil.getWeekStart(week);
-            long end = WeekUtil.getWeekStart(week + 1);
-            long left = end - WeekUtil.getCurrentTime();
+            DateTime start = WeekUtil.getWeekStart(week);
+            DateTime end = WeekUtil.getWeekStart(week + 1);
 
-            String header = Settings.getString(end >= WeekUtil.getCurrentTime() ? Setting.MESSAGE_STATUS_HEADER : Setting.MESSAGE_STATUS_HEADER_PAST);
+            String header = Settings.getString(end.isAfterNow() ? Setting.MESSAGE_STATUS_HEADER : Setting.MESSAGE_STATUS_HEADER_PAST);
 
             header = header.replace("<ID>", Integer.toString(week));
             header = header.replace("<From>", TimePrint.formatDate(start));
             header = header.replace("<To>", TimePrint.formatDate(end));
-            header = header.replace("<Left>", TimePrint.formatSekunde(left));
+            header = header.replace("<Left>", TimePrint.formatSekunde(Seconds.secondsBetween(DateTime.now(), end).getSeconds()));
             Util.Message(header, sender);
 
 

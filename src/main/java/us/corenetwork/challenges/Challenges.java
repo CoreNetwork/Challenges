@@ -23,6 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import org.joda.time.Duration;
 import us.corenetwork.challenges.admincommands.*;
 import us.corenetwork.challenges.admincommands.SaveCommand;
 import org.joda.time.DateTime;
@@ -227,13 +228,13 @@ public class Challenges extends JavaPlugin {
 			
 			int curWeek = WeekUtil.getCurrentWeek();
 			
-			if (WeekUtil.getWeekStart(curWeek + 1) < System.currentTimeMillis() / 1000)
+			if (WeekUtil.getWeekStart(curWeek + 1).isBefore(WeekUtil.getCurrentTime()))
 			{
 				curWeek++;
 				Challenges.log.info("New week " + curWeek + "!");
 				YamlConfiguration config = SettingType.STORAGE.getConfig();
 				config.set(Setting.CURRENT_WEEK.getString(), curWeek);
-				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek + 1)); // + 1 because the offset is needed.
+				config.set(Setting.CURRENT_WEEK_START.getString(), WeekUtil.getWeekStart(curWeek + 1).getMillis() / 1000); // + 1 because the offset is needed.
 				IO.saveConfig();
 
 				Util.Broadcast(Settings.getString(Setting.MESSAGE_NEW_CHALLENGE_ANNOUNCEMENT), "");
@@ -286,14 +287,13 @@ public class Challenges extends JavaPlugin {
 		
 		private static long getNextTime()
 		{
-			DateTime nextWeekStart = new DateTime().withMillis(WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1) * 1000);
-			long timeLeft = nextWeekStart.getMillis() - System.currentTimeMillis();
-			timeLeft /= 1000; // convert to seconds
-			if (timeLeft < 5)
+			DateTime nextWeekStart = WeekUtil.getWeekStart(WeekUtil.getCurrentWeek() + 1);
+            Duration timeLeft = new Duration(DateTime.now(), nextWeekStart);
+			if (timeLeft.isShorterThan(Duration.standardSeconds(5)))
 				return 1;
-			else if (timeLeft < 20)
+			else if (timeLeft.isShorterThan(Duration.standardSeconds(20)))
 				return 40;
-			else if (timeLeft < 120)
+			else if (timeLeft.isShorterThan(Duration.standardMinutes(2)))
 				return 200;
 			else 
 				return 600;

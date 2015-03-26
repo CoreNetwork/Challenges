@@ -23,18 +23,20 @@ public class PrintAllSubmissionsCommand extends BaseModCommand
 	}
 
 	@Override
-	public Boolean run(CommandSender sender, String[] args)
-	{
-		int level = Integer.parseInt(args[0]);
-		int week;
-		if (args.length > 1) {
-			week = Integer.parseInt(args[1]);
-		} else {
-			week = WeekUtil.getCurrentWeek();
-		}
-		printAllSubmissions(sender, week, level);
-		return true;
-	}
+	public Boolean run(CommandSender sender, String[] args) {
+        int level = 1;
+        if (args.length > 0) {
+            level = Integer.parseInt(args[0]);
+        }
+        int week;
+        if (args.length > 1) {
+            week = Integer.parseInt(args[1]);
+        } else {
+            week = WeekUtil.getCurrentWeek();
+        }
+        printAllSubmissions(sender, week, level);
+        return true;
+    }
 
 	private void printAllSubmissions(CommandSender sender, int week, int level) {
 		try

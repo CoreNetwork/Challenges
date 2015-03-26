@@ -1,5 +1,7 @@
 package us.corenetwork.challenges;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,15 +53,15 @@ public class TimePrint {
 	}
 	
 	
-	public static String formatDate(long cas)
+	public static String formatDate(DateTime time)
 	{
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(cas * 1000);
+		c.setTimeInMillis(time.getMillis());
 		int dan = c.get(Calendar.DAY_OF_MONTH);
-		
+
 		SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
-		
-		return dan + getDayOfMonthSuffix(dan) + " " + monthFormat.format(new Date(cas * 1000));
+
+		return dan + getDayOfMonthSuffix(dan) + " " + monthFormat.format(new Date(time.getMillis()));
 		
 	}
 	

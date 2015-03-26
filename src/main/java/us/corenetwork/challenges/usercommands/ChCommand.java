@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.Seconds;
 import us.corenetwork.challenges.*;
 
 
@@ -31,12 +34,12 @@ public class ChCommand extends BaseUserCommand {
 		int curWeek = WeekUtil.getCurrentWeek();
         Message header = Message.from(Setting.MESSAGE_CH_HEADER);
         header.variable("ID", curWeek);
-		
-		long start = WeekUtil.getWeekStart(curWeek);
-        long end = WeekUtil.getWeekStart(curWeek + 1);
-        header.variable("From", TimePrint.formatDate(start));
-        header.variable("To", TimePrint.formatDate(end));
-        header.variable("Left", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));
+
+        DateTime start = WeekUtil.getWeekStart(curWeek);
+        DateTime end = WeekUtil.getWeekStart(curWeek + 1);
+        header.variable("From", TimePrint.formatDate(start))
+                .variable("To", TimePrint.formatDate(end))
+                .variable("Left", TimePrint.formatSekunde(Seconds.secondsBetween(DateTime.now(), end).getSeconds()));
         header.send(sender);
 		
 		try {
@@ -82,11 +85,11 @@ public class ChCommand extends BaseUserCommand {
 		String header = Settings.getString(Setting.MESSAGE_CH_HEADER);
 		header = header.replace("<ID>", Integer.toString(curWeek));
 		
-		long start = WeekUtil.getWeekStart(curWeek);
-		long end = WeekUtil.getWeekStart(curWeek + 1);
+		DateTime start = WeekUtil.getWeekStart(curWeek);
+        DateTime end = WeekUtil.getWeekStart(curWeek + 1);
 		header = header.replace("<From>", TimePrint.formatDate(start));
 		header = header.replace("<To>", TimePrint.formatDate(end));
-		header = header.replace("<Left>", TimePrint.formatSekunde(end - WeekUtil.getCurrentTime()));
+		header = header.replace("<Left>", TimePrint.formatSekunde(Seconds.secondsBetween(DateTime.now(), end).getSeconds()));
 		Util.Message(header, sender);
 		
 		try {

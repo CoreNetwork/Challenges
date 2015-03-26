@@ -1,9 +1,6 @@
 package us.corenetwork.challenges;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.ReadableDuration;
-import org.joda.time.Weeks;
+import org.joda.time.*;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.DateTimeParser;
@@ -29,16 +26,16 @@ public class WeekUtil {
 		return Settings.getInt(Setting.CURRENT_WEEK);
 	}
 	
-	public static long getWeekStart(int id)
+	public static DateTime getWeekStart(int id)
 	{
 		DateTime currentWeek = new DateTime().withMillis(Settings.getLong(Setting.CURRENT_WEEK_START) * 1000);
-		DateTime actualWeek = currentWeek.plusWeeks(id - getCurrentWeek());
-		return actualWeek.getMillis() / 1000;
+        int weeksToAdd = id - getCurrentWeek();
+        return currentWeek.plus(Period.weeks(weeksToAdd));
 	}
 	
-	public static long getCurrentTime()
+	public static DateTime getCurrentTime()
 	{
-		return System.currentTimeMillis() / 1000 - customTimeOffset;
+		return DateTime.now();
 	}
 
 	public static long getCurrentWeekCalculatedStart()
